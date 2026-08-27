@@ -2,6 +2,14 @@
 
 [ext_resource type="Script" uid="uid://xm7yynf46lcd" path="res://scripts/bg.gd" id="1_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://b5ceo5pip6rmg" path="res://assets/art/Backgrounds/darkPurple.png" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://beolarm4u1tu" path="res://scripts/ui.gd" id="3_choun"]
+[ext_resource type="FontFile" uid="uid://8m7ob4l46kou" path="res://assets/art/Bonus/kenvector_future.ttf" id="3_sugp2"]
+[ext_resource type="Texture2D" uid="uid://cdolf23pnkdem" path="res://assets/art/PNG/playerShip2_blue.png" id="4_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://cqi3dtp1u41oa" path="res://assets/ui/PNG/Blue/Default/button_rectangle_border.png" id="5_85g3d"]
+[ext_resource type="Texture2D" uid="uid://sqdjwj7n88b8" path="res://assets/ui/PNG/Blue/Default/button_rectangle_depth_border.png" id="5_tefeu"]
+[ext_resource type="Texture2D" uid="uid://dx127egs8d1po" path="res://assets/art/PNG/playerShip1_blue.png" id="6_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://bckeps1sic4en" path="res://assets/art/PNG/playerShip3_blue.png" id="7_tipki"]
+[ext_resource type="Texture2D" uid="uid://d3nfy5ge2mjd1" path="res://assets/ui/PNG/Red/Default/button_rectangle_border.png" id="9_choun"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0wfyh"]
 texture = ExtResource("1_o5qli")
@@ -80,47 +88,409 @@ size = Vector2(25, 247.5097)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tefeu"]
 size = Vector2(741.5, 4.9563904)
 
+[sub_resource type="LabelSettings" id="LabelSettings_jv8vf"]
+font = ExtResource("3_sugp2")
+font_size = 55
+font_color = Color(0.8666667, 1, 1, 1)
+outline_size = 18
+outline_color = Color(0.38359523, 0.46996152, 0.9162438, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5oo1y"]
+font = ExtResource("3_sugp2")
+font_size = 40
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_eb6dy"]
+font = ExtResource("3_sugp2")
+font_size = 64
+font_color = Color(0.99649316, 0.95908636, 0.95336956, 1)
+outline_size = 20
+outline_color = Color(0.20650703, 0.5514337, 0.868905, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ya4ey"]
+font_size = 55
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_choun"]
+font = ExtResource("3_sugp2")
+font_size = 64
+font_color = Color(0.99649316, 0.95908636, 0.95336956, 1)
+outline_size = 20
+outline_color = Color(0.9370674, 0.20243609, 0.4087159, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_trceg"]
+font = ExtResource("3_sugp2")
+font_size = 40
+font_color = Color(0.99649316, 0.95908636, 0.95336956, 1)
+outline_size = 20
+outline_color = Color(0.20650703, 0.5514337, 0.868905, 1)
+
 [node name="main" type="Node2D" unique_id=844263823]
 
-[node name="bg2" type="Node2D" parent="." unique_id=1942002788]
+[node name="bg" type="Node2D" parent="." unique_id=1942002788]
 script = ExtResource("1_0wfyh")
 
-[node name="space1" type="Node2D" parent="bg2" unique_id=1564355592]
+[node name="space1" type="Node2D" parent="bg" unique_id=1564355592]
 position = Vector2(-26, -1281)
 
-[node name="TileMapLayer" type="TileMapLayer" parent="bg2/space1" unique_id=518336628]
+[node name="TileMapLayer" type="TileMapLayer" parent="bg/space1" unique_id=518336628]
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_5oo1y")
 
-[node name="space2" type="Node2D" parent="bg2" unique_id=1709761632]
+[node name="space2" type="Node2D" parent="bg" unique_id=1709761632]
 position = Vector2(-26, 0)
 
-[node name="TileMapLayer" type="TileMapLayer" parent="bg2/space2" unique_id=990069015]
+[node name="TileMapLayer" type="TileMapLayer" parent="bg/space2" unique_id=990069015]
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_5oo1y")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="bg2" unique_id=988439051]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="bg" unique_id=988439051]
 libraries/ = SubResource("AnimationLibrary_tbgi4")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="bg2" unique_id=122164511]
+[node name="StaticBody2D" type="StaticBody2D" parent="bg" unique_id=122164511]
 visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="bg2/StaticBody2D" unique_id=2084135929]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bg/StaticBody2D" unique_id=2084135929]
 position = Vector2(0, 641.425)
 scale = Vector2(1, 5.1599994)
 shape = SubResource("RectangleShape2D_jv8vf")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="bg2/StaticBody2D" unique_id=830442556]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="bg/StaticBody2D" unique_id=830442556]
 position = Vector2(728, 636)
 scale = Vector2(1, 5.1599994)
 shape = SubResource("RectangleShape2D_jv8vf")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="bg2/StaticBody2D" unique_id=1110618446]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="bg/StaticBody2D" unique_id=1110618446]
 position = Vector2(369.75, 10.212509)
 scale = Vector2(1, 5.1599994)
 shape = SubResource("RectangleShape2D_tefeu")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="bg2/StaticBody2D" unique_id=1494650059]
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="bg/StaticBody2D" unique_id=1494650059]
 position = Vector2(365, 1283)
 scale = Vector2(1, 5.1599994)
 shape = SubResource("RectangleShape2D_tefeu")
+
+[node name="ui" type="Node2D" parent="." unique_id=595515816]
+script = ExtResource("3_choun")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="ui" unique_id=1739583651]
+
+[node name="startScreen" type="Node2D" parent="ui/CanvasLayer" unique_id=1560868962]
+
+[node name="Label" type="Label" parent="ui/CanvasLayer/startScreen" unique_id=1453107375]
+custom_maximum_size = Vector2(720, 720)
+offset_left = -1.0
+offset_right = 724.0
+offset_bottom = 482.0
+text = "Space Shooter Game"
+label_settings = SubResource("LabelSettings_jv8vf")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ui/CanvasLayer/startScreen" unique_id=1053636264]
+position = Vector2(366, 606)
+scale = Vector2(2, 2)
+texture = ExtResource("4_tbgi4")
+
+[node name="ButtonPlay" type="Node2D" parent="ui/CanvasLayer/startScreen" unique_id=1920546036]
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/CanvasLayer/startScreen/ButtonPlay" unique_id=1584204584]
+offset_left = 194.0
+offset_top = 828.0
+offset_right = 540.0
+offset_bottom = 913.0
+texture = ExtResource("5_85g3d")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/CanvasLayer/startScreen/ButtonPlay" unique_id=1976317220]
+offset_left = 216.0
+offset_top = 832.0
+offset_right = 532.0
+offset_bottom = 905.0
+text = "Play"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonPlay" type="Button" parent="ui/CanvasLayer/startScreen/ButtonPlay" unique_id=1742462553]
+offset_left = 195.0
+offset_top = 829.0
+offset_right = 539.0
+offset_bottom = 912.0
+theme_type_variation = &"FlatButton"
+
+[node name="chooseScreen" type="Node2D" parent="ui/CanvasLayer" unique_id=900289987]
+visible = false
+
+[node name="ships" type="Node2D" parent="ui/CanvasLayer/chooseScreen" unique_id=1235402389]
+position = Vector2(-10, -398)
+
+[node name="SpriteOne" type="Sprite2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=1123933558]
+position = Vector2(366, 606)
+scale = Vector2(2, 2)
+texture = ExtResource("6_o6xl0")
+
+[node name="SpriteTwo" type="Sprite2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=15450605]
+visible = false
+position = Vector2(366, 606)
+scale = Vector2(2, 2)
+texture = ExtResource("4_tbgi4")
+
+[node name="SpriteThree" type="Sprite2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=1358416545]
+visible = false
+position = Vector2(366, 606)
+scale = Vector2(2, 2)
+texture = ExtResource("7_tipki")
+
+[node name="ButtonChoose" type="Node2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=1463784781]
+position = Vector2(12, 220)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/CanvasLayer/chooseScreen/ships/ButtonChoose" unique_id=784791613]
+offset_left = 194.0
+offset_top = 828.0
+offset_right = 540.0
+offset_bottom = 913.0
+texture = ExtResource("5_tefeu")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/CanvasLayer/chooseScreen/ships/ButtonChoose" unique_id=84035302]
+offset_left = 216.0
+offset_top = 832.0
+offset_right = 532.0
+offset_bottom = 905.0
+text = "Choose"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonChoose" type="Button" parent="ui/CanvasLayer/chooseScreen/ships/ButtonChoose" unique_id=175706927]
+offset_left = 195.0
+offset_top = 829.0
+offset_right = 539.0
+offset_bottom = 912.0
+theme_type_variation = &"FlatButton"
+
+[node name="ButtonShipOne" type="Node2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=345287916]
+position = Vector2(-136, 46)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/CanvasLayer/chooseScreen/ships/ButtonShipOne" unique_id=832166225]
+offset_left = 194.0
+offset_top = 828.0
+offset_right = 353.0
+offset_bottom = 913.0
+texture = ExtResource("5_tefeu")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/CanvasLayer/chooseScreen/ships/ButtonShipOne" unique_id=496643375]
+offset_left = 209.0
+offset_top = 832.0
+offset_right = 349.0
+offset_bottom = 905.0
+text = "ACE"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonShipOne" type="Button" parent="ui/CanvasLayer/chooseScreen/ships/ButtonShipOne" unique_id=477428759]
+offset_left = 195.0
+offset_top = 829.0
+offset_right = 350.0
+offset_bottom = 912.0
+theme_type_variation = &"FlatButton"
+
+[node name="ButtonShipTwo" type="Node2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=585784420]
+position = Vector2(116, 43)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/CanvasLayer/chooseScreen/ships/ButtonShipTwo" unique_id=197257351]
+offset_left = 194.0
+offset_top = 828.0
+offset_right = 353.0
+offset_bottom = 913.0
+texture = ExtResource("5_tefeu")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/CanvasLayer/chooseScreen/ships/ButtonShipTwo" unique_id=2113213741]
+offset_left = 209.0
+offset_top = 832.0
+offset_right = 349.0
+offset_bottom = 905.0
+text = "TANK"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonShipTwo" type="Button" parent="ui/CanvasLayer/chooseScreen/ships/ButtonShipTwo" unique_id=1760954863]
+offset_left = 195.0
+offset_top = 829.0
+offset_right = 350.0
+offset_bottom = 912.0
+theme_type_variation = &"FlatButton"
+
+[node name="ButtonShipThree" type="Node2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=1128436598]
+position = Vector2(331, 40)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/CanvasLayer/chooseScreen/ships/ButtonShipThree" unique_id=1005289504]
+offset_left = 194.0
+offset_top = 828.0
+offset_right = 353.0
+offset_bottom = 913.0
+texture = ExtResource("5_tefeu")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/CanvasLayer/chooseScreen/ships/ButtonShipThree" unique_id=430586357]
+offset_left = 209.0
+offset_top = 832.0
+offset_right = 349.0
+offset_bottom = 905.0
+text = "ZAP"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonShipThree" type="Button" parent="ui/CanvasLayer/chooseScreen/ships/ButtonShipThree" unique_id=2010280161]
+offset_left = 195.0
+offset_top = 829.0
+offset_right = 350.0
+offset_bottom = 912.0
+theme_type_variation = &"FlatButton"
+
+[node name="inGameScreen" type="Node2D" parent="ui/CanvasLayer" unique_id=306096098]
+visible = false
+
+[node name="LabelScore" type="Label" parent="ui/CanvasLayer/inGameScreen" unique_id=1345821306]
+custom_maximum_size = Vector2(720, 720)
+offset_left = -1.0
+offset_right = 719.0
+offset_bottom = 121.0
+text = "0"
+label_settings = SubResource("LabelSettings_eb6dy")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ButtonMute" type="Node2D" parent="ui/CanvasLayer/inGameScreen" unique_id=378782328]
+position = Vector2(22, 21)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/CanvasLayer/inGameScreen/ButtonMute" unique_id=2093304564]
+modulate = Color(1, 1, 1, 0.31764707)
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 87.0
+offset_bottom = 87.0
+texture = ExtResource("5_85g3d")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="LabelOff" type="Label" parent="ui/CanvasLayer/inGameScreen/ButtonMute" unique_id=1629658718]
+visible = false
+modulate = Color(1, 1, 1, 0.27058825)
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 83.0
+offset_bottom = 83.0
+text = "O"
+label_settings = SubResource("LabelSettings_ya4ey")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelOn" type="Label" parent="ui/CanvasLayer/inGameScreen/ButtonMute" unique_id=455483199]
+modulate = Color(1, 1, 1, 0.27058825)
+offset_left = 1.0
+offset_top = 8.0
+offset_right = 86.0
+offset_bottom = 84.0
+text = "X"
+label_settings = SubResource("LabelSettings_ya4ey")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonMute" type="Button" parent="ui/CanvasLayer/inGameScreen/ButtonMute" unique_id=1903114223]
+offset_left = 4.0
+offset_top = 5.0
+offset_right = 86.0
+offset_bottom = 88.0
+theme_type_variation = &"FlatButton"
+
+[node name="gameOverScreen" type="Node2D" parent="ui/CanvasLayer" unique_id=1948859484]
+visible = false
+
+[node name="LabelGameOver" type="Label" parent="ui/CanvasLayer/gameOverScreen" unique_id=1184323288]
+custom_maximum_size = Vector2(720, 720)
+offset_left = 2.0
+offset_top = 70.0
+offset_right = 722.0
+offset_bottom = 191.0
+text = "Game Over !"
+label_settings = SubResource("LabelSettings_choun")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="LabelScore" type="Label" parent="ui/CanvasLayer/gameOverScreen" unique_id=1312140490]
+custom_maximum_size = Vector2(720, 720)
+offset_left = -1.0
+offset_top = 152.0
+offset_right = 719.0
+offset_bottom = 273.0
+text = "Score : 0"
+label_settings = SubResource("LabelSettings_trceg")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ButtonMenu" type="Node2D" parent="ui/CanvasLayer/gameOverScreen" unique_id=2053153198]
+position = Vector2(3, -434)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/CanvasLayer/gameOverScreen/ButtonMenu" unique_id=1291072405]
+offset_left = 194.0
+offset_top = 828.0
+offset_right = 540.0
+offset_bottom = 913.0
+texture = ExtResource("9_choun")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/CanvasLayer/gameOverScreen/ButtonMenu" unique_id=3881243]
+offset_left = 216.0
+offset_top = 832.0
+offset_right = 532.0
+offset_bottom = 905.0
+text = "Menu"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonMenu" type="Button" parent="ui/CanvasLayer/gameOverScreen/ButtonMenu" unique_id=1614837116]
+offset_left = 195.0
+offset_top = 829.0
+offset_right = 539.0
+offset_bottom = 912.0
+theme_type_variation = &"FlatButton"
+
+[connection signal="pressed" from="ui/CanvasLayer/startScreen/ButtonPlay/ButtonPlay" to="ui" method="_on_button_play_pressed"]
+[connection signal="pressed" from="ui/CanvasLayer/chooseScreen/ships/ButtonChoose/ButtonChoose" to="ui" method="_on_button_choose_pressed"]
+[connection signal="pressed" from="ui/CanvasLayer/chooseScreen/ships/ButtonShipOne/ButtonShipOne" to="ui" method="_on_button_ship_one_pressed"]
+[connection signal="pressed" from="ui/CanvasLayer/chooseScreen/ships/ButtonShipTwo/ButtonShipTwo" to="ui" method="_on_button_ship_two_pressed"]
+[connection signal="pressed" from="ui/CanvasLayer/chooseScreen/ships/ButtonShipThree/ButtonShipThree" to="ui" method="_on_button_ship_three_pressed"]
+[connection signal="pressed" from="ui/CanvasLayer/inGameScreen/ButtonMute/ButtonMute" to="ui" method="_on_button_mute_pressed"]
+[connection signal="pressed" from="ui/CanvasLayer/gameOverScreen/ButtonMenu/ButtonMenu" to="ui" method="_on_button_menu_pressed"]

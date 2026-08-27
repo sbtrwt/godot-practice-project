@@ -9,7 +9,11 @@
 [ext_resource type="Texture2D" uid="uid://sqdjwj7n88b8" path="res://assets/ui/PNG/Blue/Default/button_rectangle_depth_border.png" id="5_tefeu"]
 [ext_resource type="Texture2D" uid="uid://dx127egs8d1po" path="res://assets/art/PNG/playerShip1_blue.png" id="6_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://bckeps1sic4en" path="res://assets/art/PNG/playerShip3_blue.png" id="7_tipki"]
+[ext_resource type="Script" uid="uid://chahalk12tqfa" path="res://scripts/shipUI.gd" id="8_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://d2fy25002t4uv" path="res://components/laser_one.tscn" id="9_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://d3nfy5ge2mjd1" path="res://assets/ui/PNG/Red/Default/button_rectangle_border.png" id="9_choun"]
+[ext_resource type="PackedScene" uid="uid://b47sqsbd2dsmy" path="res://components/laser_two.tscn" id="10_jkv2x"]
+[ext_resource type="PackedScene" uid="uid://qkwphjpjnihj" path="res://components/laser_three.tscn" id="12_jbj1t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0wfyh"]
 texture = ExtResource("1_o5qli")
@@ -229,22 +233,46 @@ visible = false
 [node name="ships" type="Node2D" parent="ui/CanvasLayer/chooseScreen" unique_id=1235402389]
 position = Vector2(-10, -398)
 
-[node name="SpriteOne" type="Sprite2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=1123933558]
+[node name="shipOne" type="Sprite2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=1123933558]
+visible = false
 position = Vector2(366, 606)
 scale = Vector2(2, 2)
 texture = ExtResource("6_o6xl0")
+script = ExtResource("8_ya4ey")
+laser = ExtResource("9_a8y0u")
 
-[node name="SpriteTwo" type="Sprite2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=15450605]
+[node name="point" type="Node2D" parent="ui/CanvasLayer/chooseScreen/ships/shipOne" unique_id=1064229889]
+position = Vector2(0, -57)
+
+[node name="Timer" type="Timer" parent="ui/CanvasLayer/chooseScreen/ships/shipOne" unique_id=701295010]
+autostart = true
+
+[node name="shipTwo" type="Sprite2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=15450605]
 visible = false
 position = Vector2(366, 606)
 scale = Vector2(2, 2)
 texture = ExtResource("4_tbgi4")
+script = ExtResource("8_ya4ey")
+laser = ExtResource("10_jkv2x")
 
-[node name="SpriteThree" type="Sprite2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=1358416545]
-visible = false
+[node name="point" type="Node2D" parent="ui/CanvasLayer/chooseScreen/ships/shipTwo" unique_id=1545440176]
+position = Vector2(0, -57)
+
+[node name="Timer" type="Timer" parent="ui/CanvasLayer/chooseScreen/ships/shipTwo" unique_id=390103393]
+autostart = true
+
+[node name="shipThree" type="Sprite2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=1358416545]
 position = Vector2(366, 606)
 scale = Vector2(2, 2)
 texture = ExtResource("7_tipki")
+script = ExtResource("8_ya4ey")
+laser = ExtResource("12_jbj1t")
+
+[node name="point" type="Node2D" parent="ui/CanvasLayer/chooseScreen/ships/shipThree" unique_id=336189856]
+position = Vector2(0, -68)
+
+[node name="Timer" type="Timer" parent="ui/CanvasLayer/chooseScreen/ships/shipThree" unique_id=603129151]
+autostart = true
 
 [node name="ButtonChoose" type="Node2D" parent="ui/CanvasLayer/chooseScreen/ships" unique_id=1463784781]
 position = Vector2(12, 220)
@@ -488,6 +516,9 @@ offset_bottom = 912.0
 theme_type_variation = &"FlatButton"
 
 [connection signal="pressed" from="ui/CanvasLayer/startScreen/ButtonPlay/ButtonPlay" to="ui" method="_on_button_play_pressed"]
+[connection signal="timeout" from="ui/CanvasLayer/chooseScreen/ships/shipOne/Timer" to="ui/CanvasLayer/chooseScreen/ships/shipOne" method="_on_timer_timeout"]
+[connection signal="timeout" from="ui/CanvasLayer/chooseScreen/ships/shipTwo/Timer" to="ui/CanvasLayer/chooseScreen/ships/shipTwo" method="_on_timer_timeout"]
+[connection signal="timeout" from="ui/CanvasLayer/chooseScreen/ships/shipThree/Timer" to="ui/CanvasLayer/chooseScreen/ships/shipThree" method="_on_timer_timeout"]
 [connection signal="pressed" from="ui/CanvasLayer/chooseScreen/ships/ButtonChoose/ButtonChoose" to="ui" method="_on_button_choose_pressed"]
 [connection signal="pressed" from="ui/CanvasLayer/chooseScreen/ships/ButtonShipOne/ButtonShipOne" to="ui" method="_on_button_ship_one_pressed"]
 [connection signal="pressed" from="ui/CanvasLayer/chooseScreen/ships/ButtonShipTwo/ButtonShipTwo" to="ui" method="_on_button_ship_two_pressed"]

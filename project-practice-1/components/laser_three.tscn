@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://qkwphjpjnihj"]
+
+[ext_resource type="Script" uid="uid://ceg8a77eecfyk" path="res://scripts/laser.gd" id="1_i2fx6"]
+[ext_resource type="PackedScene" uid="uid://d2fy25002t4uv" path="res://components/laser_one.tscn" id="2_gjvmt"]
+[ext_resource type="Texture2D" uid="uid://dxada2a54adyk" path="res://assets/art/PNG/Lasers/laserBlue05.png" id="2_yppnr"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jv8vf"]
+radius = 5.0
+height = 3176.0
+
+[node name="laserThree" type="CharacterBody2D" unique_id=816862261]
+script = ExtResource("1_i2fx6")
+laser_type = 3
+laser = ExtResource("2_gjvmt")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1891750350]
+position = Vector2(0, 12.500001)
+scale = Vector2(1, 1.4999999)
+texture = ExtResource("2_yppnr")
+region_enabled = true
+region_rect = Rect2(0.5, 6.3, 8, 22)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Sprite2D" unique_id=1446646224]
+position = Vector2(0, -703.99994)
+scale = Vector2(1, 65)
+texture = ExtResource("2_yppnr")
+region_enabled = true
+region_rect = Rect2(0.5, 6.3, 8, 22)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1586048154 groups=["laser"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=450960475]
+position = Vector2(0, -1571)
+shape = SubResource("CapsuleShape2D_jv8vf")
+
+[node name="rPoint" type="Node2D" parent="." unique_id=1641282633]
+position = Vector2(32, 0)
+rotation = 0.5235988
+
+[node name="lPoint" type="Node2D" parent="." unique_id=1072202168]
+position = Vector2(-31, 0)
+rotation = -0.5235988
+
+[node name="Timer" type="Timer" parent="." unique_id=1816953568]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

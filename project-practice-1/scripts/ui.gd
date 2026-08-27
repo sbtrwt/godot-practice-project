@@ -15,23 +15,23 @@ func _on_button_play_pressed() -> void:
 
 func _on_button_ship_one_pressed() -> void:
 	Global.chosen_ship = 1
-	$CanvasLayer/chooseScreen/ships/SpriteOne.visible = true
-	$CanvasLayer/chooseScreen/ships/SpriteTwo.visible = false
-	$CanvasLayer/chooseScreen/ships/SpriteThree.visible = false
+	$CanvasLayer/chooseScreen/ships/shipOne.visible = true
+	$CanvasLayer/chooseScreen/ships/shipTwo.visible = false
+	$CanvasLayer/chooseScreen/ships/shipThree.visible = false
 
 
 func _on_button_ship_two_pressed() -> void:
 	Global.chosen_ship = 2
-	$CanvasLayer/chooseScreen/ships/SpriteOne.visible = false
-	$CanvasLayer/chooseScreen/ships/SpriteTwo.visible = true
-	$CanvasLayer/chooseScreen/ships/SpriteThree.visible = false
+	$CanvasLayer/chooseScreen/ships/shipOne.visible = false
+	$CanvasLayer/chooseScreen/ships/shipTwo.visible = true
+	$CanvasLayer/chooseScreen/ships/shipThree.visible = false
 
 
 func _on_button_ship_three_pressed() -> void:
 	Global.chosen_ship = 3
-	$CanvasLayer/chooseScreen/ships/SpriteOne.visible = false
-	$CanvasLayer/chooseScreen/ships/SpriteTwo.visible = false
-	$CanvasLayer/chooseScreen/ships/SpriteThree.visible = true
+	$CanvasLayer/chooseScreen/ships/shipOne.visible = false
+	$CanvasLayer/chooseScreen/ships/shipTwo.visible = false
+	$CanvasLayer/chooseScreen/ships/shipThree.visible = true
 
 
 func _on_button_choose_pressed() -> void:

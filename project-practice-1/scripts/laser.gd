@@ -61,4 +61,7 @@ func spawn_two_extra_laser():
 
 
 func _on_timer_timeout() -> void:
-	queue_free()
+	if Global.game_over == false:
+		queue_free()
+	else:
+		pass

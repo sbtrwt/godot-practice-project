@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://b47sqsbd2dsmy" path="res://components/laser_two.tscn" id="10_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://qkwphjpjnihj" path="res://components/laser_three.tscn" id="12_jbj1t"]
 [ext_resource type="PackedScene" uid="uid://bbgecnfpkrc3d" path="res://components/player.tscn" id="15_jkv2x"]
+[ext_resource type="Script" uid="uid://bb5m6k83e75oe" path="res://scripts/spwaner.gd" id="16_jbj1t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0wfyh"]
 texture = ExtResource("1_o5qli")
@@ -523,6 +524,19 @@ theme_type_variation = &"FlatButton"
 visible = false
 position = Vector2(345, 1012)
 
+[node name="spwaner" type="Node2D" parent="." unique_id=1290259621]
+script = ExtResource("16_jbj1t")
+
+[node name="lPoint" type="Node2D" parent="spwaner" unique_id=861495325]
+position = Vector2(75, -99)
+
+[node name="rPoint" type="Node2D" parent="spwaner" unique_id=2013849756]
+position = Vector2(656, -102)
+
+[node name="Timer" type="Timer" parent="spwaner" unique_id=1491354107]
+wait_time = 0.7
+autostart = true
+
 [connection signal="pressed" from="ui/CanvasLayer/startScreen/ButtonPlay/ButtonPlay" to="ui" method="_on_button_play_pressed"]
 [connection signal="timeout" from="ui/CanvasLayer/chooseScreen/ships/shipOne/Timer" to="ui/CanvasLayer/chooseScreen/ships/shipOne" method="_on_timer_timeout"]
 [connection signal="timeout" from="ui/CanvasLayer/chooseScreen/ships/shipTwo/Timer" to="ui/CanvasLayer/chooseScreen/ships/shipTwo" method="_on_timer_timeout"]
@@ -533,3 +547,4 @@ position = Vector2(345, 1012)
 [connection signal="pressed" from="ui/CanvasLayer/chooseScreen/ships/ButtonShipThree/ButtonShipThree" to="ui" method="_on_button_ship_three_pressed"]
 [connection signal="pressed" from="ui/CanvasLayer/inGameScreen/ButtonMute/ButtonMute" to="ui" method="_on_button_mute_pressed"]
 [connection signal="pressed" from="ui/CanvasLayer/gameOverScreen/ButtonMenu/ButtonMenu" to="ui" method="_on_button_menu_pressed"]
+[connection signal="timeout" from="spwaner/Timer" to="spwaner" method="_on_timer_timeout"]

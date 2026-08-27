@@ -9,7 +9,6 @@ height = 38.0
 
 [node name="laserOne" type="CharacterBody2D" unique_id=816862261]
 script = ExtResource("1_kihlc")
-laser = null
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1891750350]
 texture = ExtResource("2_0i0o5")

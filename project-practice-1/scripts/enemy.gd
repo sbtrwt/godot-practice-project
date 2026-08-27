@@ -41,12 +41,16 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		if type == "ship" and health > 0 :
 			$AnimationPlayerHuting.play("hurting")
 		if area.get_parent().laser_type != 3:
-			area.get_parent().queue_free()
+			if type!= "pwerup":
+				area.get_parent().queue_free()
 		
 		
 	
 
 
 func _on_timer_timeout() -> void:
-	queue_free()
+	if Global.game_over == false:
+		queue_free()
+	else:
+		pass
 	#pass

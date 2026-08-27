@@ -165,6 +165,7 @@ _data = {
 
 [node name="powerUp" type="CharacterBody2D" unique_id=244666350]
 script = ExtResource("1_g7faj")
+health = 100
 speed = 400.0
 type = ""
 

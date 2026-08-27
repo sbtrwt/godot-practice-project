@@ -521,7 +521,7 @@ theme_type_variation = &"FlatButton"
 
 [node name="player" parent="." unique_id=279078141 instance=ExtResource("15_jkv2x")]
 visible = false
-position = Vector2(345, 1012)
+speed = 800.0
 
 [connection signal="pressed" from="ui/CanvasLayer/startScreen/ButtonPlay/ButtonPlay" to="ui" method="_on_button_play_pressed"]
 [connection signal="timeout" from="ui/CanvasLayer/chooseScreen/ships/shipOne/Timer" to="ui/CanvasLayer/chooseScreen/ships/shipOne" method="_on_timer_timeout"]

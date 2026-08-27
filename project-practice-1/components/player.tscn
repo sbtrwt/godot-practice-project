@@ -1,0 +1,278 @@
+[gd_scene format=3 uid="uid://bbgecnfpkrc3d"]
+
+[ext_resource type="Texture2D" uid="uid://dx127egs8d1po" path="res://assets/art/PNG/playerShip1_blue.png" id="1_5odhx"]
+[ext_resource type="Script" uid="uid://t5dj8usi6edc" path="res://scripts/player.gd" id="1_pir3r"]
+[ext_resource type="Texture2D" uid="uid://cdolf23pnkdem" path="res://assets/art/PNG/playerShip2_blue.png" id="2_1kub6"]
+[ext_resource type="Texture2D" uid="uid://bckeps1sic4en" path="res://assets/art/PNG/playerShip3_blue.png" id="3_kuobi"]
+[ext_resource type="Texture2D" uid="uid://hcqvswim2yf6" path="res://assets/art/PNG/Effects/star3.png" id="4_0lm1f"]
+[ext_resource type="Texture2D" uid="uid://c50yswb364jvd" path="res://assets/art/PNG/Effects/star2.png" id="5_couud"]
+[ext_resource type="AudioStream" uid="uid://ch6iwlbfmlywn" path="res://assets/art/Bonus/sfx_shieldDown.ogg" id="6_pir3r"]
+[ext_resource type="AudioStream" uid="uid://d28g4yialmi34" path="res://assets/art/Bonus/sfx_laser2.ogg" id="7_mm1xv"]
+[ext_resource type="AudioStream" uid="uid://b5ms832y76pmw" path="res://assets/art/Bonus/sfx_lose.ogg" id="8_qe8hj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jv8vf"]
+radius = 36.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eju5v"]
+radius = 39.012817
+
+[sub_resource type="Animation" id="Animation_7ta67"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boom/Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("boom/Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_0lm1f")]
+}
+
+[sub_resource type="Animation" id="Animation_jhk7o"]
+resource_name = "boom"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boom/Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("boom/Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("4_0lm1f"), ExtResource("5_couud")]
+}
+
+[sub_resource type="Animation" id="Animation_1wqow"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boom/Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6qb5m"]
+_data = {
+&"RESET": SubResource("Animation_7ta67"),
+&"boom": SubResource("Animation_jhk7o"),
+&"idle": SubResource("Animation_1wqow")
+}
+
+[sub_resource type="Animation" id="Animation_couud"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ships:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pir3r"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ships:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_mm1xv"]
+resource_name = "power"
+length = 0.39999999999999997
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ships:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.29779413, 0.8039871, 0.9350063, 1), Color(1, 1, 1, 1), Color(0.16862746, 0.8509804, 0.8, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qe8hj"]
+_data = {
+&"RESET": SubResource("Animation_couud"),
+&"idle": SubResource("Animation_pir3r"),
+&"power": SubResource("Animation_mm1xv")
+}
+
+[sub_resource type="Animation" id="Animation_eju5v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ships:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.89363027, 0.97030807, 0.9901548, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_6qb5m"]
+resource_name = "hurt"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ships:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0.007843138, 1), Color(1, 1, 1, 1), Color(1, 0.26264825, 0.20532987, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_kn8w6"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ships:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.89363027, 0.97030807, 0.9901548, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eaetu"]
+_data = {
+&"RESET": SubResource("Animation_eju5v"),
+&"hurt": SubResource("Animation_6qb5m"),
+&"idle": SubResource("Animation_kn8w6")
+}
+
+[node name="player" type="CharacterBody2D" unique_id=279078141]
+script = ExtResource("1_pir3r")
+stopping_distance = 15.0
+
+[node name="ships" type="Node2D" parent="." unique_id=1615243050]
+modulate = Color(0.89363027, 0.97030807, 0.9901548, 1)
+
+[node name="ship1" type="Sprite2D" parent="ships" unique_id=1981774858]
+position = Vector2(-1, 0)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("1_5odhx")
+
+[node name="ship2" type="Sprite2D" parent="ships" unique_id=2073917903]
+visible = false
+position = Vector2(-1, 0)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("2_1kub6")
+
+[node name="ship3" type="Sprite2D" parent="ships" unique_id=476735761]
+visible = false
+position = Vector2(-1, 0)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("3_kuobi")
+
+[node name="boom" type="Node2D" parent="." unique_id=613103977]
+
+[node name="Sprite2D" type="Sprite2D" parent="boom" unique_id=1383578202]
+visible = false
+modulate = Color(0.8862745, 0.3254902, 0.21960784, 1)
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("4_0lm1f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1836794675]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_jv8vf")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1748802316 groups=["player"]]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D" unique_id=1275747679]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_eju5v")
+debug_color = Color(0.9050318, 0.23072976, 0.5116952, 0.41960785)
+
+[node name="point" type="Node2D" parent="." unique_id=1081508544]
+position = Vector2(0, -62)
+
+[node name="TimerToShoot" type="Timer" parent="." unique_id=1497025975]
+one_shot = true
+autostart = true
+
+[node name="TimerPowerUp" type="Timer" parent="." unique_id=1923133406]
+wait_time = 5.0
+one_shot = true
+
+[node name="AnimationPlayerBoom" type="AnimationPlayer" parent="." unique_id=1933405138]
+libraries/ = SubResource("AnimationLibrary_6qb5m")
+
+[node name="AnimationPlayerPowerUp" type="AnimationPlayer" parent="." unique_id=1256326859]
+libraries/ = SubResource("AnimationLibrary_qe8hj")
+
+[node name="AnimationPlayerHurt" type="AnimationPlayer" parent="." unique_id=85946650]
+libraries/ = SubResource("AnimationLibrary_eaetu")
+
+[node name="AudioStreamPlayer2DHit" type="AudioStreamPlayer2D" parent="." unique_id=828291816]
+stream = ExtResource("6_pir3r")
+
+[node name="AudioStreamPlayer2DLaser" type="AudioStreamPlayer2D" parent="." unique_id=173913559]
+stream = ExtResource("7_mm1xv")
+
+[node name="AudioStreamPlayer2DGameOver" type="AudioStreamPlayer2D" parent="." unique_id=1897674986]
+stream = ExtResource("8_qe8hj")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="TimerToShoot" to="." method="_on_timer_to_shoot_timeout"]
+[connection signal="timeout" from="TimerPowerUp" to="." method="_on_timer_power_up_timeout"]

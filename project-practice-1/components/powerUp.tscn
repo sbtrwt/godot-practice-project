@@ -1,0 +1,206 @@
+[gd_scene format=3 uid="uid://dbmiyx3ycrf3t"]
+
+[ext_resource type="Script" uid="uid://botbc35filcrd" path="res://scripts/enemy.gd" id="1_g7faj"]
+[ext_resource type="Texture2D" uid="uid://cc8h0mcf7l8ni" path="res://assets/art/PNG/Power-ups/bolt_gold.png" id="2_g7faj"]
+[ext_resource type="Texture2D" uid="uid://c50yswb364jvd" path="res://assets/art/PNG/Effects/star2.png" id="3_fdf0i"]
+[ext_resource type="Texture2D" uid="uid://hcqvswim2yf6" path="res://assets/art/PNG/Effects/star3.png" id="4_7jmxm"]
+[ext_resource type="AudioStream" uid="uid://c87gu1ub8wb6" path="res://assets/art/Bonus/sfx_laser1.ogg" id="5_oksvd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jv8vf"]
+radius = 34.928497
+
+[sub_resource type="Animation" id="Animation_t8rlc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ax5xp"]
+resource_name = "hurting"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_u1n41"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ibek2"]
+_data = {
+&"RESET": SubResource("Animation_t8rlc"),
+&"hurting": SubResource("Animation_ax5xp"),
+&"idle": SubResource("Animation_u1n41")
+}
+
+[sub_resource type="Animation" id="Animation_h3bvh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boom/Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("boom/Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.5372549, 0, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("boom/Sprite2D:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_fdf0i")]
+}
+
+[sub_resource type="Animation" id="Animation_4uriv"]
+resource_name = "hurting"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boom/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.06666668),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.5372549, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("boom/Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("4_7jmxm"), ExtResource("3_fdf0i")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("boom/Sprite2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_37lus"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boom/Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ujg6u"]
+_data = {
+&"RESET": SubResource("Animation_h3bvh"),
+&"hurting": SubResource("Animation_4uriv"),
+&"idle": SubResource("Animation_37lus")
+}
+
+[node name="powerUp" type="CharacterBody2D" unique_id=244666350]
+script = ExtResource("1_g7faj")
+speed = 400.0
+type = ""
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=239586498]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("2_g7faj")
+
+[node name="boom" type="Node2D" parent="." unique_id=1901339430]
+
+[node name="Sprite2D" type="Sprite2D" parent="boom" unique_id=382097989]
+visible = false
+modulate = Color(1, 0.5372549, 0, 1)
+scale = Vector2(4, 4)
+texture = ExtResource("3_fdf0i")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1445676363 groups=["powerUp"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=231876102]
+shape = SubResource("CircleShape2D_jv8vf")
+
+[node name="AnimationPlayerHuting" type="AnimationPlayer" parent="." unique_id=2094254712]
+root_node = NodePath("../AnimationPlayerBoom")
+libraries/ = SubResource("AnimationLibrary_ibek2")
+
+[node name="AnimationPlayerBoom" type="AnimationPlayer" parent="." unique_id=1410338167]
+libraries/ = SubResource("AnimationLibrary_ujg6u")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1537302061]
+position = Vector2(-1, 0)
+rotation = -3.1415925
+scale = Vector2(0.9, 0.9)
+stream = ExtResource("5_oksvd")
+
+[node name="Timer" type="Timer" parent="." unique_id=1791778983]
+wait_time = 5.0
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

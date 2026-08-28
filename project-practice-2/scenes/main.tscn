@@ -1,0 +1,352 @@
+[gd_scene format=4 uid="uid://cjsyiem8u03bo"]
+
+[ext_resource type="PackedScene" uid="uid://bc7a1cdy8yuwk" path="res://scenes/scrolling_bg.tscn" id="1_o5qli"]
+[ext_resource type="Texture2D" uid="uid://4o2ynyk28aq8" path="res://assets/art/Spritesheets/spritesheet-tiles-default.png" id="2_sugp2"]
+[ext_resource type="Texture2D" uid="uid://mq2g15yrmbk6" path="res://assets/ui/PNG/Green/Default/button_rectangle_border.png" id="3_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://b30i7sxi322am" path="res://assets/art/Sprites/Tiles/Default/heart.png" id="4_tefeu"]
+[ext_resource type="Texture2D" uid="uid://b4oi6rr6b1r1o" path="res://assets/art/Sprites/Tiles/Default/gem_yellow.png" id="5_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://dg31s8ao45p4i" path="res://assets/art/Sprites/Tiles/Default/coin_gold.png" id="6_tipki"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbgi4"]
+texture = ExtResource("2_sugp2")
+texture_region_size = Vector2i(65, 65)
+11:9/0 = 0
+10:9/0 = 0
+7:12/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_jv8vf"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_tbgi4")
+
+[sub_resource type="LabelSettings" id="LabelSettings_jv8vf"]
+font_size = 90
+outline_size = 30
+outline_color = Color(0.07762883, 0.07762881, 0.07762881, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5oo1y"]
+font_size = 25
+font_color = Color(0.1893278, 0.18932778, 0.1893278, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_px12w"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_nru4x"]
+font_size = 50
+outline_size = 12
+outline_color = Color(0.1288298, 0.12882978, 0.12882978, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tefeu"]
+font_size = 75
+font_color = Color(0.95686275, 0.07058824, 0.07058824, 1)
+outline_size = 30
+outline_color = Color(0.117109306, 0.11710932, 0.117109306, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kvyw7"]
+font_size = 75
+outline_size = 30
+outline_color = Color(0.117109306, 0.11710932, 0.117109306, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_o6xl0"]
+font_size = 40
+font_color = Color(0.8607687, 0.8534744, 1.540184e-06, 1)
+outline_size = 20
+outline_color = Color(0.117109306, 0.11710932, 0.117109306, 1)
+
+[node name="main" type="Node2D" unique_id=1742155232]
+
+[node name="ui" type="Node2D" parent="." unique_id=941507025]
+
+[node name="menu" type="CanvasLayer" parent="ui" unique_id=1197375098]
+visible = false
+
+[node name="scrollingBG" parent="ui/menu" unique_id=907169538 instance=ExtResource("1_o5qli")]
+
+[node name="ground" type="Node2D" parent="ui/menu" unique_id=646621856]
+position = Vector2(-2, 22)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="ui/menu/ground" unique_id=1100545233]
+tile_map_data = PackedByteArray("AAD//wgAAAALAAkAAAAAAAgAAAALAAkAAAABAAgAAAALAAkAAAACAAgAAAALAAkAAAADAAgAAAALAAkAAAAEAAgAAAALAAkAAAAFAAgAAAALAAkAAAAGAAgAAAALAAkAAAAHAAgAAAALAAkAAAAIAAgAAAALAAkAAAAJAAgAAAALAAkAAAAKAAgAAAALAAkAAAALAAgAAAALAAkAAAAMAAgAAAALAAkAAAANAAgAAAALAAkAAAAOAAgAAAALAAkAAAAPAAgAAAALAAkAAAAQAAgAAAALAAkAAAARAAgAAAALAAkAAAASAAgAAAALAAkAAAD//wkAAAAHAAwAAAD//woAAAAHAAwAAAAAAAkAAAAHAAwAAAAAAAoAAAAHAAwAAAABAAkAAAAHAAwAAAABAAoAAAAHAAwAAAACAAkAAAAHAAwAAAACAAoAAAAHAAwAAAADAAkAAAAHAAwAAAADAAoAAAAHAAwAAAAEAAkAAAAHAAwAAAAEAAoAAAAHAAwAAAAFAAkAAAAHAAwAAAAFAAoAAAAHAAwAAAAGAAkAAAAHAAwAAAAGAAoAAAAHAAwAAAAHAAkAAAAHAAwAAAAHAAoAAAAHAAwAAAAIAAkAAAAHAAwAAAAIAAoAAAAHAAwAAAAJAAkAAAAHAAwAAAAJAAoAAAAHAAwAAAAKAAkAAAAHAAwAAAAKAAoAAAAHAAwAAAALAAkAAAAHAAwAAAALAAoAAAAHAAwAAAAMAAkAAAAHAAwAAAAMAAoAAAAHAAwAAAANAAkAAAAHAAwAAAANAAoAAAAHAAwAAAAOAAkAAAAHAAwAAAAOAAoAAAAHAAwAAAAPAAkAAAAHAAwAAAAPAAoAAAAHAAwAAAAQAAkAAAAHAAwAAAAQAAoAAAAHAAwAAAARAAkAAAAHAAwAAAARAAoAAAAHAAwAAAASAAkAAAAHAAwAAAASAAoAAAAHAAwAAAA=")
+tile_set = SubResource("TileSet_jv8vf")
+
+[node name="Label" type="Label" parent="ui/menu" unique_id=1988924385]
+offset_right = 1149.0
+offset_bottom = 332.0
+text = "Platformer Game"
+label_settings = SubResource("LabelSettings_jv8vf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="mutebutton" type="Node2D" parent="ui/menu" unique_id=152451135]
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/menu/mutebutton" unique_id=1102924397]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_jyhfs")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/menu/mutebutton" unique_id=1134431013]
+offset_right = 40.0
+offset_bottom = 39.0
+text = "m"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonMute" type="Button" parent="ui/menu/mutebutton" unique_id=122320085]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_type_variation = &"FlatButton"
+theme_override_styles/normal = SubResource("StyleBoxFlat_px12w")
+
+[node name="levelOne" type="Node2D" parent="ui/menu" unique_id=395956001]
+position = Vector2(214, 299)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/menu/levelOne" unique_id=985291515]
+offset_right = 141.0
+offset_bottom = 40.0
+texture = ExtResource("3_jyhfs")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/menu/levelOne" unique_id=250513105]
+offset_right = 137.0
+offset_bottom = 39.0
+text = "Level One"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonLevelOne" type="Button" parent="ui/menu/levelOne" unique_id=1919775554]
+offset_right = 138.0
+offset_bottom = 40.0
+theme_type_variation = &"FlatButton"
+theme_override_styles/normal = SubResource("StyleBoxFlat_px12w")
+
+[node name="levelTwo" type="Node2D" parent="ui/menu" unique_id=1895829884]
+position = Vector2(417, 300)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/menu/levelTwo" unique_id=984260944]
+offset_right = 141.0
+offset_bottom = 40.0
+texture = ExtResource("3_jyhfs")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/menu/levelTwo" unique_id=1772327066]
+offset_right = 137.0
+offset_bottom = 39.0
+text = "Level Two"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonLevelTwo" type="Button" parent="ui/menu/levelTwo" unique_id=1067630721]
+offset_right = 138.0
+offset_bottom = 40.0
+theme_type_variation = &"FlatButton"
+theme_override_styles/normal = SubResource("StyleBoxFlat_px12w")
+
+[node name="levelThree" type="Node2D" parent="ui/menu" unique_id=586050708]
+position = Vector2(593, 300)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/menu/levelThree" unique_id=2074494215]
+offset_right = 174.0
+offset_bottom = 40.0
+texture = ExtResource("3_jyhfs")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/menu/levelThree" unique_id=2118554244]
+offset_right = 171.0
+offset_bottom = 39.0
+text = "Level Three"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonLevelThree" type="Button" parent="ui/menu/levelThree" unique_id=644275384]
+offset_right = 174.0
+offset_bottom = 40.0
+theme_type_variation = &"FlatButton"
+theme_override_styles/normal = SubResource("StyleBoxFlat_px12w")
+
+[node name="inGame" type="CanvasLayer" parent="ui" unique_id=268478139]
+visible = false
+
+[node name="hearts" type="Node2D" parent="ui/inGame" unique_id=506167510]
+
+[node name="normalHearts" type="Node2D" parent="ui/inGame/hearts" unique_id=445668590]
+
+[node name="h1" type="Sprite2D" parent="ui/inGame/hearts/normalHearts" unique_id=942658462]
+position = Vector2(44, 37)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_tefeu")
+
+[node name="h2" type="Sprite2D" parent="ui/inGame/hearts/normalHearts" unique_id=1599427412]
+position = Vector2(106, 37)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_tefeu")
+
+[node name="h3" type="Sprite2D" parent="ui/inGame/hearts/normalHearts" unique_id=253989096]
+position = Vector2(169, 37)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_tefeu")
+
+[node name="powerHearts" type="Node2D" parent="ui/inGame/hearts" unique_id=1785310066]
+visible = false
+
+[node name="h1" type="Sprite2D" parent="ui/inGame/hearts/powerHearts" unique_id=1087914845]
+position = Vector2(44, 37)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_o6xl0")
+
+[node name="h2" type="Sprite2D" parent="ui/inGame/hearts/powerHearts" unique_id=2053670673]
+position = Vector2(106, 37)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_o6xl0")
+
+[node name="h3" type="Sprite2D" parent="ui/inGame/hearts/powerHearts" unique_id=2056070970]
+position = Vector2(169, 37)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_o6xl0")
+
+[node name="textCount" type="Node2D" parent="ui/inGame" unique_id=1337077619]
+
+[node name="Sprite2D" type="Sprite2D" parent="ui/inGame/textCount" unique_id=1889871761]
+position = Vector2(1073, 33)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("6_tipki")
+
+[node name="Label" type="Label" parent="ui/inGame/textCount" unique_id=1249031993]
+offset_left = 937.0
+offset_top = -3.0
+offset_right = 1040.0
+offset_bottom = 66.0
+text = "25"
+label_settings = SubResource("LabelSettings_nru4x")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="quiteButton" type="Node2D" parent="ui/inGame" unique_id=1953230979]
+position = Vector2(1111, 0)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/inGame/quiteButton" unique_id=1032145095]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_jyhfs")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/inGame/quiteButton" unique_id=829550294]
+offset_right = 40.0
+offset_bottom = 39.0
+text = "X"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonMenu" type="Button" parent="ui/inGame/quiteButton" unique_id=1431592636]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_type_variation = &"FlatButton"
+theme_override_styles/normal = SubResource("StyleBoxFlat_px12w")
+
+[node name="gameOver" type="CanvasLayer" parent="ui" unique_id=453702684]
+visible = false
+
+[node name="Label" type="Label" parent="ui/gameOver" unique_id=2074970166]
+offset_right = 1154.0
+offset_bottom = 215.0
+text = "Game Over"
+label_settings = SubResource("LabelSettings_tefeu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="menuButton" type="Node2D" parent="ui/gameOver" unique_id=1138515815]
+position = Vector2(512, 524)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/gameOver/menuButton" unique_id=1408104041]
+offset_top = -26.0
+offset_right = 141.0
+offset_bottom = 40.0
+texture = ExtResource("3_jyhfs")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/gameOver/menuButton" unique_id=868769452]
+offset_top = -22.0
+offset_right = 137.0
+offset_bottom = 39.0
+text = "Menu"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonMenu" type="Button" parent="ui/gameOver/menuButton" unique_id=322149193]
+offset_top = -22.0
+offset_right = 138.0
+offset_bottom = 40.0
+theme_type_variation = &"FlatButton"
+theme_override_styles/normal = SubResource("StyleBoxFlat_px12w")
+
+[node name="gameWin" type="CanvasLayer" parent="ui" unique_id=1753319158]
+visible = false
+
+[node name="menuButton" type="Node2D" parent="ui/gameWin" unique_id=1773175775]
+position = Vector2(512, 524)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ui/gameWin/menuButton" unique_id=1299733312]
+offset_top = -26.0
+offset_right = 141.0
+offset_bottom = 40.0
+texture = ExtResource("3_jyhfs")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="ui/gameWin/menuButton" unique_id=398009831]
+offset_top = -24.0
+offset_right = 137.0
+offset_bottom = 39.0
+text = "Menu"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonMenu" type="Button" parent="ui/gameWin/menuButton" unique_id=461269334]
+offset_top = -24.0
+offset_right = 138.0
+offset_bottom = 40.0
+theme_type_variation = &"FlatButton"
+theme_override_styles/normal = SubResource("StyleBoxFlat_px12w")
+
+[node name="Label" type="Label" parent="ui/gameWin" unique_id=1853645800]
+offset_right = 1154.0
+offset_bottom = 215.0
+text = "You Win!"
+label_settings = SubResource("LabelSettings_kvyw7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelCoins" type="Label" parent="ui/gameWin" unique_id=301909637]
+offset_top = 66.0
+offset_right = 1154.0
+offset_bottom = 281.0
+text = "Coins: 0"
+label_settings = SubResource("LabelSettings_o6xl0")
+horizontal_alignment = 1
+vertical_alignment = 1

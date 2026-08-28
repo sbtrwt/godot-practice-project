@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://cjsyiem8u03bo"]
 
 [ext_resource type="PackedScene" uid="uid://bc7a1cdy8yuwk" path="res://scenes/scrolling_bg.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://c1ou4sb3umevf" path="res://scripts/ui.gd" id="1_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://4o2ynyk28aq8" path="res://assets/art/Spritesheets/spritesheet-tiles-default.png" id="2_sugp2"]
 [ext_resource type="Texture2D" uid="uid://mq2g15yrmbk6" path="res://assets/ui/PNG/Green/Default/button_rectangle_border.png" id="3_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://b30i7sxi322am" path="res://assets/art/Sprites/Tiles/Default/heart.png" id="4_tefeu"]
@@ -55,9 +56,9 @@ outline_color = Color(0.117109306, 0.11710932, 0.117109306, 1)
 [node name="main" type="Node2D" unique_id=1742155232]
 
 [node name="ui" type="Node2D" parent="." unique_id=941507025]
+script = ExtResource("1_o6xl0")
 
 [node name="menu" type="CanvasLayer" parent="ui" unique_id=1197375098]
-visible = false
 
 [node name="scrollingBG" parent="ui/menu" unique_id=907169538 instance=ExtResource("1_o5qli")]
 
@@ -350,3 +351,11 @@ text = "Coins: 0"
 label_settings = SubResource("LabelSettings_o6xl0")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="pressed" from="ui/menu/mutebutton/ButtonMute" to="ui" method="_on_button_mute_pressed"]
+[connection signal="pressed" from="ui/menu/levelOne/ButtonLevelOne" to="ui" method="_on_button_level_one_pressed"]
+[connection signal="pressed" from="ui/menu/levelTwo/ButtonLevelTwo" to="ui" method="_on_button_level_two_pressed"]
+[connection signal="pressed" from="ui/menu/levelThree/ButtonLevelThree" to="ui" method="_on_button_level_three_pressed"]
+[connection signal="pressed" from="ui/inGame/quiteButton/ButtonMenu" to="ui" method="_on_button_menu_pressed"]
+[connection signal="pressed" from="ui/gameOver/menuButton/ButtonMenu" to="ui" method="_on_button_menu_pressed"]
+[connection signal="pressed" from="ui/gameWin/menuButton/ButtonMenu" to="ui" method="_on_button_menu_pressed"]

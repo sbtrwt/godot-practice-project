@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://blk8fyvna1s36"]
+
+[ext_resource type="Texture2D" uid="uid://b4oi6rr6b1r1o" path="res://assets/art/Sprites/Tiles/Default/gem_yellow.png" id="1_j7my0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5oo1y"]
+radius = 26.0
+
+[node name="powerUp" type="RigidBody2D" unique_id=1466445674 groups=["powerup"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=814624560]
+position = Vector2(26, -15)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_j7my0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=659485128]
+position = Vector2(26, -18)
+shape = SubResource("CircleShape2D_5oo1y")

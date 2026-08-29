@@ -1,9 +1,9 @@
 extends Node2D
 
 #remember to put correct level scenes
-@onready var level_one = preload("res://scenes/main.tscn")
-@onready var level_two = preload("res://scenes/main.tscn")
-@onready var level_three = preload("res://scenes/main.tscn")
+@onready var level_one = preload("res://scenes/level_one.tscn")
+@onready var level_two = preload("res://scenes/level_two.tscn")
+@onready var level_three = preload("res://scenes/level_three.tscn")
 
 func _ready() -> void:
 	$menu.visible = true

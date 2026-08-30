@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://drulxmtqk8x5i"]
+
+[ext_resource type="Texture2D" uid="uid://wn3sfv4qvpec" path="res://assets/art/Spritesheets/spritesheet-enemies-default.png" id="1_1a176"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4p75b"]
+atlas = ExtResource("1_1a176")
+region = Rect2(455, 195, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y8ti4"]
+atlas = ExtResource("1_1a176")
+region = Rect2(0, 260, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_astit"]
+atlas = ExtResource("1_1a176")
+region = Rect2(65, 260, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r4wdr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4p75b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y8ti4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_astit")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 1.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jv8vf"]
+radius = 47.042534
+
+[node name="spikeEnemy" type="CharacterBody2D" unique_id=1522237612 groups=["enemy"]]
+collision_layer = 2
+collision_mask = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1534679202]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_r4wdr")
+autoplay = "default"
+frame_progress = 0.84425175
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1330076688]
+shape = SubResource("CircleShape2D_jv8vf")
+
+[node name="endPoint" type="Node2D" parent="." unique_id=770483982]
+position = Vector2(0, 242)

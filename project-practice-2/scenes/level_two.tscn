@@ -51,7 +51,8 @@ texture_region_size = Vector2i(64, 64)
 
 [sub_resource type="TileSet" id="TileSet_jv8vf"]
 tile_size = Vector2i(64, 64)
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
 sources/1 = SubResource("TileSetAtlasSource_t18mc")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_843q2"]
@@ -81,14 +82,15 @@ texture_region_size = Vector2i(65, 65)
 
 [sub_resource type="TileSet" id="TileSet_5rfim"]
 tile_size = Vector2i(65, 65)
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
 sources/1 = SubResource("TileSetAtlasSource_843q2")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jv8vf"]
 size = Vector2(289, 950)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t18mc"]
-size = Vector2(4449, 41)
+size = Vector2(4449, 52.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8lyp7"]
 size = Vector2(129, 24)
@@ -131,7 +133,7 @@ position = Vector2(4704, 449)
 shape = SubResource("RectangleShape2D_jv8vf")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="map/collisions/StaticBody2D" unique_id=793266333]
-position = Vector2(2372, 1024)
+position = Vector2(2372, 1018.25)
 shape = SubResource("RectangleShape2D_t18mc")
 
 [node name="Area2DSpikes" type="Area2D" parent="map/collisions" unique_id=1283688386 groups=["spikes"]]
@@ -141,6 +143,8 @@ position = Vector2(2380, 1039)
 shape = SubResource("RectangleShape2D_t18mc")
 
 [node name="oneWayStaticBody" type="StaticBody2D" parent="map/collisions" unique_id=1927209511]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="map/collisions/oneWayStaticBody" unique_id=1031305792]
 position = Vector2(1728, 524)

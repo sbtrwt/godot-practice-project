@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bv1yq4l7rfukm" path="res://scripts/player.gd" id="1_0lm1f"]
 [ext_resource type="Texture2D" uid="uid://bsbdvhys3whud" path="res://assets/art/Spritesheets/spritesheet-characters-default.png" id="2_couud"]
+[ext_resource type="Script" uid="uid://fdbdr05s5xm" path="res://scripts/camera_2d.gd" id="3_couud"]
 [ext_resource type="AudioStream" uid="uid://c44mw40dqmhkb" path="res://assets/art/Sounds/sfx_coin.ogg" id="3_pir3r"]
 [ext_resource type="AudioStream" uid="uid://lfqcdie3ev5f" path="res://assets/art/Sounds/sfx_gem.ogg" id="4_mm1xv"]
 [ext_resource type="AudioStream" uid="uid://dod3gdfyor3cx" path="res://assets/art/Sounds/sfx_hurt.ogg" id="5_qe8hj"]
@@ -216,6 +217,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_i4ail"]
 resource_name = "hurting"
 length = 0.4
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -263,6 +265,7 @@ radius = 28.0
 height = 90.0
 
 [node name="player" type="CharacterBody2D" unique_id=1180141265 groups=["player"]]
+z_index = 5
 script = ExtResource("1_0lm1f")
 
 [node name="effects" type="Node2D" parent="." unique_id=1976264927]
@@ -280,7 +283,6 @@ libraries/ = SubResource("AnimationLibrary_dqkch")
 [node name="body" type="Node2D" parent="." unique_id=684161855]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="body" unique_id=1771827721]
-visible = false
 clip_children = 2
 sprite_frames = SubResource("SpriteFrames_jv8vf")
 animation = &"walk"
@@ -294,6 +296,7 @@ offset_bottom = 66.0
 color = Color(1, 1, 1, 0)
 
 [node name="AnimatedSprite2DPowerUp" type="AnimatedSprite2D" parent="body" unique_id=1502061671]
+visible = false
 sprite_frames = SubResource("SpriteFrames_4r5pv")
 animation = &"walk"
 
@@ -303,6 +306,8 @@ libraries/ = SubResource("AnimationLibrary_4ni07")
 [node name="areas" type="Node2D" parent="." unique_id=445689791]
 
 [node name="Area2DHitBox" type="Area2D" parent="areas" unique_id=1249139189]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="areas/Area2DHitBox" unique_id=1200906637]
 position = Vector2(6, 13)
@@ -329,6 +334,7 @@ debug_color = Color(0.39145553, 0.51593477, 0.8628948, 0.41960785)
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1083627544]
 position = Vector2(0, -98)
 position_smoothing_enabled = true
+script = ExtResource("3_couud")
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=457353386]
 position = Vector2(6, 45)

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bc7a1cdy8yuwk" path="res://scenes/scrolling_bg.tscn" id="1_4i5uq"]
 [ext_resource type="Texture2D" uid="uid://4o2ynyk28aq8" path="res://assets/art/Spritesheets/spritesheet-tiles-default.png" id="2_jyl00"]
 [ext_resource type="PackedScene" uid="uid://e3vee4173ij6" path="res://components/player.tscn" id="3_jyl00"]
+[ext_resource type="PackedScene" uid="uid://byift6c3624gk" path="res://components/flag.tscn" id="4_ol28e"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_843q2"]
 texture = ExtResource("2_jyl00")
@@ -152,3 +153,6 @@ shape = SubResource("RectangleShape2D_nru4x")
 
 [node name="player" parent="." unique_id=1180141265 instance=ExtResource("3_jyl00")]
 position = Vector2(473, 519)
+
+[node name="flag" parent="." unique_id=2094350939 instance=ExtResource("4_ol28e")]
+position = Vector2(3724, 491)

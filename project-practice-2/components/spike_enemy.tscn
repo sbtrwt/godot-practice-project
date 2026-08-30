@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://drulxmtqk8x5i"]
 
 [ext_resource type="Texture2D" uid="uid://wn3sfv4qvpec" path="res://assets/art/Spritesheets/spritesheet-enemies-default.png" id="1_1a176"]
+[ext_resource type="Script" uid="uid://duivkc2mnopfa" path="res://scripts/spike_enemy.gd" id="1_3ms4b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4p75b"]
 atlas = ExtResource("1_1a176")
@@ -37,6 +38,7 @@ radius = 47.042534
 [node name="spikeEnemy" type="CharacterBody2D" unique_id=1522237612 groups=["enemy"]]
 collision_layer = 2
 collision_mask = 2
+script = ExtResource("1_3ms4b")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1534679202]
 scale = Vector2(1.5, 1.5)
@@ -46,6 +48,3 @@ frame_progress = 0.84425175
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1330076688]
 shape = SubResource("CircleShape2D_jv8vf")
-
-[node name="endPoint" type="Node2D" parent="." unique_id=770483982]
-position = Vector2(0, 242)

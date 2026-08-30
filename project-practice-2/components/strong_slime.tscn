@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://c5kdeht8vp7kg"]
+
+[ext_resource type="Script" uid="uid://casor0hgf3bxy" path="res://scripts/slime.gd" id="1_a022x"]
+[ext_resource type="Texture2D" uid="uid://wn3sfv4qvpec" path="res://assets/art/Spritesheets/spritesheet-enemies-default.png" id="2_4yphs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5rfim"]
+atlas = ExtResource("2_4yphs")
+region = Rect2(65, 325, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4wdr"]
+atlas = ExtResource("2_4yphs")
+region = Rect2(0, 325, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jv8vf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5rfim")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4wdr")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_bhu28"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4p75b"]
+resource_name = "hurting"
+length = 0.39999999999999997
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0.18431373, 1), Color(1, 0.9843137, 0.972549, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_y8ti4"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_astit"]
+_data = {
+&"RESET": SubResource("Animation_bhu28"),
+&"hurting": SubResource("Animation_4p75b"),
+&"idle": SubResource("Animation_y8ti4")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvyw7"]
+size = Vector2(96, 41)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8axps"]
+size = Vector2(74, 13)
+
+[node name="strongSlime" type="CharacterBody2D" unique_id=1155884481 groups=["enemy"]]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_a022x")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=549802406]
+clip_children = 2
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_jv8vf")
+
+[node name="ColorRect" type="ColorRect" parent="AnimatedSprite2D" unique_id=1170561821]
+offset_left = -38.66667
+offset_top = -18.0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0.003921569)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" unique_id=1688669351]
+libraries/ = SubResource("AnimationLibrary_astit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1233732334]
+position = Vector2(0, 27.5)
+shape = SubResource("RectangleShape2D_kvyw7")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1376660126]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1586346682]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_8axps")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

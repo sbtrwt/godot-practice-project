@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bc7a1cdy8yuwk" path="res://scenes/scrolling_bg.tscn" id="1_8cim8"]
 [ext_resource type="Texture2D" uid="uid://4o2ynyk28aq8" path="res://assets/art/Spritesheets/spritesheet-tiles-default.png" id="2_8lyp7"]
 [ext_resource type="PackedScene" uid="uid://e3vee4173ij6" path="res://components/player.tscn" id="3_8lyp7"]
+[ext_resource type="PackedScene" uid="uid://byift6c3624gk" path="res://components/flag.tscn" id="4_kkfyh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t18mc"]
 texture = ExtResource("2_8lyp7")
@@ -133,13 +134,13 @@ position = Vector2(4704, 449)
 shape = SubResource("RectangleShape2D_jv8vf")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="map/collisions/StaticBody2D" unique_id=793266333]
-position = Vector2(2372, 1018.25)
+position = Vector2(2372, 1038)
 shape = SubResource("RectangleShape2D_t18mc")
 
 [node name="Area2DSpikes" type="Area2D" parent="map/collisions" unique_id=1283688386 groups=["spikes"]]
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="map/collisions/Area2DSpikes" unique_id=1534046441]
-position = Vector2(2380, 1039)
+position = Vector2(2381, 1026)
 shape = SubResource("RectangleShape2D_t18mc")
 
 [node name="oneWayStaticBody" type="StaticBody2D" parent="map/collisions" unique_id=1927209511]
@@ -194,3 +195,6 @@ shape = SubResource("RectangleShape2D_nru4x")
 
 [node name="player" parent="." unique_id=1180141265 instance=ExtResource("3_8lyp7")]
 position = Vector2(306, 518)
+
+[node name="flag" parent="." unique_id=2094350939 instance=ExtResource("4_kkfyh")]
+position = Vector2(4446, 492)

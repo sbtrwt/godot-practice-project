@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://byift6c3624gk"]
+
+[ext_resource type="Texture2D" uid="uid://4o2ynyk28aq8" path="res://assets/art/Spritesheets/spritesheet-tiles-default.png" id="1_jkxyu"]
+[ext_resource type="Texture2D" uid="uid://i1y6tqawfe7r" path="res://assets/art/Sprites/Tiles/Default/flag_off.png" id="2_h260q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_843q2"]
+atlas = ExtResource("1_jkxyu")
+region = Rect2(1105, 130, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nru4x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_843q2")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="flag" type="Node2D" unique_id=2094350939]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1622492121]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_nru4x")
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimatedSprite2D" unique_id=81664090]
+show_behind_parent = true
+texture_filter = 1
+position = Vector2(1, 53)
+texture = ExtResource("2_h260q")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." unique_id=2085975018]
+texture_filter = 1
+position = Vector2(203, 0)
+sprite_frames = SubResource("SpriteFrames_nru4x")
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimatedSprite2D2" unique_id=2130125625]
+show_behind_parent = true
+texture_filter = 1
+position = Vector2(1, 53)
+texture = ExtResource("2_h260q")

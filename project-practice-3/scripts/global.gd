@@ -6,7 +6,7 @@ const BULLETS_IN_CLIP = 2
 const AMMO_RESERVE = 3
 var  SHOT_DELAY = 0.3
 
-var game_on = false
+var game_on = true
 var game_over = false
 var player_health = 90.0
 var store_opened = null

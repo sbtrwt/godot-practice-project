@@ -1,0 +1,175 @@
+[gd_scene format=3 uid="uid://c158xvmcgxh2g"]
+
+[ext_resource type="Script" uid="uid://3fjujhx2u2k6" path="res://scripts/player.gd" id="1_mm1xv"]
+[ext_resource type="Texture2D" uid="uid://1tbgoaqgickc" path="res://assets/art/PNG/Man Blue/manBlue_stand.png" id="2_qe8hj"]
+[ext_resource type="Texture2D" uid="uid://olaf1oppabi0" path="res://assets/art/PNG/Man Blue/manBlue_gun.png" id="3_eju5v"]
+[ext_resource type="Texture2D" uid="uid://by7h40t4wlgao" path="res://assets/art/PNG/Man Blue/manBlue_silencer.png" id="4_7ta67"]
+[ext_resource type="Texture2D" uid="uid://b2vf328ukn0nl" path="res://assets/art/PNG/Man Blue/manBlue_machine.png" id="5_jhk7o"]
+[ext_resource type="Texture2D" uid="uid://bqq4y811tctic" path="res://assets/art/PNG/Man Blue/manBlue_hold.png" id="6_1wqow"]
+[ext_resource type="Texture2D" uid="uid://qs6vvm5ws1qq" path="res://assets/art/PNG/Tiles/tile_241.png" id="7_6qb5m"]
+[ext_resource type="AudioStream" uid="uid://ctr6v8pgwowyy" path="res://assets/ui/Sounds/click-a.ogg" id="8_kn8w6"]
+[ext_resource type="Script" uid="uid://d0khln0w0piwh" path="res://scripts/camera_2d.gd" id="8_qe8hj"]
+[ext_resource type="AudioStream" uid="uid://dk1sxd11o16or" path="res://assets/ui/Sounds/switch-b.ogg" id="9_eaetu"]
+[ext_resource type="AudioStream" uid="uid://cbun4l0q5fb77" path="res://assets/ui/Sounds/tap-b.ogg" id="10_1dyya"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5oo1y"]
+size = Vector2(22.307686, 32.307693)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jv8vf"]
+size = Vector2(32, 56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nru4x"]
+size = Vector2(25, 51)
+
+[sub_resource type="Animation" id="Animation_q13i1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pylmc"]
+resource_name = "hurting"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pbfsw"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5tmop"]
+_data = {
+&"RESET": SubResource("Animation_q13i1"),
+&"hurting": SubResource("Animation_pylmc"),
+&"idle": SubResource("Animation_pbfsw")
+}
+
+[node name="player" type="CharacterBody2D" unique_id=261615387]
+script = ExtResource("1_mm1xv")
+
+[node name="shootController" type="Node2D" parent="." unique_id=1605928239]
+
+[node name="body" type="Node2D" parent="." unique_id=326704635]
+
+[node name="idle" type="Sprite2D" parent="body" unique_id=280082883]
+texture_filter = 1
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("2_qe8hj")
+
+[node name="attackSprites" type="Node2D" parent="body" unique_id=1480287833]
+
+[node name="pistol" type="Sprite2D" parent="body/attackSprites" unique_id=1675272745]
+position = Vector2(10, 1)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("3_eju5v")
+
+[node name="silencer" type="Sprite2D" parent="body/attackSprites" unique_id=135716865]
+visible = false
+position = Vector2(13, 1)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("4_7ta67")
+
+[node name="machine" type="Sprite2D" parent="body/attackSprites" unique_id=1384743423]
+visible = false
+position = Vector2(10, 0)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("5_jhk7o")
+
+[node name="knife" type="Sprite2D" parent="body" unique_id=1017096365]
+visible = false
+texture_filter = 1
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("6_1wqow")
+
+[node name="knife2" type="Sprite2D" parent="body/knife" unique_id=809067074]
+show_behind_parent = true
+texture_filter = 1
+position = Vector2(23.076925, -8.46154)
+rotation = 1.2163082
+texture = ExtResource("7_6qb5m")
+
+[node name="knife3" type="Sprite2D" parent="body/knife" unique_id=577182471]
+show_behind_parent = true
+texture_filter = 1
+position = Vector2(23.846155, 10)
+rotation = 1.9081432
+texture = ExtResource("7_6qb5m")
+flip_h = true
+
+[node name="Area2D" type="Area2D" parent="body/knife" unique_id=307673447 groups=["knife"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="body/knife/Area2D" unique_id=1989919996]
+position = Vector2(28.076931, 0.7692301)
+shape = SubResource("RectangleShape2D_5oo1y")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1181470940]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2057281061]
+shape = SubResource("RectangleShape2D_jv8vf")
+
+[node name="aim" type="Node2D" parent="." unique_id=217640407]
+position = Vector2(58, 0)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1780900541]
+position_smoothing_enabled = true
+script = ExtResource("8_qe8hj")
+
+[node name="TimerKnifeAttack" type="Timer" parent="." unique_id=349264754]
+
+[node name="TimerReload" type="Timer" parent="." unique_id=967094973]
+
+[node name="TimerHurting" type="Timer" parent="." unique_id=743141092]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1316605343]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_nru4x")
+debug_color = Color(0.96662074, 0, 0.4823736, 0.41960785)
+
+[node name="sounds" type="Node2D" parent="." unique_id=137090195]
+
+[node name="shoot" type="AudioStreamPlayer" parent="sounds" unique_id=1741193983]
+stream = ExtResource("8_kn8w6")
+
+[node name="knife" type="AudioStreamPlayer" parent="sounds" unique_id=1894663087]
+stream = ExtResource("9_eaetu")
+
+[node name="hurt" type="AudioStreamPlayer" parent="sounds" unique_id=55392496]
+stream = ExtResource("10_1dyya")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1268835745]
+libraries/ = SubResource("AnimationLibrary_5tmop")
+autoplay = &"idle"
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="TimerHurting" to="." method="_on_timer_hurting_timeout"]

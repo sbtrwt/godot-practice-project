@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 	velocity  = input_vector * speed
 	move_and_slide()
 	
-	#shoot_controller.process_controller(delta)
+	shoot_controller.process_controller(delta)
 	handle_sprite_state()
 	
 func rotate_towards_mouse() -> void:
@@ -58,7 +58,7 @@ func get_input_vector() -> Vector2:
 	return direction.normalized()
 	
 func handle_sprite_state():
-	var is_knife_attacking = false #shoot_controller.is_knife_attacking
+	var is_knife_attacking = shoot_controller.is_knife_attacking
 	
 	var is_reloading = !reload_timer.is_stopped()
 	var is_shooting = Input.is_action_pressed("left_click")

@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://c158xvmcgxh2g"]
 
 [ext_resource type="Script" uid="uid://3fjujhx2u2k6" path="res://scripts/player.gd" id="1_mm1xv"]
+[ext_resource type="Script" uid="uid://cvnpeul5rytak" path="res://scripts/shoot_controller.gd" id="2_eju5v"]
 [ext_resource type="Texture2D" uid="uid://1tbgoaqgickc" path="res://assets/art/PNG/Man Blue/manBlue_stand.png" id="2_qe8hj"]
 [ext_resource type="Texture2D" uid="uid://olaf1oppabi0" path="res://assets/art/PNG/Man Blue/manBlue_gun.png" id="3_eju5v"]
 [ext_resource type="Texture2D" uid="uid://by7h40t4wlgao" path="res://assets/art/PNG/Man Blue/manBlue_silencer.png" id="4_7ta67"]
+[ext_resource type="Script" uid="uid://s51scna5ep8p" path="res://scripts/attack_sprites.gd" id="4_jhk7o"]
 [ext_resource type="Texture2D" uid="uid://b2vf328ukn0nl" path="res://assets/art/PNG/Man Blue/manBlue_machine.png" id="5_jhk7o"]
 [ext_resource type="Texture2D" uid="uid://bqq4y811tctic" path="res://assets/art/PNG/Man Blue/manBlue_hold.png" id="6_1wqow"]
 [ext_resource type="Texture2D" uid="uid://qs6vvm5ws1qq" path="res://assets/art/PNG/Tiles/tile_241.png" id="7_6qb5m"]
@@ -79,6 +81,7 @@ _data = {
 script = ExtResource("1_mm1xv")
 
 [node name="shootController" type="Node2D" parent="." unique_id=1605928239]
+script = ExtResource("2_eju5v")
 
 [node name="body" type="Node2D" parent="." unique_id=326704635]
 
@@ -88,6 +91,7 @@ scale = Vector2(1.3, 1.3)
 texture = ExtResource("2_qe8hj")
 
 [node name="attackSprites" type="Node2D" parent="body" unique_id=1480287833]
+script = ExtResource("4_jhk7o")
 
 [node name="pistol" type="Sprite2D" parent="body/attackSprites" unique_id=1675272745]
 position = Vector2(10, 1)
@@ -132,6 +136,7 @@ flip_h = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="body/knife/Area2D" unique_id=1989919996]
 position = Vector2(28.076931, 0.7692301)
 shape = SubResource("RectangleShape2D_5oo1y")
+disabled = true
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1181470940]
 
@@ -172,4 +177,6 @@ libraries/ = SubResource("AnimationLibrary_5tmop")
 autoplay = &"idle"
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="TimerKnifeAttack" to="shootController" method="_on_timer_knife_attack_timeout"]
+[connection signal="timeout" from="TimerReload" to="shootController" method="_on_timer_reload_timeout"]
 [connection signal="timeout" from="TimerHurting" to="." method="_on_timer_hurting_timeout"]

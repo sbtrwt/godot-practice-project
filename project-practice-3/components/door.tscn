@@ -1,0 +1,194 @@
+[gd_scene format=3 uid="uid://cvd4flbf6tbaa"]
+
+[ext_resource type="Script" uid="uid://bbvfgvb3rgcw3" path="res://scripts/door.gd" id="1_i24i1"]
+[ext_resource type="Texture2D" uid="uid://b3ske065kejes" path="res://assets/art/Tilesheet/tilesheet_complete.png" id="2_i24i1"]
+[ext_resource type="Texture2D" uid="uid://58omopcuj8y5" path="res://assets/ui/PNG/Red/Default/button_rectangle_depth_border.png" id="3_eany1"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lg60e"]
+texture = ExtResource("2_i24i1")
+texture_region_size = Vector2i(64, 64)
+4:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_jv8vf"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_lg60e")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jv8vf"]
+size = Vector2(49, 112)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5oo1y"]
+size = Vector2(64, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nru4x"]
+size = Vector2(46, 112)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jv8vf"]
+font_size = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_5oo1y"]
+font_size = 40
+font_color = Color(0.09923177, 0.09923177, 0.09923177, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nru4x"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="door" type="Node2D" unique_id=1080103227]
+script = ExtResource("1_i24i1")
+
+[node name="bg" type="Node2D" parent="." unique_id=219608170]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="bg" unique_id=454447048]
+tile_map_data = PackedByteArray(0, 0, 0, 0, 255, 255, 0, 0, 4, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 3, 0, 0, 0)
+tile_set = SubResource("TileSet_jv8vf")
+
+[node name="boards" type="ColorRect" parent="bg" unique_id=1032566589]
+offset_left = 38.0
+offset_top = -63.0
+offset_right = 56.0
+offset_bottom = 64.0
+color = Color(0.91759056, 0.28031754, 0.3198858, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="bg/boards" unique_id=399214451]
+layout_mode = 0
+offset_left = -28.0
+offset_right = 18.0
+offset_bottom = 125.0
+color = Color(0.91759056, 0.28031754, 0.3198858, 1)
+
+[node name="ColorRect" type="ColorRect" parent="bg" unique_id=736492032]
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = -56.0
+color = Color(0.72215587, 0.16444263, 0.21719909, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="bg" unique_id=889339501]
+offset_top = 56.0
+offset_right = 64.0
+offset_bottom = 64.0
+color = Color(0.72215587, 0.16444263, 0.21719909, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="bg" unique_id=1647720119]
+offset_left = 3.0
+offset_top = -6.0
+offset_right = 63.0
+offset_bottom = 6.0
+color = Color(0.9101599, 0.97806317, 2.3102762e-06, 1)
+
+[node name="Area2DR" type="Area2D" parent="." unique_id=198450384]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DR" unique_id=1216419239]
+position = Vector2(52, 0)
+shape = SubResource("RectangleShape2D_jv8vf")
+
+[node name="Area2DL" type="Area2D" parent="." unique_id=960619406]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DL" unique_id=111310032]
+position = Vector2(4.5, 0)
+shape = SubResource("RectangleShape2D_jv8vf")
+
+[node name="collisions" type="Node2D" parent="." unique_id=668322929]
+
+[node name="StaticBody2DCorners" type="StaticBody2D" parent="collisions" unique_id=1249267179]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collisions/StaticBody2DCorners" unique_id=675912161]
+position = Vector2(32, -60)
+shape = SubResource("RectangleShape2D_5oo1y")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="collisions/StaticBody2DCorners" unique_id=935833035]
+position = Vector2(32, 60)
+shape = SubResource("RectangleShape2D_5oo1y")
+
+[node name="StaticBody2DWall" type="StaticBody2D" parent="collisions" unique_id=1598223277 groups=["entry"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collisions/StaticBody2DWall" unique_id=321971869]
+position = Vector2(33, 0)
+shape = SubResource("RectangleShape2D_nru4x")
+
+[node name="StaticBody2DDoor" type="StaticBody2D" parent="collisions" unique_id=1965803323 groups=["entry"]]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collisions/StaticBody2DDoor" unique_id=850045163]
+position = Vector2(33, 0)
+shape = SubResource("RectangleShape2D_nru4x")
+
+[node name="CanvasLayerR" type="CanvasLayer" parent="." unique_id=1742115607]
+visible = false
+
+[node name="Label" type="Label" parent="CanvasLayerR" unique_id=866748083]
+offset_right = 1152.0
+offset_bottom = 268.0
+text = "Unlock Door?"
+label_settings = SubResource("LabelSettings_jv8vf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayerR" unique_id=1191173475]
+offset_left = 495.0
+offset_top = 188.0
+offset_right = 673.0
+offset_bottom = 266.0
+texture = ExtResource("3_eany1")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="CanvasLayerR/NinePatchRect" unique_id=575937116]
+layout_mode = 0
+offset_right = 177.0
+offset_bottom = 74.0
+text = "1000"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonBuyR" type="Button" parent="CanvasLayerR/NinePatchRect" unique_id=259124662]
+layout_mode = 0
+offset_right = 178.0
+offset_bottom = 78.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_nru4x")
+
+[node name="CanvasLayerL" type="CanvasLayer" parent="." unique_id=324394089]
+visible = false
+
+[node name="Label" type="Label" parent="CanvasLayerL" unique_id=15897315]
+offset_right = 1152.0
+offset_bottom = 268.0
+text = "Unlock Door?"
+label_settings = SubResource("LabelSettings_jv8vf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayerL" unique_id=632237745]
+offset_left = 495.0
+offset_top = 188.0
+offset_right = 673.0
+offset_bottom = 266.0
+texture = ExtResource("3_eany1")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Label" type="Label" parent="CanvasLayerL/NinePatchRect" unique_id=766783326]
+layout_mode = 0
+offset_right = 177.0
+offset_bottom = 74.0
+text = "1000"
+label_settings = SubResource("LabelSettings_5oo1y")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonBuyL" type="Button" parent="CanvasLayerL/NinePatchRect" unique_id=671549217]
+layout_mode = 0
+offset_right = 178.0
+offset_bottom = 78.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_nru4x")
+
+[connection signal="area_entered" from="Area2DR" to="." method="_on_area_2dr_area_entered"]
+[connection signal="area_exited" from="Area2DR" to="." method="_on_area_2dr_area_exited"]
+[connection signal="area_entered" from="Area2DL" to="." method="_on_area_2dl_area_entered"]
+[connection signal="area_exited" from="Area2DL" to="." method="_on_area_2dl_area_exited"]
+[connection signal="pressed" from="CanvasLayerR/NinePatchRect/ButtonBuyR" to="." method="_on_button_buy_r_pressed"]
+[connection signal="pressed" from="CanvasLayerL/NinePatchRect/ButtonBuyL" to="." method="_on_button_buy_l_pressed"]

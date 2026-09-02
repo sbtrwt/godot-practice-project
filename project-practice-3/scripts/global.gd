@@ -20,7 +20,7 @@ var current_items = [
 var current_slot: int = 0
 var reload_time: float = 2.0
 var bullet_speed: float = 1400.0
-var money :int =500
+var money :int =5000
 
 var unlocked_areas = ["bottom"]
 var wave =1

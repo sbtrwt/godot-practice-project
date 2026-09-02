@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://6a56tac5isno"]
+[gd_scene format=3 uid="uid://dqofymni1njob"]
 
-[ext_resource type="Script" uid="uid://q1k05rdctf72" path="res://scripts/barrier.gd" id="1_hfmkc"]
+[ext_resource type="Script" uid="uid://q1k05rdctf72" path="res://scripts/barrier.gd" id="1_xa2di"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jv8vf"]
 bg_color = Color(0, 0, 0, 1)
@@ -17,8 +17,9 @@ size = Vector2(64, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nru4x"]
 size = Vector2(46, 112)
 
-[node name="barrierV" type="Node2D" unique_id=1080103227]
-script = ExtResource("1_hfmkc")
+[node name="barrierH" type="Node2D" unique_id=1080103227]
+rotation = 1.5707964
+script = ExtResource("1_xa2di")
 
 [node name="bg" type="Node2D" parent="." unique_id=219608170]
 
@@ -49,10 +50,11 @@ offset_bottom = 64.0
 color = Color(0.72215587, 0.16444263, 0.21719909, 1)
 
 [node name="ProgressBar" type="ProgressBar" parent="." unique_id=2097672673]
-offset_left = -14.0
-offset_top = -77.0
+offset_left = -13.999998
+offset_top = 43.0
 offset_right = 74.0
-offset_bottom = -69.0
+offset_bottom = 51.0
+rotation = -1.5707964
 theme_override_styles/background = SubResource("StyleBoxFlat_jv8vf")
 theme_override_styles/fill = SubResource("StyleBoxFlat_5oo1y")
 max_value = 10.0

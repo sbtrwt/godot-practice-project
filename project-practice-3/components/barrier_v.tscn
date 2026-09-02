@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://6a56tac5isno"]
+
+[ext_resource type="Texture2D" uid="uid://b3ske065kejes" path="res://assets/art/Tilesheet/tilesheet_complete.png" id="1_hfmkc"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pou60"]
+texture = ExtResource("1_hfmkc")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_jv8vf"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_pou60")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jv8vf"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5oo1y"]
+bg_color = Color(0.526704, 0.84550935, 0.17315394, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jv8vf"]
+size = Vector2(81, 112)
+
+[node name="barrierV" type="Node2D" unique_id=1080103227]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1930057357]
+visible = false
+tile_map_data = PackedByteArray(0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_jv8vf")
+
+[node name="bg" type="Node2D" parent="." unique_id=219608170]
+
+[node name="boards" type="ColorRect" parent="bg" unique_id=1032566589]
+offset_left = 38.0
+offset_top = -63.0
+offset_right = 56.0
+offset_bottom = 64.0
+color = Color(0.91759056, 0.28031754, 0.3198858, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="bg/boards" unique_id=399214451]
+layout_mode = 0
+offset_left = -28.0
+offset_right = -10.0
+offset_bottom = 127.0
+color = Color(0.91759056, 0.28031754, 0.3198858, 1)
+
+[node name="ColorRect" type="ColorRect" parent="bg" unique_id=736492032]
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = -56.0
+color = Color(0.72215587, 0.16444263, 0.21719909, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="bg" unique_id=889339501]
+offset_top = 56.0
+offset_right = 64.0
+offset_bottom = 64.0
+color = Color(0.72215587, 0.16444263, 0.21719909, 1)
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=2097672673]
+offset_left = -14.0
+offset_top = -77.0
+offset_right = 74.0
+offset_bottom = -69.0
+theme_override_styles/background = SubResource("StyleBoxFlat_jv8vf")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5oo1y")
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="Area2D" type="Area2D" parent="." unique_id=198450384]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1216419239]
+position = Vector2(30.5, 0)
+shape = SubResource("RectangleShape2D_jv8vf")
+
+[node name="collsions" type="Node2D" parent="." unique_id=668322929]
+
+[node name="StaticBody2DCorners" type="StaticBody2D" parent="collsions" unique_id=1249267179]

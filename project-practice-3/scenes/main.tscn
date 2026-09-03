@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://dqofymni1njob" path="res://components/barrier_h.tscn" id="2_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://58omopcuj8y5" path="res://assets/ui/PNG/Red/Default/button_rectangle_depth_border.png" id="2_sugp2"]
 [ext_resource type="PackedScene" uid="uid://c158xvmcgxh2g" path="res://components/player.tscn" id="2_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://cit368bxytgmo" path="res://components/zombie.tscn" id="2_tefeu"]
 [ext_resource type="PackedScene" uid="uid://6a56tac5isno" path="res://components/barrier_v.tscn" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://cvd4flbf6tbaa" path="res://components/door.tscn" id="4_tipki"]
+[ext_resource type="Script" uid="uid://cs2x5cb8yan4n" path="res://scripts/spawner_node.gd" id="6_trceg"]
 [ext_resource type="PackedScene" uid="uid://b26lvl4oqj021" path="res://components/weapon_spot.tscn" id="7_85g3d"]
 [ext_resource type="Script" uid="uid://dlwxexyg1gawx" path="res://scripts/ui.gd" id="8_trceg"]
 [ext_resource type="Script" uid="uid://djj1ouooe28sg" path="res://scripts/store_components.gd" id="10_choun"]
@@ -401,14 +401,6 @@ position = Vector2(-128, -768)
 left_of_door = "left"
 right_of_door = "top"
 
-[node name="zombies" type="Node2D" parent="gameWorld" unique_id=632631989]
-
-[node name="zombie" parent="gameWorld/zombies" unique_id=1545913428 instance=ExtResource("2_tefeu")]
-position = Vector2(-142, 561)
-
-[node name="zombie2" parent="gameWorld/zombies" unique_id=190716256 instance=ExtResource("2_tefeu")]
-position = Vector2(122, -112)
-
 [node name="gunsSpots" type="Node2D" parent="gameWorld" unique_id=1399655286]
 
 [node name="weaponSpot" parent="gameWorld/gunsSpots" unique_id=584344974 instance=ExtResource("7_85g3d")]
@@ -428,6 +420,63 @@ position = Vector2(-381, -443)
 rotation = 4.712389
 weapon_type = "silencer"
 
+[node name="spawnerNode" type="Node2D" parent="gameWorld" unique_id=1245787754]
+script = ExtResource("6_trceg")
+
+[node name="zombiePoints" type="Node2D" parent="gameWorld/spawnerNode" unique_id=1579709412]
+
+[node name="bottom" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints" unique_id=1765041467]
+
+[node name="point" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/bottom" unique_id=1762957578 groups=["zomPoint"]]
+position = Vector2(123, -114)
+
+[node name="point2" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/bottom" unique_id=145216688 groups=["zomPoint"]]
+position = Vector2(1020, -114)
+
+[node name="point3" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/bottom" unique_id=153004051 groups=["zomPoint"]]
+position = Vector2(1246, 569)
+
+[node name="point4" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/bottom" unique_id=605684278 groups=["zomPoint"]]
+position = Vector2(-134, 569)
+
+[node name="left" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints" unique_id=91502037]
+
+[node name="point5" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/left" unique_id=305283480]
+position = Vector2(-418, -76)
+
+[node name="point6" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/left" unique_id=1807882402]
+position = Vector2(-551, -775)
+
+[node name="point7" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/left" unique_id=1065903413]
+position = Vector2(-16, -321)
+
+[node name="right" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints" unique_id=1080874661]
+
+[node name="point8" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/right" unique_id=1915720821]
+position = Vector2(1582, -136)
+
+[node name="point9" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/right" unique_id=905457285]
+position = Vector2(1709, -698)
+
+[node name="point10" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/right" unique_id=1313107897]
+position = Vector2(1078, -325)
+
+[node name="top" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints" unique_id=1727884225]
+
+[node name="point11" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/top" unique_id=100058586]
+position = Vector2(763, -400)
+
+[node name="point12" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/top" unique_id=1696871650]
+position = Vector2(317, -389)
+
+[node name="point13" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/top" unique_id=1963398121]
+position = Vector2(66, -1306)
+
+[node name="point14" type="Node2D" parent="gameWorld/spawnerNode/zombiePoints/top" unique_id=1541311058]
+position = Vector2(1015, -1306)
+
+[node name="TimerSpawn" type="Timer" parent="gameWorld/spawnerNode" unique_id=380764789]
+
 [node name="player" parent="gameWorld" unique_id=261615387 instance=ExtResource("2_tbgi4")]
 position = Vector2(554, 546)
 
@@ -435,6 +484,7 @@ position = Vector2(554, 546)
 script = ExtResource("8_trceg")
 
 [node name="menu" type="CanvasLayer" parent="UI" unique_id=1833493325]
+visible = false
 
 [node name="TileMapLayer" type="TileMapLayer" parent="UI/menu" unique_id=384774057]
 tile_map_data = PackedByteArray("AAD/////AAAAAAAAAAD//wAAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAD//wMAAAAAAAAAAAD//wQAAAAAAAAAAAD//wUAAAAAAAAAAAD//wYAAAAAAAAAAAD//wcAAAAAAAAAAAD//wgAAAAAAAAAAAD//wkAAAAAAAAAAAD//woAAAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAABAP//AAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAABAAYAAAAAAAAAAAABAAcAAAAAAAAAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAABAAoAAAAAAAAAAAACAP//AAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAACAAUAAAAAAAAAAAACAAYAAAAAAAAAAAACAAcAAAAAAAAAAAACAAgAAAAAAAAAAAACAAkAAAAAAAAAAAACAAoAAAAAAAAAAAADAP//AAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAADAAgAAAAAAAAAAAADAAkAAAAAAAAAAAADAAoAAAAAAAAAAAAEAP//AAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAAEAAgAAAAAAAAAAAAEAAkAAAAAAAAAAAAEAAoAAAAAAAAAAAAFAP//AAAAAAAAAAAFAAAAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAcAAAAAAAAAAAAFAAgAAAAAAAAAAAAFAAkAAAAAAAAAAAAFAAoAAAAAAAAAAAAGAP//AAAAAAAAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAcAAAAAAAAAAAAGAAgAAAAAAAAAAAAGAAkAAAAAAAAAAAAGAAoAAAAAAAAAAAAHAP//AAAAAAAAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAUAAAAAAAAAAAAHAAYAAAAAAAAAAAAHAAcAAAAAAAAAAAAHAAgAAAAAAAAAAAAHAAkAAAAAAAAAAAAHAAoAAAAAAAAAAAAIAP//AAAAAAAAAAAIAAAAAAAAAAAAAAAIAAEAAAAAAAAAAAAIAAIAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAcAAAAAAAAAAAAIAAgAAAAAAAAAAAAIAAkAAAAAAAAAAAAIAAoAAAAAAAAAAAAJAP//AAAAAAAAAAAJAAAAAAAAAAAAAAAJAAEAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAMAAAAAAAAAAAAJAAQAAAAAAAAAAAAJAAUAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAcAAAAAAAAAAAAJAAgAAAAAAAAAAAAJAAkAAAAAAAAAAAAJAAoAAAAAAAAAAAAKAP//AAAAAAAAAAAKAAAAAAAAAAAAAAAKAAEAAAAAAAAAAAAKAAIAAAAAAAAAAAAKAAMAAAAAAAAAAAAKAAQAAAAAAAAAAAAKAAUAAAAAAAAAAAAKAAYAAAAAAAAAAAAKAAcAAAAAAAAAAAAKAAgAAAAAAAAAAAAKAAkAAAAAAAAAAAAKAAoAAAAAAAAAAAALAP//AAAAAAAAAAALAAAAAAAAAAAAAAALAAEAAAAAAAAAAAALAAIAAAAAAAAAAAALAAMAAAAAAAAAAAALAAQAAAAAAAAAAAALAAUAAAAAAAAAAAALAAYAAAAAAAAAAAALAAcAAAAAAAAAAAALAAgAAAAAAAAAAAALAAkAAAAAAAAAAAALAAoAAAAAAAAAAAAMAP//AAAAAAAAAAAMAAAAAAAAAAAAAAAMAAEAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAMAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAUAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAAMAAgAAAAAAAAAAAAMAAkAAAAAAAAAAAAMAAoAAAAAAAAAAAANAP//AAAAAAAAAAANAAAAAAAAAAAAAAANAAEAAAAAAAAAAAANAAIAAAAAAAAAAAANAAMAAAAAAAAAAAANAAQAAAAAAAAAAAANAAUAAAAAAAAAAAANAAYAAAAAAAAAAAANAAcAAAAAAAAAAAANAAgAAAAAAAAAAAANAAkAAAAAAAAAAAANAAoAAAAAAAAAAAAOAP//AAAAAAAAAAAOAAAAAAAAAAAAAAAOAAEAAAAAAAAAAAAOAAIAAAAAAAAAAAAOAAMAAAAAAAAAAAAOAAQAAAAAAAAAAAAOAAUAAAAAAAAAAAAOAAYAAAAAAAAAAAAOAAcAAAAAAAAAAAAOAAgAAAAAAAAAAAAOAAkAAAAAAAAAAAAOAAoAAAAAAAAAAAAPAP//AAAAAAAAAAAPAAAAAAAAAAAAAAAPAAEAAAAAAAAAAAAPAAIAAAAAAAAAAAAPAAMAAAAAAAAAAAAPAAQAAAAAAAAAAAAPAAUAAAAAAAAAAAAPAAYAAAAAAAAAAAAPAAcAAAAAAAAAAAAPAAgAAAAAAAAAAAAPAAkAAAAAAAAAAAAPAAoAAAAAAAAAAAAQAP//AAAAAAAAAAAQAAAAAAAAAAAAAAAQAAEAAAAAAAAAAAAQAAIAAAAAAAAAAAAQAAMAAAAAAAAAAAAQAAQAAAAAAAAAAAAQAAUAAAAAAAAAAAAQAAYAAAAAAAAAAAAQAAcAAAAAAAAAAAAQAAgAAAAAAAAAAAAQAAkAAAAAAAAAAAAQAAoAAAAAAAAAAAARAP//AAAAAAAAAAARAAAAAAAAAAAAAAARAAEAAAAAAAAAAAARAAIAAAAAAAAAAAARAAMAAAAAAAAAAAARAAQAAAAAAAAAAAARAAUAAAAAAAAAAAARAAYAAAAAAAAAAAARAAcAAAAAAAAAAAARAAgAAAAAAAAAAAARAAkAAAAAAAAAAAARAAoAAAAAAAAAAAASAP//AAAAAAAAAAASAAAAAAAAAAAAAAASAAEAAAAAAAAAAAASAAIAAAAAAAAAAAASAAMAAAAAAAAAAAASAAQAAAAAAAAAAAASAAUAAAAAAAAAAAASAAYAAAAAAAAAAAASAAcAAAAAAAAAAAASAAgAAAAAAAAAAAASAAkAAAAAAAAAAAASAAoAAAAAAAAAAAA=")
@@ -825,6 +875,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_8axps")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI/gameOver/gameOverScene" unique_id=908187705]
 libraries/ = SubResource("AnimationLibrary_tefeu")
 
+[connection signal="timeout" from="gameWorld/spawnerNode/TimerSpawn" to="gameWorld/spawnerNode" method="_on_timer_spawn_timeout"]
 [connection signal="pressed" from="UI/menu/buttonPlay/Button" to="UI" method="_on_button_pressed"]
 [connection signal="pressed" from="UI/inGame/gameScreen/buttonQuit/ButtonMenu" to="UI" method="_on_button_menu_pressed"]
 [connection signal="pressed" from="UI/store/storeComponents/pistolStore/buyGunButton/ButtonBuyGun" to="UI/store/storeComponents" method="_on_button_buy_gun_pressed"]

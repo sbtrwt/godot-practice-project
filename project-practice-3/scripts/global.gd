@@ -43,7 +43,7 @@ func _reset_game_values():
 	game_over = false
 	money = 500
 	player_health = 90.0
-	store_opened = null
+	store_opened = ""
 	current_slot = 0
 	reloading = false
 	unlocked_areas = ["bottom"]

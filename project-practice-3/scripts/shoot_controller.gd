@@ -26,22 +26,24 @@ func process_controller(delta: float) -> void:
 			can_fire = true
 	handle_shooting()
 	handle_knife_attack()
-	handle_reload_interript()
+	handle_reload_interrupt()
 
 func cancel_reload_and_state()-> void:
 	if not reload_timer.is_stopped():
 		reload_timer.stop()
 		Global.reloading = false
 		can_fire = true
+		print("timer realiding cancel")
 
-func handle_reload_interript() -> void:
-	if not reload_timer.is_stopped() and Input.is_action_just_pressed("left_click"):
+func handle_reload_interrupt() -> void:
+	if not reload_timer.is_stopped() and Input.is_action_just_released("left_click"):
 		Global.reloading = false
 		reload_timer.stop()
+		print("reloading timer stopped..")
 		can_fire = true
 
 func handle_shooting() -> void:
-	if Global.store_opened != null:
+	if Global.store_opened != "":
 		return
 	if ignore_next_shot_press and Input.is_action_just_pressed("left_click"):
 		ignore_next_shot_press = false
@@ -95,10 +97,12 @@ func start_reload() -> void:
 	if Global.get_reserve_ammo() > 0 :
 		Global.reloading = true
 		can_fire = false
+		print("timer reloading start")
 		reload_timer.start()
 		
 
 func _on_timer_reload_timeout() -> void:
+	print("reloading timeout")
 	var max_clip = Global.get_max_clip_size()
 	var reserve_ammo = Global.get_reserve_ammo()
 	var current_clip = Global.get_current_bullets()
@@ -108,12 +112,14 @@ func _on_timer_reload_timeout() -> void:
 	Global.current_items[Global.current_slot][Global.BULLETS_IN_CLIP] += bullets_to_take
 	Global.current_items[Global.current_slot][Global.AMMO_RESERVE] -= bullets_to_take
 
+	print(Global.current_items)
 	can_fire =true
 	Global.reloading = false
 
 
 
 func _on_timer_knife_attack_timeout() -> void:
+	print("knife attack timeout")
 	if is_knife_attacking:
 		is_knife_attacking = false
 		is_knife_on_cooldown  = true

@@ -9,7 +9,7 @@ var  SHOT_DELAY = 0.3
 var game_on = true
 var game_over = false
 var player_health = 90.0
-var store_opened = null
+var store_opened = ""
 
 var reloading = false
 

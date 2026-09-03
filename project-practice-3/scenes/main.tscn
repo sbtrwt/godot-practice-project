@@ -8,6 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://cit368bxytgmo" path="res://components/zombie.tscn" id="2_tefeu"]
 [ext_resource type="PackedScene" uid="uid://6a56tac5isno" path="res://components/barrier_v.tscn" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://cvd4flbf6tbaa" path="res://components/door.tscn" id="4_tipki"]
+[ext_resource type="PackedScene" uid="uid://b26lvl4oqj021" path="res://components/weapon_spot.tscn" id="7_85g3d"]
+[ext_resource type="Script" uid="uid://dlwxexyg1gawx" path="res://scripts/ui.gd" id="8_trceg"]
+[ext_resource type="Script" uid="uid://djj1ouooe28sg" path="res://scripts/store_components.gd" id="10_choun"]
+[ext_resource type="Script" uid="uid://cfharbp6dr2in" path="res://scripts/game_screen.gd" id="10_ya4ey"]
+[ext_resource type="Script" uid="uid://d3274co4qhk8o" path="res://scripts/game_over_scene.gd" id="12_eb6dy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sugp2"]
 texture = ExtResource("1_0wfyh")
@@ -404,13 +409,32 @@ position = Vector2(-142, 561)
 [node name="zombie2" parent="gameWorld/zombies" unique_id=190716256 instance=ExtResource("2_tefeu")]
 position = Vector2(122, -112)
 
+[node name="gunsSpots" type="Node2D" parent="gameWorld" unique_id=1399655286]
+
+[node name="weaponSpot" parent="gameWorld/gunsSpots" unique_id=584344974 instance=ExtResource("7_85g3d")]
+position = Vector2(484, 1)
+
+[node name="weaponSpot2" parent="gameWorld/gunsSpots" unique_id=538549510 instance=ExtResource("7_85g3d")]
+position = Vector2(484, -1152)
+weapon_type = "machine"
+
+[node name="weaponSpot3" parent="gameWorld/gunsSpots" unique_id=2110360410 instance=ExtResource("7_85g3d")]
+position = Vector2(1263, -528)
+rotation = 1.5707964
+weapon_type = "silencer"
+
+[node name="weaponSpot4" parent="gameWorld/gunsSpots" unique_id=1091802825 instance=ExtResource("7_85g3d")]
+position = Vector2(-381, -443)
+rotation = 4.712389
+weapon_type = "silencer"
+
 [node name="player" parent="gameWorld" unique_id=261615387 instance=ExtResource("2_tbgi4")]
 position = Vector2(554, 546)
 
 [node name="UI" type="Node2D" parent="." unique_id=1900065293]
+script = ExtResource("8_trceg")
 
 [node name="menu" type="CanvasLayer" parent="UI" unique_id=1833493325]
-visible = false
 
 [node name="TileMapLayer" type="TileMapLayer" parent="UI/menu" unique_id=384774057]
 tile_map_data = PackedByteArray("AAD/////AAAAAAAAAAD//wAAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAD//wMAAAAAAAAAAAD//wQAAAAAAAAAAAD//wUAAAAAAAAAAAD//wYAAAAAAAAAAAD//wcAAAAAAAAAAAD//wgAAAAAAAAAAAD//wkAAAAAAAAAAAD//woAAAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAABAP//AAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAABAAYAAAAAAAAAAAABAAcAAAAAAAAAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAABAAoAAAAAAAAAAAACAP//AAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAACAAUAAAAAAAAAAAACAAYAAAAAAAAAAAACAAcAAAAAAAAAAAACAAgAAAAAAAAAAAACAAkAAAAAAAAAAAACAAoAAAAAAAAAAAADAP//AAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAADAAgAAAAAAAAAAAADAAkAAAAAAAAAAAADAAoAAAAAAAAAAAAEAP//AAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAAEAAgAAAAAAAAAAAAEAAkAAAAAAAAAAAAEAAoAAAAAAAAAAAAFAP//AAAAAAAAAAAFAAAAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAcAAAAAAAAAAAAFAAgAAAAAAAAAAAAFAAkAAAAAAAAAAAAFAAoAAAAAAAAAAAAGAP//AAAAAAAAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAcAAAAAAAAAAAAGAAgAAAAAAAAAAAAGAAkAAAAAAAAAAAAGAAoAAAAAAAAAAAAHAP//AAAAAAAAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAUAAAAAAAAAAAAHAAYAAAAAAAAAAAAHAAcAAAAAAAAAAAAHAAgAAAAAAAAAAAAHAAkAAAAAAAAAAAAHAAoAAAAAAAAAAAAIAP//AAAAAAAAAAAIAAAAAAAAAAAAAAAIAAEAAAAAAAAAAAAIAAIAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAcAAAAAAAAAAAAIAAgAAAAAAAAAAAAIAAkAAAAAAAAAAAAIAAoAAAAAAAAAAAAJAP//AAAAAAAAAAAJAAAAAAAAAAAAAAAJAAEAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAMAAAAAAAAAAAAJAAQAAAAAAAAAAAAJAAUAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAcAAAAAAAAAAAAJAAgAAAAAAAAAAAAJAAkAAAAAAAAAAAAJAAoAAAAAAAAAAAAKAP//AAAAAAAAAAAKAAAAAAAAAAAAAAAKAAEAAAAAAAAAAAAKAAIAAAAAAAAAAAAKAAMAAAAAAAAAAAAKAAQAAAAAAAAAAAAKAAUAAAAAAAAAAAAKAAYAAAAAAAAAAAAKAAcAAAAAAAAAAAAKAAgAAAAAAAAAAAAKAAkAAAAAAAAAAAAKAAoAAAAAAAAAAAALAP//AAAAAAAAAAALAAAAAAAAAAAAAAALAAEAAAAAAAAAAAALAAIAAAAAAAAAAAALAAMAAAAAAAAAAAALAAQAAAAAAAAAAAALAAUAAAAAAAAAAAALAAYAAAAAAAAAAAALAAcAAAAAAAAAAAALAAgAAAAAAAAAAAALAAkAAAAAAAAAAAALAAoAAAAAAAAAAAAMAP//AAAAAAAAAAAMAAAAAAAAAAAAAAAMAAEAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAMAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAUAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAAMAAgAAAAAAAAAAAAMAAkAAAAAAAAAAAAMAAoAAAAAAAAAAAANAP//AAAAAAAAAAANAAAAAAAAAAAAAAANAAEAAAAAAAAAAAANAAIAAAAAAAAAAAANAAMAAAAAAAAAAAANAAQAAAAAAAAAAAANAAUAAAAAAAAAAAANAAYAAAAAAAAAAAANAAcAAAAAAAAAAAANAAgAAAAAAAAAAAANAAkAAAAAAAAAAAANAAoAAAAAAAAAAAAOAP//AAAAAAAAAAAOAAAAAAAAAAAAAAAOAAEAAAAAAAAAAAAOAAIAAAAAAAAAAAAOAAMAAAAAAAAAAAAOAAQAAAAAAAAAAAAOAAUAAAAAAAAAAAAOAAYAAAAAAAAAAAAOAAcAAAAAAAAAAAAOAAgAAAAAAAAAAAAOAAkAAAAAAAAAAAAOAAoAAAAAAAAAAAAPAP//AAAAAAAAAAAPAAAAAAAAAAAAAAAPAAEAAAAAAAAAAAAPAAIAAAAAAAAAAAAPAAMAAAAAAAAAAAAPAAQAAAAAAAAAAAAPAAUAAAAAAAAAAAAPAAYAAAAAAAAAAAAPAAcAAAAAAAAAAAAPAAgAAAAAAAAAAAAPAAkAAAAAAAAAAAAPAAoAAAAAAAAAAAAQAP//AAAAAAAAAAAQAAAAAAAAAAAAAAAQAAEAAAAAAAAAAAAQAAIAAAAAAAAAAAAQAAMAAAAAAAAAAAAQAAQAAAAAAAAAAAAQAAUAAAAAAAAAAAAQAAYAAAAAAAAAAAAQAAcAAAAAAAAAAAAQAAgAAAAAAAAAAAAQAAkAAAAAAAAAAAAQAAoAAAAAAAAAAAARAP//AAAAAAAAAAARAAAAAAAAAAAAAAARAAEAAAAAAAAAAAARAAIAAAAAAAAAAAARAAMAAAAAAAAAAAARAAQAAAAAAAAAAAARAAUAAAAAAAAAAAARAAYAAAAAAAAAAAARAAcAAAAAAAAAAAARAAgAAAAAAAAAAAARAAkAAAAAAAAAAAARAAoAAAAAAAAAAAASAP//AAAAAAAAAAASAAAAAAAAAAAAAAASAAEAAAAAAAAAAAASAAIAAAAAAAAAAAASAAMAAAAAAAAAAAASAAQAAAAAAAAAAAASAAUAAAAAAAAAAAASAAYAAAAAAAAAAAASAAcAAAAAAAAAAAASAAgAAAAAAAAAAAASAAkAAAAAAAAAAAASAAoAAAAAAAAAAAA=")
@@ -475,6 +499,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_jv8vf")
 visible = false
 
 [node name="gameScreen" type="Node2D" parent="UI/inGame" unique_id=2028722569]
+script = ExtResource("10_ya4ey")
 
 [node name="healthBar" type="ProgressBar" parent="UI/inGame/gameScreen" unique_id=2044664864]
 offset_left = 20.0
@@ -581,8 +606,10 @@ label_settings = SubResource("LabelSettings_jyhfs")
 vertical_alignment = 1
 
 [node name="store" type="CanvasLayer" parent="UI" unique_id=239367599]
+visible = false
 
 [node name="storeComponents" type="Node2D" parent="UI/store" unique_id=1123119547]
+script = ExtResource("10_choun")
 
 [node name="pistolStore" type="Node2D" parent="UI/store/storeComponents" unique_id=1869762090]
 visible = false
@@ -750,8 +777,10 @@ theme_type_variation = &"FlatButton"
 theme_override_styles/normal = SubResource("StyleBoxFlat_8axps")
 
 [node name="gameOver" type="CanvasLayer" parent="UI" unique_id=1747971796]
+visible = false
 
 [node name="gameOverScene" type="Node2D" parent="UI/gameOver" unique_id=1536727055]
+script = ExtResource("12_eb6dy")
 
 [node name="Panel" type="Panel" parent="UI/gameOver/gameOverScene" unique_id=520147470]
 visible = false
@@ -795,3 +824,13 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_8axps")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI/gameOver/gameOverScene" unique_id=908187705]
 libraries/ = SubResource("AnimationLibrary_tefeu")
+
+[connection signal="pressed" from="UI/menu/buttonPlay/Button" to="UI" method="_on_button_pressed"]
+[connection signal="pressed" from="UI/inGame/gameScreen/buttonQuit/ButtonMenu" to="UI" method="_on_button_menu_pressed"]
+[connection signal="pressed" from="UI/store/storeComponents/pistolStore/buyGunButton/ButtonBuyGun" to="UI/store/storeComponents" method="_on_button_buy_gun_pressed"]
+[connection signal="pressed" from="UI/store/storeComponents/pistolStore/buyAmmoButton/ButtonBuyAmmo" to="UI/store/storeComponents" method="_on_button_buy_ammo_pressed"]
+[connection signal="pressed" from="UI/store/storeComponents/silencerStore/buyGunButton/ButtonBuyGun" to="UI/store/storeComponents" method="_on_button_buy_gun_pressed"]
+[connection signal="pressed" from="UI/store/storeComponents/silencerStore/buyAmmoButton/ButtonBuyAmmo" to="UI/store/storeComponents" method="_on_button_buy_ammo_pressed"]
+[connection signal="pressed" from="UI/store/storeComponents/machineStore/buyGunButton/ButtonBuyGun" to="UI/store/storeComponents" method="_on_button_buy_gun_pressed"]
+[connection signal="pressed" from="UI/store/storeComponents/machineStore/buyAmmoButton/ButtonBuyAmmo" to="UI/store/storeComponents" method="_on_button_buy_ammo_pressed"]
+[connection signal="pressed" from="UI/gameOver/gameOverScene/menuButton/ButtonMenu" to="UI" method="_on_button_menu_pressed"]

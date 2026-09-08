@@ -1,123 +1,115 @@
 extends CharacterBody2D
 
-enum PlayerState { IDEAL, WALKING, JUMP, CROUCHING, PUNCH, KICK }
+const StateMachine = preload("res://scripts/player/state_machine.gd")
+const IdleState = preload("res://scripts/player/idle_state.gd")
+const WalkingState = preload("res://scripts/player/walking_state.gd")
+const JumpState = preload("res://scripts/player/jump_state.gd")
+const CrouchingState = preload("res://scripts/player/crouching_state.gd")
+const PunchState = preload("res://scripts/player/punch_state.gd")
+const KickState = preload("res://scripts/player/kick_state.gd")
 
 @export var speed: float = 300.0
 @export var jump_velocity: float = -700.0
 @export var gravity : float  = 1400.0
 @export var acceleration: float = 8
-@export var punch_duration: float = 0.25
-@export var kick_duration: float = 0.35
-
 @onready var player_animation = $Sprite2D/AnimationPlayer
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 @onready var player_sprite:Sprite2D = $Sprite2D
 
-var current_state: PlayerState = PlayerState.IDEAL
-var state_time_left: float = 0.0
+var state_machine: StateMachine
 var punch_was_pressed: bool = false
 var kick_was_pressed: bool = false
+var punch_started: bool = false
+var kick_started: bool = false
+var down_pressed: bool = false
+var facing_direction:int =1 # 1 for Right, -1 for Left
+var is_walking:bool =false
 
 func _ready() -> void:
-	change_state(PlayerState.IDEAL)
+	state_machine = StateMachine.new()
+	state_machine.add_state("idle", IdleState.new(self))
+	state_machine.add_state("walking", WalkingState.new(self))
+	state_machine.add_state("jump", JumpState.new(self))
+	state_machine.add_state("crouching", CrouchingState.new(self))
+	state_machine.add_state("punch", PunchState.new(self))
+	state_machine.add_state("kick", KickState.new(self))
+	state_machine.change_state("idle")
 	
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
-	var punch_pressed: bool = Input.is_physical_key_pressed(KEY_J)
-	var kick_pressed: bool = Input.is_physical_key_pressed(KEY_K)
-	var punch_started: bool = punch_pressed and not punch_was_pressed
-	var kick_started: bool = kick_pressed and not kick_was_pressed
+	var punch_pressed: bool = Input.is_physical_key_pressed(KEY_X)
+	var kick_pressed: bool = Input.is_physical_key_pressed(KEY_Z)
+	punch_started = punch_pressed and not punch_was_pressed
+	kick_started = kick_pressed and not kick_was_pressed
+	down_pressed = Input.is_action_pressed("ui_down")
 	punch_was_pressed = punch_pressed
 	kick_was_pressed = kick_pressed
-
-	if current_state == PlayerState.PUNCH or current_state == PlayerState.KICK:
-		state_time_left -= delta
-		velocity.x = move_toward(velocity.x, 0.0, speed * delta * acceleration)
-		if state_time_left <= 0.0:
-			if is_on_floor():
-				change_state(get_ground_state())
-			else:
-				change_state(PlayerState.JUMP)
-	else:
-		var down_pressed: bool = Input.is_action_pressed("ui_down")
-		if is_on_floor() and down_pressed and punch_started:
-			change_state(PlayerState.PUNCH)
-		elif is_on_floor() and down_pressed and kick_started:
-			change_state(PlayerState.KICK)
-		elif not is_on_floor() and kick_started:
-			change_state(PlayerState.KICK)
-		elif is_on_floor() and punch_started:
-			change_state(PlayerState.PUNCH)
-		elif is_on_floor() and kick_started:
-			change_state(PlayerState.KICK)
-		elif is_on_floor() and Input.is_action_just_pressed("ui_accept"):
-			player_jump()
-		elif is_on_floor() and Input.is_action_pressed("ui_down"):
-			velocity.x = move_toward(velocity.x, 0.0, speed * delta * acceleration)
-			change_state(PlayerState.CROUCHING)
-		else:
-			move_horizontally(delta)
-			if not is_on_floor():
-				change_state(PlayerState.JUMP)
-			else:
-				change_state(get_ground_state())
-
-	move_and_slide()
+	is_walking = not punch_pressed and not kick_pressed and Input.get_axis("ui_left", "ui_right") != 0.0
+	
+	
 	update_facing()
+	state_machine.physics_update(delta)
+	move_and_slide()
+
+func _process(delta: float) -> void:
+	state_machine.update(delta)
 
 func move_horizontally(delta: float) -> void:
 	var direction: float = Input.get_axis("ui_left", "ui_right")
-	if direction != 0.0:
+	if direction != 0.0 and is_walking:
 		velocity.x = move_toward(velocity.x, direction * speed, speed * delta * acceleration)
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, speed * delta * acceleration)
 
 func player_jump() -> void:
 	velocity.y = jump_velocity
-	change_state(PlayerState.JUMP)
+	change_state("jump")
 
-func get_ground_state() -> PlayerState:
-	if absf(velocity.x) > 1.0:
-		return PlayerState.WALKING
-	return PlayerState.IDEAL
+func get_ground_state() -> String:
+	if  is_walking:
+		return "walking"
+	return "idle"
 
-func change_state(next_state: PlayerState) -> void:
-	if current_state == next_state:
+func get_animation_duration(animation_name: String) -> float:
+	return player_animation.get_animation(animation_name).length
+
+func set_action_offset(animation_name: String) -> void:
+	var action_animation: Animation = player_animation.get_animation(animation_name)
+	var track_index: int = action_animation.find_track(NodePath(".:offset"), Animation.TYPE_VALUE)
+	if track_index == -1:
 		return
-	current_state = next_state
-	match current_state:
-		PlayerState.IDEAL:
-			play_animation("player_normal")
-		PlayerState.WALKING:
-			play_animation("player_walk")
-		PlayerState.JUMP:
-			play_animation("player_down")
-		PlayerState.CROUCHING:
-			play_animation("player_down")
-		PlayerState.PUNCH:
-			state_time_left = punch_duration
-			if Input.is_action_pressed("ui_down"):
-				play_animation("player_sit_punch")
-			else:
-				play_animation("player_stand_punch")
-		PlayerState.KICK:
-			state_time_left = kick_duration
-			if not is_on_floor():
-				play_animation("player_flying_kick")
-			elif Input.is_action_pressed("ui_down"):
-				play_animation("player_sit_kick")
-			else:
-				play_animation("player_stand_kick")
 
+	var key_index: int = action_animation.track_find_key(track_index, 0.0)
+	if key_index == -1:
+		return
+
+	var editor_offset: Vector2 = action_animation.track_get_key_value(track_index, key_index)
+	action_animation.track_set_key_value(
+		track_index,
+		key_index,
+		Vector2(absf(editor_offset.x) * facing_direction, editor_offset.y)
+	)
+
+func change_state(state_name: String) -> void:
+	state_machine.change_state(state_name)
+
+func execute_punch() -> void:
+	set_action_offset("player_stand_punch")
+	play_animation("player_stand_punch")
+	
 func play_animation(animation_name: String) -> void:
 	if player_animation.current_animation != animation_name:
 		player_animation.play(animation_name)
 
 func update_facing() -> void:
-	if velocity.x > 0.0:
+	var direction := Input.get_axis("ui_left", "ui_right")
+	if direction > 0.0 or (direction == 0.0 and velocity.x > 0.0):
 		player_sprite.flip_h = false
-	elif velocity.x < 0.0:
+		facing_direction = 1
+	elif direction < 0.0 or (direction == 0.0 and velocity.x < 0.0):
 		player_sprite.flip_h = true
+		facing_direction = -1
+		
 		

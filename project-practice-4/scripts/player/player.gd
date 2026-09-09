@@ -11,7 +11,7 @@ const KickState = preload("res://scripts/player/kick_state.gd")
 @export var speed: float = 300.0
 @export var jump_velocity: float = -700.0
 @export var gravity : float  = 1400.0
-@export var acceleration: float = 8
+@export var acceleration: float = 1
 @onready var player_animation = $Sprite2D/AnimationPlayer
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 @onready var player_sprite:Sprite2D = $Sprite2D
@@ -98,6 +98,9 @@ func change_state(state_name: String) -> void:
 func execute_punch() -> void:
 	set_action_offset("player_stand_punch")
 	play_animation("player_stand_punch")
+
+func reset_sprite_offset() -> void:
+	player_sprite.offset = Vector2.ZERO
 	
 func play_animation(animation_name: String) -> void:
 	if player_animation.current_animation != animation_name:

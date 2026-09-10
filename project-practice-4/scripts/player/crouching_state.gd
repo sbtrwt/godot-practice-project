@@ -7,8 +7,8 @@ func enter() -> void:
 func physics_update(delta: float) -> void:
 	player.velocity.x = move_toward(player.velocity.x, 0.0, player.speed * delta * player.acceleration)
 	if player.punch_started:
-		player.change_state("punch")
+		player.execute_command(player.punch_command)
 	elif player.kick_started:
-		player.change_state("kick")
+		player.execute_command(player.kick_command)
 	elif not player.down_pressed:
 		player.change_state(player.get_ground_state())

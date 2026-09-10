@@ -345,10 +345,22 @@ tracks/3/keys = {
 "update": 1,
 "values": [0, 1]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:offset")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_0g4kb"]
 resource_name = "player_down"
-length = 0.05
+length = 0.12
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -557,10 +569,22 @@ tracks/3/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:offset")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_player_high_kick"]
 resource_name = "player_high_kick"
-length = 0.12000000000000001
+length = 0.19999999999999998
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -619,12 +643,12 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(23, 0)]
+"values": [Vector2(13, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_eju5v"]
 resource_name = "player_normal"
-length = 0.12000000000000001
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -868,7 +892,7 @@ tracks/19/keys = {
 
 [sub_resource type="Animation" id="Animation_player_sit_kick"]
 resource_name = "player_sit_kick"
-length = 0.1
+length = 0.12
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -927,12 +951,12 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(23, 0)]
+"values": [Vector2(13, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_player_sit_punch"]
 resource_name = "player_sit_punch"
-length = 0.1
+length = 0.12
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -991,7 +1015,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(23, 0)]
+"values": [Vector2(13, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_player_smile"]
@@ -1046,10 +1070,22 @@ tracks/3/keys = {
 "update": 1,
 "values": [0, 1]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:offset")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_player_stand_kick"]
 resource_name = "player_stand_kick"
-length = 0.1
+length = 0.12
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1108,12 +1144,12 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(23, 0)]
+"values": [Vector2(13, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_player_stand_punch"]
 resource_name = "player_stand_punch"
-length = 0.12000000000000001
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1184,12 +1220,12 @@ tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(23, 0)]
+"values": [Vector2(13, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_7ta67"]
 resource_name = "player_walk"
-length = 0.39999999999999997
+length = 0.4
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1200,7 +1236,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.13333334),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
+"update": 0,
 "values": [0, 1]
 }
 tracks/1/type = "value"

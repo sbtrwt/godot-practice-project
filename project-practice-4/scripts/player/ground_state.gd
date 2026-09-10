@@ -3,17 +3,17 @@ extends PlayerState
 
 func physics_update(delta: float) -> void:
 	if player.is_on_floor() and player.down_pressed and player.punch_started:
-		player.change_state("punch")
+		player.execute_command(player.punch_command)
 	elif player.is_on_floor() and player.down_pressed and player.kick_started:
-		player.change_state("kick")
+		player.execute_command(player.kick_command)
 	elif not player.is_on_floor() and player.kick_started:
-		player.change_state("kick")
+		player.execute_command(player.kick_command)
 	elif player.is_on_floor() and player.punch_started:
-		player.change_state("punch")
+		player.execute_command(player.punch_command)
 	elif player.is_on_floor() and player.kick_started:
-		player.change_state("kick")
-	elif player.is_on_floor() and Input.is_action_just_pressed("ui_up"):
-		player.player_jump()
+		player.execute_command(player.kick_command)
+	elif player.is_on_floor() and player.jump_started:
+		player.execute_command(player.jump_command)
 	elif player.is_on_floor() and player.down_pressed:
 		player.velocity.x = move_toward(player.velocity.x, 0.0, player.speed * delta * player.acceleration)
 		player.change_state("crouching")

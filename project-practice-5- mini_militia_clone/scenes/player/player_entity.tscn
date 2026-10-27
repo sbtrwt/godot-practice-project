@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://entities/player/player_entity.gd" id="1_player"]
+[ext_resource type="Resource" path="res://data/default_player.tres" id="2_definition"]
+[ext_resource type="Script" path="res://entities/components/health_component.gd" id="3_health"]
+[ext_resource type="Script" path="res://entities/components/weapon_component.gd" id="4_weapon"]
+[ext_resource type="Resource" path="res://data/default_pistol.tres" id="5_weapon_data"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(40, 64)
+
+[node name="PlayerEntity" type="CharacterBody2D"]
+script = ExtResource("1_player")
+definition = ExtResource("2_definition")
+
+[node name="Body" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-20, -32, 20, -32, 20, 32, -20, 32)
+color = Color(0.2, 0.65, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_player")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_health")
+
+[node name="WeaponComponent" type="Node" parent="."]
+script = ExtResource("4_weapon")
+definition = ExtResource("5_weapon_data")

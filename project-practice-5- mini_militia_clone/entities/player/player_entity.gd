@@ -15,6 +15,7 @@ var _server_input: Vector2 = Vector2.ZERO
 var _target_position: Vector2
 var _snapshot_elapsed: float = 0.0
 var _input_tick: int = 0
+var _jetpack_active: bool = false
 
 
 func _ready() -> void:
@@ -50,6 +51,7 @@ func _simulate_authority(delta: float) -> void:
 	var direction := _server_input
 	if get_multiplayer_authority() == 1:
 		direction = Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
+		_jetpack_active = Input.is_action_pressed(&"jetpack")
 	_simulate_direction(direction)
 	_snapshot_elapsed += delta
 	if _snapshot_elapsed >= SNAPSHOT_INTERVAL:
@@ -59,23 +61,29 @@ func _simulate_authority(delta: float) -> void:
 
 func _simulate_direction(direction: Vector2) -> void:
 	movement_intent_changed.emit(direction)
-	velocity = direction * float(definition.get("move_speed"))
+	velocity.x = direction.x * float(definition.get("move_speed"))
+	if _jetpack_active:
+		velocity.y = move_toward(velocity.y, -float(definition.get("jetpack_thrust")), 120.0)
+	else:
+		velocity.y = move_toward(velocity.y, float(definition.get("gravity")), 80.0)
 	move_and_slide()
 
 
 func _submit_input(direction: Vector2) -> void:
 	_input_tick += 1
-	submit_input.rpc_id(1, direction, _input_tick)
+	_jetpack_active = Input.is_action_pressed(&"jetpack")
+	submit_input.rpc_id(1, Vector2(direction.x, 0.0), _input_tick, _jetpack_active)
 
 
 @rpc("any_peer", "call_remote", "unreliable")
-func submit_input(direction: Vector2, tick: int) -> void:
+func submit_input(direction: Vector2, tick: int, jetpack_active: bool) -> void:
 	if not multiplayer.is_server():
 		return
 	var sender_id := multiplayer.get_remote_sender_id()
 	if sender_id != get_multiplayer_authority() or tick <= _input_tick:
 		return
 	_server_input = direction.limit_length(1.0)
+	_jetpack_active = jetpack_active
 	_input_tick = tick
 
 

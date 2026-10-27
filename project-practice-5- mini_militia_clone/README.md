@@ -27,6 +27,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Milestone 5 foundation: touch action buttons and Resource-driven weapon tuning.
 - [x] Production hardening foundation: atomic saves and debug network overlay.
 - [x] Playable match presentation: bounded arena and match HUD.
+- [x] Reference movement slice: gravity, horizontal movement, and jetpack thrust.
 - [ ] Milestone 5 completion: Android export, device testing, persistence polish, and network soak testing.
 
 The current player scene is intentionally a vertical slice. The next implementation should add touch controls, richer weapon Resources, projectile visuals, and Android export testing.

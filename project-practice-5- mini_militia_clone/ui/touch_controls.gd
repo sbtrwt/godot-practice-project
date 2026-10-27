@@ -6,6 +6,7 @@ extends Control
 @onready var _up: Button = $Movement/Up
 @onready var _down: Button = $Movement/Down
 @onready var _fire: Button = $Fire
+@onready var _jetpack: Button = $Jetpack
 
 
 func _ready() -> void:
@@ -14,6 +15,7 @@ func _ready() -> void:
 	_bind_button(_up, &"move_up")
 	_bind_button(_down, &"move_down")
 	_bind_button(_fire, &"fire")
+	_bind_button(_jetpack, &"jetpack")
 
 
 func _bind_button(button: Button, action: StringName) -> void:

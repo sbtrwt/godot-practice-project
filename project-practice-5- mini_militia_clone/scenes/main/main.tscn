@@ -174,5 +174,12 @@ offset_right = 1230.0
 offset_bottom = 690.0
 text = "FIRE"
 
+[node name="Jetpack" type="Button" parent="UI/TouchControls"]
+offset_left = 900.0
+offset_top = 560.0
+offset_right = 1050.0
+offset_bottom = 690.0
+text = "JETPACK"
+
 [connection signal="pressed" from="UI/HostButton" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="UI/JoinButton" to="." method="_on_join_pressed"]

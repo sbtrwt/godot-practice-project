@@ -6,4 +6,6 @@
 script = ExtResource("1_player")
 display_name = "Soldier"
 move_speed = 260.0
+gravity = 900.0
+jetpack_thrust = 1500.0
 max_health = 100

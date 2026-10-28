@@ -29,7 +29,7 @@ func _on_host_pressed() -> void:
 	if error != OK:
 		_status_label.text = "Host failed: %s" % error_string(error)
 		return
-	_status_label.text = "Hosting on UDP port %d" % NetworkService.PORT
+	_status_label.text = "Hosting at %s:%d" % [NetworkService.get_local_ipv4(), NetworkService.PORT]
 
 
 func _on_join_pressed() -> void:

@@ -54,6 +54,17 @@ func join_game(ip_address: String) -> Error:
 	return OK
 
 
+## Returns the first private IPv4 address suitable for a LAN client.
+func get_local_ipv4() -> String:
+	for address: String in IP.get_local_addresses():
+		if address.contains(":"):
+			continue
+		if address.begins_with("127.") or address == "0.0.0.0":
+			continue
+		return address
+	return "unavailable"
+
+
 ## Closes the current LAN session.
 func disconnect_session() -> void:
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()

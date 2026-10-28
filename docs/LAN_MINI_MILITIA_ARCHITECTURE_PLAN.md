@@ -500,6 +500,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - The prototype map now has a deterministic code-native terrain presentation layer, so gameplay remains visually usable when external art import is unavailable.
 - The visible island platforms have matching static collision surfaces for gravity, landing, and jetpack traversal.
 - Network failures are recorded through a bounded ErrorService ring buffer, keeping recovery diagnostics separate from gameplay state.
+- Host setup now displays the selected LAN IPv4 address and UDP port for clients on the same hotspot.
 
 Remaining production-hardening work includes Android APK export and device testing, atomic save migrations, network simulation/soak tests, richer HUD/ViewModels, and replacing prototype shortcuts with dedicated gameplay systems.
 

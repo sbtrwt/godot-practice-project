@@ -484,6 +484,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Side-view movement tuning with gravity, horizontal input, and jetpack thrust.
 - Original transparent character sprite sheet integrated through the presentation layer.
 - Character presentation switches sprite regions for idle and jetpack poses without changing gameplay authority.
+- Touch input is centralized in `InputService`; the left joystick drives movement/jetpack, the right joystick drives aim, and fire is a separate touch gesture.
 
 Remaining production-hardening work includes Android APK export and device testing, atomic save migrations, network simulation/soak tests, richer HUD/ViewModels, and replacing prototype shortcuts with dedicated gameplay systems.
 

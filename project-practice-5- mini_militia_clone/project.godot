@@ -3,10 +3,13 @@ config/name="LAN Mini Militia Clone"
 run/main_scene="res://scenes/main/main.tscn"
 
 [autoload]
+
+_McpInputReceiver="*res://.mcp_input_receiver.gd"
 EventBus="*res://autoload/event_bus.gd"
 NetworkService="*res://autoload/network_service.gd"
 SaveService="*res://autoload/save_service.gd"
 MatchService="*res://autoload/match_service.gd"
+InputService="*res://autoload/input_service.gd"
 
 [display]
 window/size/viewport_width=1280

@@ -30,6 +30,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Reference movement slice: gravity, horizontal movement, and jetpack thrust.
 - [x] Original prototype character sprite sheet integrated into the player scene.
 - [x] Character presentation switches between idle and jetpack sprite poses.
+- [x] Reference-style twin-stick controls: left movement/jetpack joystick, right aim joystick, and tap/hold fire.
 - [ ] Milestone 5 completion: Android export, device testing, persistence polish, and network soak testing.
 
 The current player scene is intentionally a vertical slice. The next implementation should add touch controls, richer weapon Resources, projectile visuals, and Android export testing.

@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	if is_multiplayer_authority():
-		var direction := Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
+		var direction := _read_movement_input()
 		_submit_input(direction)
 		_simulate_direction(direction)
 		if Input.is_action_pressed(&"fire"):
@@ -52,8 +52,8 @@ func _physics_process(delta: float) -> void:
 func _simulate_authority(delta: float) -> void:
 	var direction := _server_input
 	if get_multiplayer_authority() == 1:
-		direction = Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
-		_jetpack_active = Input.is_action_pressed(&"jetpack")
+		direction = _read_movement_input()
+		_jetpack_active = InputService.jetpack_active or Input.is_action_pressed(&"jetpack")
 	_simulate_direction(direction)
 	_snapshot_elapsed += delta
 	if _snapshot_elapsed >= SNAPSHOT_INTERVAL:
@@ -85,7 +85,7 @@ func _update_character_sprite() -> void:
 
 func _submit_input(direction: Vector2) -> void:
 	_input_tick += 1
-	_jetpack_active = Input.is_action_pressed(&"jetpack")
+	_jetpack_active = InputService.jetpack_active or Input.is_action_pressed(&"jetpack")
 	submit_input.rpc_id(1, Vector2(direction.x, 0.0), _input_tick, _jetpack_active)
 
 
@@ -119,8 +119,14 @@ func _receive_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: 
 func _submit_fire() -> void:
 	if not bool(_weapon.call("try_fire")):
 		return
-	var aim_direction := global_position.direction_to(get_global_mouse_position())
+	var aim_direction := InputService.aim_direction if InputService.aim_active else global_position.direction_to(get_global_mouse_position())
 	request_fire.rpc_id(1, aim_direction)
+
+
+func _read_movement_input() -> Vector2:
+	if InputService.movement_axis.length_squared() > 0.01:
+		return Vector2(InputService.movement_axis.x, 0.0)
+	return Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
 
 
 @rpc("any_peer", "call_remote", "reliable")

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="160" viewBox="0 0 128 160">
+  <defs><linearGradient id="armor" x1="0" x2="1"><stop stop-color="#3c6d87"/><stop offset="1" stop-color="#1c3348"/></linearGradient></defs>
+  <g stroke="#111923" stroke-width="6" stroke-linejoin="round">
+    <rect x="39" y="18" width="50" height="45" rx="16" fill="#e3a34b"/>
+    <path d="M48 43h42l-7 14H51z" fill="#f2d18a"/>
+    <path d="M38 65h55l16 49-18 18H37l-17-18z" fill="url(#armor)"/>
+    <rect x="12" y="70" width="34" height="14" rx="6" fill="#e3a34b"/>
+    <path d="M89 74l29 7-4 12-33-6z" fill="#d6dbe0"/>
+    <path d="M44 130l-7 23M80 130l8 23" fill="none"/>
+    <path d="M28 153h22M77 153h23" fill="none"/>
+    <path d="M91 49l18-16" fill="none" stroke="#f3aa33"/>
+  </g>
+</svg>

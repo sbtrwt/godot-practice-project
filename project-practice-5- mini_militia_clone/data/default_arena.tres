@@ -5,5 +5,6 @@
 [resource]
 script = ExtResource("1_arena")
 platform_rects = Array[Rect2]([Rect2(40, 490, 390, 150), Rect2(455, 390, 300, 120), Rect2(805, 500, 420, 145), Rect2(180, 245, 280, 95), Rect2(720, 210, 350, 105)])
+spawn_points = Array[Vector2]([Vector2(320, 360), Vector2(520, 300), Vector2(880, 360), Vector2(1080, 420), Vector2(250, 160), Vector2(950, 140)])
 rock_origins = Array[Vector2]([Vector2(150, 550), Vector2(580, 440), Vector2(1010, 555)])
 palm_positions = Array[Vector2]([Vector2(910, 205), Vector2(330, 238)])

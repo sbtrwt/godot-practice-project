@@ -129,6 +129,10 @@ func _test_resource_validation() -> void:
 	var invalid_platforms: Array[Rect2] = [Rect2(-10.0, 0.0, 40.0, 40.0)]
 	invalid_arena.set("platform_rects", invalid_platforms)
 	_assert(not ResourceValidator.validate_arena(invalid_arena).is_empty(), "arena validator rejects out-of-bounds geometry")
+	var invalid_spawns: Array[Vector2] = [Vector2(-20.0, 360.0)]
+	var invalid_spawn_arena: Resource = ArenaDefinitionResource.duplicate(true)
+	invalid_spawn_arena.set("spawn_points", invalid_spawns)
+	_assert(not ResourceValidator.validate_arena(invalid_spawn_arena).is_empty(), "arena validator rejects out-of-bounds spawns")
 
 
 func _test_network_soak() -> void:

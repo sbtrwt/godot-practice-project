@@ -8,6 +8,7 @@ const SNAPSHOT_INTERVAL: float = 0.05
 const CHARACTER_CELL_SIZE: Vector2 = Vector2(416.0, 512.0)
 
 @export var definition: Resource
+@export var spawn_position: Vector2 = Vector2(320.0, 360.0)
 
 @onready var _health: Node = $HealthComponent
 @onready var _hurtbox: Node = $HurtboxComponent
@@ -315,7 +316,7 @@ func _respawn_after_delay() -> void:
 	await get_tree().create_timer(1.0).timeout
 	if not is_inside_tree():
 		return
-	global_position = Vector2(320 + (get_multiplayer_authority() - 1) * 100, 360)
+	global_position = spawn_position
 	_health.call("heal", int(_health.get("max_health")))
 	_respawning = false
 	_set_respawning_visual.rpc(false)

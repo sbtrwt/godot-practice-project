@@ -94,10 +94,19 @@ func _spawn_player(peer_id: int) -> void:
 	if player == null:
 		return
 	player.name = player_name
-	player.position = Vector2(320 + (peer_id - 1) * 100, 360)
+	var spawn_position: Vector2 = _spawn_position_for_peer(peer_id)
+	player.position = spawn_position
+	player.set("spawn_position", spawn_position)
 	_players.add_child(player)
 	player.set_multiplayer_authority(peer_id)
 	EventBus.player_spawned.emit(peer_id)
+
+
+func _spawn_position_for_peer(peer_id: int) -> Vector2:
+	var spawn_points: Array = ARENA_DEFINITION.get("spawn_points")
+	if spawn_points.is_empty():
+		return Vector2(320.0, 360.0)
+	return spawn_points[(peer_id - 1) % spawn_points.size()]
 
 
 func _on_session_state_changed(state: StringName) -> void:

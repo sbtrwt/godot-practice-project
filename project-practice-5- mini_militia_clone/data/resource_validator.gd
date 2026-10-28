@@ -52,4 +52,14 @@ static func validate_arena(resource: Resource) -> Array[String]:
 			errors.append("arena platform dimensions must be positive")
 		elif not Rect2(0.0, 0.0, 1280.0, 720.0).encloses(platform):
 			errors.append("arena platform must fit inside the playable bounds")
+	var spawn_values: Variant = resource.get("spawn_points")
+	var spawn_array: Array = spawn_values if spawn_values is Array else []
+	if spawn_array.is_empty():
+		errors.append("arena requires at least one spawn point")
+	for spawn_value: Variant in spawn_array:
+		if not spawn_value is Vector2:
+			errors.append("arena spawn point must be a Vector2")
+			continue
+		if not Rect2(32.0, 32.0, 1216.0, 656.0).has_point(spawn_value):
+			errors.append("arena spawn point must stay inside the playable bounds")
 	return errors

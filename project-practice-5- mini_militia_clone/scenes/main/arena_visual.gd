@@ -1,6 +1,8 @@
 extends Node2D
 ## Asset-independent arena presentation layer for the prototype map.
 
+@export var definition: Resource
+
 const PLATFORM_COLOR := Color("#625b50")
 const PLATFORM_EDGE := Color("#7fb477")
 const ROCK_COLOR := Color("#aaa69a")
@@ -14,16 +16,24 @@ func _ready() -> void:
 func _draw() -> void:
 	draw_rect(Rect2(0.0, 0.0, 1280.0, 720.0), SKY_COLOR)
 	_draw_hills()
-	_draw_island(Rect2(40.0, 490.0, 390.0, 150.0))
-	_draw_island(Rect2(455.0, 390.0, 300.0, 120.0))
-	_draw_island(Rect2(805.0, 500.0, 420.0, 145.0))
-	_draw_island(Rect2(180.0, 245.0, 280.0, 95.0))
-	_draw_island(Rect2(720.0, 210.0, 350.0, 105.0))
-	_draw_rocks(Vector2(150.0, 550.0), 5)
-	_draw_rocks(Vector2(580.0, 440.0), 4)
-	_draw_rocks(Vector2(1010.0, 555.0), 6)
-	_draw_palm(Vector2(910.0, 205.0))
-	_draw_palm(Vector2(330.0, 238.0))
+	if definition == null:
+		return
+	var platforms: Variant = definition.get("platform_rects")
+	if platforms is Array:
+		for platform_value: Variant in platforms:
+			if platform_value is Rect2:
+				_draw_island(platform_value)
+	var rock_origins: Variant = definition.get("rock_origins")
+	if rock_origins is Array:
+		var rock_array: Array = rock_origins
+		for index: int in rock_array.size():
+			if rock_array[index] is Vector2:
+				_draw_rocks(rock_array[index], 4 + index)
+	var palm_positions: Variant = definition.get("palm_positions")
+	if palm_positions is Array:
+		for palm_position: Variant in palm_positions:
+			if palm_position is Vector2:
+				_draw_palm(palm_position)
 
 
 func _draw_hills() -> void:

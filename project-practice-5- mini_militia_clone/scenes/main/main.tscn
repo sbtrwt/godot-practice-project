@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://debug/debug_overlay.gd" id="3_debug"]
 [ext_resource type="Script" path="res://ui/match_hud.gd" id="4_hud"]
 [ext_resource type="Script" path="res://scenes/main/arena_visual.gd" id="5_arena"]
+[ext_resource type="Resource" path="res://data/default_arena.tres" id="6_arena_data"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(1280, 32)
@@ -38,6 +39,7 @@ mouse_filter = 2
 
 [node name="ArenaVisual" type="Node2D" parent="."]
 script = ExtResource("5_arena")
+definition = ExtResource("6_arena_data")
 
 [node name="Players" type="Node2D" parent="."]
 

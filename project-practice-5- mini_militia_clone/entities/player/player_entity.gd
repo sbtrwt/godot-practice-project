@@ -59,16 +59,15 @@ func _physics_process(delta: float) -> void:
 
 	if multiplayer.is_server():
 		_simulate_authority(delta)
+		if is_multiplayer_authority():
+			_process_local_combat_input()
 		return
 
 	if is_multiplayer_authority():
 		var direction := _read_movement_input()
 		_submit_input(direction)
 		_simulate_direction(direction)
-		if Input.is_action_pressed(&"fire"):
-			_submit_fire()
-		if Input.is_action_just_pressed(&"grenade"):
-			_submit_grenade()
+		_process_local_combat_input()
 	else:
 		global_position = global_position.lerp(_target_position, 0.25)
 
@@ -185,6 +184,17 @@ func _submit_fire() -> void:
 	request_fire.rpc_id(1, aim_direction)
 
 
+func _process_local_combat_input() -> void:
+	if Input.is_action_pressed(&"fire"):
+		var aim_direction: Vector2 = InputService.aim_direction if InputService.aim_active else global_position.direction_to(get_global_mouse_position())
+		if multiplayer.is_server():
+			_fire_authoritative(get_multiplayer_authority(), aim_direction)
+		else:
+			_submit_fire()
+	if Input.is_action_just_pressed(&"grenade"):
+		_submit_grenade()
+
+
 func _submit_grenade() -> void:
 	if _grenade_cooldown > 0.0:
 		return
@@ -256,10 +266,14 @@ func request_fire(aim_direction: Vector2) -> void:
 		sender_id = get_multiplayer_authority()
 	if sender_id != get_multiplayer_authority() or aim_direction.length_squared() < 0.01:
 		return
+	_fire_authoritative(sender_id, aim_direction)
+
+
+func _fire_authoritative(shooter_id: int, aim_direction: Vector2) -> void:
 	if not bool(_weapon.call("try_fire")):
 		return
 	show_shot.rpc(aim_direction.normalized())
-	_resolve_hitscan(sender_id, aim_direction.normalized())
+	_resolve_hitscan(shooter_id, aim_direction.normalized())
 
 
 @rpc("any_peer", "call_local", "unreliable")

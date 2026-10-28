@@ -38,7 +38,7 @@ func _ready() -> void:
 	EventBus.network_error.connect(_on_network_error)
 	MatchService.match_state_changed.connect(_on_match_state_changed)
 	_refresh_lobby_players()
-	_spawn_player(1)
+	_spawn_player(multiplayer.get_unique_id())
 	for peer_id: int in multiplayer.get_peers():
 		_spawn_player(peer_id)
 	_host_button.visible = false

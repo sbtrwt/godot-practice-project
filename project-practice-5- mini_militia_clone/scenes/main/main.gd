@@ -13,12 +13,14 @@ const ARENA_DEFINITION = preload("res://data/default_arena.tres")
 @onready var _lobby_players_label: Label = $UI/LobbyPlayers
 @onready var _network_recovery_button: Button = $UI/NetworkRecoveryButton
 @onready var _start_match_button: Button = $UI/StartMatchButton
+@onready var _arena_walls: StaticBody2D = $ArenaWalls
 
 var _lobby_peer_ids: Array[int] = [1]
 
 
 func _ready() -> void:
 	_validate_configured_resources()
+	_build_arena_collision()
 	NetworkService.session_state_changed.connect(_on_session_state_changed)
 	NetworkService.peer_joined.connect(_on_peer_joined)
 	NetworkService.peer_left.connect(_on_peer_left)
@@ -45,6 +47,21 @@ func _validate_configured_resources() -> void:
 	for errors: Array in validations:
 		for message: String in errors:
 			ErrorService.report(&"resource_validation_failed", message)
+
+
+func _build_arena_collision() -> void:
+	for child: Node in _arena_walls.get_children():
+		if child.name.begins_with("Platform"):
+			child.queue_free()
+	for index: int in ARENA_DEFINITION.platform_rects.size():
+		var platform: Rect2 = ARENA_DEFINITION.platform_rects[index]
+		var shape_node := CollisionShape2D.new()
+		shape_node.name = "PlatformResource_%d" % index
+		var shape := RectangleShape2D.new()
+		shape.size = Vector2(platform.size.x, 24.0)
+		shape_node.shape = shape
+		shape_node.position = Vector2(platform.position.x + platform.size.x * 0.5, platform.position.y + 12.0)
+		_arena_walls.add_child(shape_node)
 
 
 func _on_host_pressed() -> void:

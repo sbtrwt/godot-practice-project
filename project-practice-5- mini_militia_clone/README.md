@@ -55,6 +55,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Lobby persists and restores the last successful host IP through `SaveService`.
 - [x] Match HUD consumes a dedicated `MatchViewModel` presentation adapter.
 - [x] Touch controls show explicit move, jetpack, aim, fire, and grenade affordances.
+- [x] Touch control geometry adapts to the live viewport for non-1280×720 devices.
 - [x] Host-authoritative three-second warmup phase precedes live match scoring.
 - [x] Established clients recover visibly when the host disconnects.
 - [x] Fresh host/join/reset actions clear stale network diagnostics.

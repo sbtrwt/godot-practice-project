@@ -511,6 +511,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Match HUD formatting and commands now pass through a dedicated MatchViewModel boundary rather than binding directly to MatchService.
 - The Android Debug preset explicitly enables Internet permission for ENet UDP LAN sessions.
 - Touch controls include visible gesture guidance for movement, left-stick jetpack, right-stick aim, tap fire, and grenade.
+- Touch control anchors and action regions derive from the live viewport instead of assuming a fixed device resolution.
 - Match start now enters a host-authoritative warmup countdown before enabling live scoring.
 - Established client sessions route host disconnects through the same ErrorService and lobby recovery path as connection failures.
 - New network attempts and explicit reset clear prior diagnostics so the debug surface reports current-session failures.

@@ -180,6 +180,10 @@ func _test_kill_feed() -> void:
 	_assert(is_equal_approx(float(match_service.get("time_remaining")), 3.0), "warmup starts with configured duration")
 	match_service.call("_process", 3.1)
 	_assert(int(match_service.get("state")) == 2, "warmup transitions to playing state")
+	match_service.call("_publish_score", {1: 3})
+	_assert(int((match_service.get("scores") as Dictionary).get(1, 0)) == 3, "score replication applies snapshots")
+	match_service.call("_publish_state", 2, 42.0, "")
+	_assert(is_equal_approx(float(match_service.get("time_remaining")), 42.0), "state replication applies authoritative timer")
 	match_service.call("return_to_lobby")
 
 

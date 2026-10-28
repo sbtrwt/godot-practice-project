@@ -513,6 +513,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - LAN timeout state reset and diagnostics are covered by the dependency-free headless suite.
 - Hitscan damage is routed through a reusable HurtboxComponent signal boundary, keeping weapon resolution decoupled from entity health rules.
 - Match results now expose an authoritative winner/tie summary through the ViewModel-driven HUD.
+- Match lifecycle state, score snapshots, timers, and result summaries replicate from the host to every LAN client.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.
 - Player nameplates are presentation-only and derive identity from multiplayer authority, keeping LAN matches readable without coupling UI to gameplay rules.
 - The lobby uses the versioned SaveService to restore the last host IP and persist it after a join attempt.

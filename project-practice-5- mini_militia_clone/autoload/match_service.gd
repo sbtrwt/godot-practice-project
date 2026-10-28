@@ -20,9 +20,11 @@ var results_summary: String = ""
 
 
 func _process(delta: float) -> void:
-	if not _is_server() or (state != MatchState.PLAYING and state != MatchState.WARMUP):
+	if state != MatchState.PLAYING and state != MatchState.WARMUP:
 		return
 	time_remaining = maxf(time_remaining - delta, 0.0)
+	if not _is_server():
+		return
 	if state == MatchState.WARMUP and time_remaining <= 0.0:
 		time_remaining = MATCH_DURATION
 		_set_state(MatchState.PLAYING)
@@ -38,6 +40,7 @@ func start_match() -> void:
 	scores.clear()
 	kill_feed.clear()
 	kill_feed_changed.emit(kill_feed.duplicate())
+	score_changed.emit(scores.duplicate())
 	results_summary = ""
 	results_changed.emit(results_summary)
 	time_remaining = WARMUP_DURATION
@@ -52,6 +55,7 @@ func return_to_lobby() -> void:
 	scores.clear()
 	kill_feed.clear()
 	kill_feed_changed.emit(kill_feed.duplicate())
+	score_changed.emit(scores.duplicate())
 	results_summary = ""
 	results_changed.emit(results_summary)
 	_set_state(MatchState.LOBBY)
@@ -64,6 +68,7 @@ func report_kill(killer_id: int, victim_id: int) -> void:
 	scores[killer_id] = int(scores.get(killer_id, 0)) + 1
 	score_changed.emit(scores.duplicate())
 	EventBus.score_changed.emit(killer_id, scores[killer_id])
+	_publish_score.rpc(scores.duplicate())
 	_publish_kill.rpc(killer_id, victim_id, scores[killer_id])
 	if scores[killer_id] >= SCORE_LIMIT:
 		_end_match()
@@ -76,6 +81,12 @@ func _publish_kill(killer_id: int, victim_id: int, killer_score: int) -> void:
 	if kill_feed.size() > 4:
 		kill_feed.pop_back()
 	kill_feed_changed.emit(kill_feed.duplicate())
+
+
+@rpc("authority", "reliable")
+func _publish_score(replicated_scores: Dictionary) -> void:
+	scores = replicated_scores.duplicate()
+	score_changed.emit(scores.duplicate())
 
 
 func _end_match() -> void:
@@ -106,6 +117,18 @@ func _set_state(new_state: MatchState) -> void:
 	var state_name: String = str(MatchState.keys()[new_state]).to_snake_case()
 	match_state_changed.emit(StringName(state_name))
 	EventBus.match_state_changed.emit(StringName(state_name))
+	if _is_server():
+		_publish_state.rpc(int(new_state), time_remaining, results_summary)
+
+
+@rpc("authority", "reliable")
+func _publish_state(replicated_state: int, replicated_time: float, replicated_results: String) -> void:
+	state = clampi(replicated_state, MatchState.LOBBY, MatchState.RESULTS) as MatchState
+	time_remaining = maxf(replicated_time, 0.0)
+	results_summary = replicated_results
+	match_state_changed.emit(StringName(str(MatchState.keys()[state]).to_snake_case()))
+	EventBus.match_state_changed.emit(StringName(str(MatchState.keys()[state]).to_snake_case()))
+	results_changed.emit(results_summary)
 
 
 func _is_server() -> bool:

@@ -39,6 +39,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] LAN timeout recovery is covered by the headless core smoke tests.
 - [x] Combat damage crosses a reusable HurtboxComponent boundary instead of calling player rules directly.
 - [x] Results HUD identifies authoritative winners and ties.
+- [x] Host-authoritative match state, scores, timers, and results are replicated to LAN clients.
 - [x] Authoritative grenade touch zone with cooldown and area damage prototype.
 - [x] Per-player health bars driven by the HealthComponent.
 - [x] Headless-safe scene fallback when external art import is unavailable.

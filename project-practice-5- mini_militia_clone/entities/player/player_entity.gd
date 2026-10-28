@@ -139,11 +139,11 @@ func submit_input(direction: Vector2, tick: int, jetpack_active: bool) -> void:
 
 
 func _send_snapshot() -> void:
-	_receive_snapshot.rpc(global_position, velocity, _input_tick)
+	_receive_snapshot.rpc(global_position, velocity, _input_tick, _respawning)
 
 
 @rpc("any_peer", "call_remote", "unreliable")
-func _receive_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: int) -> void:
+func _receive_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: int, respawning: bool) -> void:
 	if multiplayer.is_server():
 		return
 	if tick < _input_tick:
@@ -152,9 +152,9 @@ func _receive_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: 
 	if latency > 0.0:
 		while _snapshot_queue.size() >= MAX_SNAPSHOT_QUEUE:
 			_snapshot_queue.pop_front()
-		_snapshot_queue.append({"position": snapshot_position, "velocity": new_velocity, "tick": tick, "deliver_at": Time.get_ticks_msec() + latency * 1000.0})
+		_snapshot_queue.append({"position": snapshot_position, "velocity": new_velocity, "tick": tick, "respawning": respawning, "deliver_at": Time.get_ticks_msec() + latency * 1000.0})
 		return
-	_apply_snapshot(snapshot_position, new_velocity, tick)
+	_apply_snapshot(snapshot_position, new_velocity, tick, respawning)
 
 
 func _deliver_queued_snapshots() -> void:
@@ -163,15 +163,16 @@ func _deliver_queued_snapshots() -> void:
 	var now: int = Time.get_ticks_msec()
 	while not _snapshot_queue.is_empty() and float(_snapshot_queue[0]["deliver_at"]) <= now:
 		var snapshot: Dictionary = _snapshot_queue.pop_front()
-		_apply_snapshot(snapshot["position"], snapshot["velocity"], int(snapshot["tick"]))
+		_apply_snapshot(snapshot["position"], snapshot["velocity"], int(snapshot["tick"]), bool(snapshot["respawning"]))
 
 
-func _apply_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: int) -> void:
+func _apply_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: int, respawning: bool) -> void:
 	if tick < _input_tick:
 		return
 	_input_tick = tick
 	_target_position = snapshot_position
 	velocity = new_velocity
+	_apply_respawn_state(respawning)
 	if is_multiplayer_authority():
 		global_position = global_position.lerp(snapshot_position, 0.5)
 
@@ -372,6 +373,11 @@ func _respawn_after_delay() -> void:
 func _set_respawning_visual(is_respawning: bool) -> void:
 	if multiplayer.is_server() and multiplayer.get_remote_sender_id() != 0:
 		return
+	_apply_respawn_state(is_respawning)
+
+
+func _apply_respawn_state(is_respawning: bool) -> void:
+	_respawning = is_respawning
 	visible = not is_respawning
 	_collision_shape.disabled = is_respawning
 

@@ -142,9 +142,9 @@ func _receive_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: 
 func _deliver_queued_snapshots() -> void:
 	if _snapshot_queue.is_empty():
 		return
-	var now := Time.get_ticks_msec()
+	var now: int = Time.get_ticks_msec()
 	while not _snapshot_queue.is_empty() and float(_snapshot_queue[0]["deliver_at"]) <= now:
-		var snapshot := _snapshot_queue.pop_front()
+		var snapshot: Dictionary = _snapshot_queue.pop_front()
 		_apply_snapshot(snapshot["position"], snapshot["velocity"], int(snapshot["tick"]))
 
 

@@ -58,6 +58,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] HUD score entries are deterministically ranked by score and peer ID.
 - [x] Match duration, warmup, and score limit are Resource-driven and validated.
 - [x] Host and join retries tear down stale transports before creating a new ENet peer.
+- [x] LAN host-address save failures are surfaced through centralized diagnostics.
 - [x] Touch controls are hidden in lobby/results and shown only during match play.
 - [x] Authoritative grenade touch zone with cooldown and area damage prototype.
 - [x] Per-player health bars driven by the HealthComponent.

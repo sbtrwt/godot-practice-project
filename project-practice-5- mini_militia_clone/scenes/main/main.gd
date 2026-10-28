@@ -177,7 +177,11 @@ func _on_peer_left(peer_id: int) -> void:
 
 func _on_local_session_ready(peer_id: int) -> void:
 	if peer_id != 1:
-		SaveService.save_game({"last_host_ip": _ip_input.text.strip_edges()})
+		var save_error: Error = SaveService.save_game({"last_host_ip": _ip_input.text.strip_edges()})
+		if save_error != OK:
+			var message := "Could not persist LAN host address: %s" % error_string(save_error)
+			ErrorService.report(&"save_failed", message)
+			EventBus.network_error.emit(&"save_failed", message)
 	if not _lobby_peer_ids.has(peer_id):
 		_lobby_peer_ids.append(peer_id)
 	_refresh_lobby_players()

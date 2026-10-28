@@ -30,3 +30,10 @@ func heal(amount: int) -> void:
 		return
 	current_health = mini(current_health + amount, max_health)
 	health_changed.emit(current_health, max_health)
+
+
+## Applies a host-provided snapshot without granting local authority over damage.
+func apply_replicated_health(current: int, maximum: int) -> void:
+	max_health = maxi(maximum, 1)
+	current_health = clampi(current, 0, max_health)
+	health_changed.emit(current_health, max_health)

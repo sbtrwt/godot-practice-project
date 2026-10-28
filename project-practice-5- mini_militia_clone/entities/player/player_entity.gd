@@ -330,6 +330,13 @@ func _set_respawning_visual(is_respawning: bool) -> void:
 func _on_health_changed(_current: int, _maximum: int) -> void:
 	_health_bar.value = _current
 	EventBus.score_changed.emit(get_multiplayer_authority(), 0)
+	if multiplayer.is_server():
+		_publish_health.rpc(_current, _maximum)
+
+
+@rpc("authority", "call_remote", "reliable")
+func _publish_health(current: int, maximum: int) -> void:
+	_health.call("apply_replicated_health", current, maximum)
 
 
 func _on_health_died() -> void:

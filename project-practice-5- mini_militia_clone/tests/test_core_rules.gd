@@ -47,6 +47,9 @@ func _test_health_component() -> void:
 	_assert(int(health.get("current_health")) == 20, "heal restores health")
 	health.call("heal", 1000)
 	_assert(int(health.get("current_health")) == 100, "heal clamps at max")
+	health.call("apply_replicated_health", 25, 80)
+	_assert(int(health.get("current_health")) == 25, "replicated health applies current value")
+	_assert(int(health.get("max_health")) == 80, "replicated health applies maximum")
 	health.queue_free()
 
 

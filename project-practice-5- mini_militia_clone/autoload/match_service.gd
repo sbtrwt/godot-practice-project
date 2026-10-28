@@ -7,6 +7,7 @@ signal score_changed(scores: Dictionary)
 enum MatchState { LOBBY, WARMUP, PLAYING, RESULTS }
 
 const MATCH_DURATION: float = 120.0
+const WARMUP_DURATION: float = 3.0
 const SCORE_LIMIT: int = 10
 
 var state: MatchState = MatchState.LOBBY
@@ -15,9 +16,13 @@ var scores: Dictionary = {}
 
 
 func _process(delta: float) -> void:
-	if not multiplayer.is_server() or state != MatchState.PLAYING:
+	if not multiplayer.is_server() or (state != MatchState.PLAYING and state != MatchState.WARMUP):
 		return
 	time_remaining = maxf(time_remaining - delta, 0.0)
+	if state == MatchState.WARMUP and time_remaining <= 0.0:
+		time_remaining = MATCH_DURATION
+		_set_state(MatchState.PLAYING)
+		return
 	if time_remaining <= 0.0:
 		_end_match()
 
@@ -27,8 +32,8 @@ func start_match() -> void:
 	if not multiplayer.is_server():
 		return
 	scores.clear()
-	time_remaining = MATCH_DURATION
-	_set_state(MatchState.PLAYING)
+	time_remaining = WARMUP_DURATION
+	_set_state(MatchState.WARMUP)
 
 
 ## Returns the session to the lobby for another round.

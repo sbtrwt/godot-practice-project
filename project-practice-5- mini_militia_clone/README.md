@@ -53,6 +53,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Lobby persists and restores the last successful host IP through `SaveService`.
 - [x] Match HUD consumes a dedicated `MatchViewModel` presentation adapter.
 - [x] Touch controls show explicit move, jetpack, aim, fire, and grenade affordances.
+- [x] Host-authoritative three-second warmup phase precedes live match scoring.
 - [ ] Milestone 5 completion: successful Android export/device testing, profiling/soak execution, resource validation, and final gameplay-system replacement.
 
 The current player scene remains a prototype vertical slice. Remaining work is release validation and replacing prototype shortcuts with dedicated gameplay systems.

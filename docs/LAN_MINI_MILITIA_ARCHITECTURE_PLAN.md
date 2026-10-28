@@ -509,6 +509,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Match HUD formatting and commands now pass through a dedicated MatchViewModel boundary rather than binding directly to MatchService.
 - The Android Debug preset explicitly enables Internet permission for ENet UDP LAN sessions.
 - Touch controls include visible gesture guidance for movement, left-stick jetpack, right-stick aim, tap fire, and grenade.
+- Match start now enters a host-authoritative warmup countdown before enabling live scoring.
 
 Remaining release-gate work includes successful Android APK export and physical device/hotspot testing, profiling/soak execution, richer HUD/ViewModels, resource validation, and replacing remaining prototype shortcuts with dedicated gameplay systems.
 

@@ -28,6 +28,8 @@ var _flash_remaining: float = 0.0
 var _grenade_cooldown: float = 0.0
 var _grenade_effect_remaining: float = 0.0
 var _grenade_effect_origin: Vector2 = Vector2.ZERO
+var _grenade_fuse_remaining: float = 0.0
+var _grenade_fuse_origin: Vector2 = Vector2.ZERO
 var _snapshot_queue: Array[Dictionary] = []
 var _respawning: bool = false
 var _hit_effect_remaining: float = 0.0
@@ -74,6 +76,7 @@ func _process(delta: float) -> void:
 	_flash_remaining = maxf(_flash_remaining - delta, 0.0)
 	_grenade_cooldown = maxf(_grenade_cooldown - delta, 0.0)
 	_grenade_effect_remaining = maxf(_grenade_effect_remaining - delta, 0.0)
+	_grenade_fuse_remaining = maxf(_grenade_fuse_remaining - delta, 0.0)
 	_hit_effect_remaining = maxf(_hit_effect_remaining - delta, 0.0)
 	_deliver_queued_snapshots()
 	if is_multiplayer_authority():
@@ -200,6 +203,7 @@ func request_grenade(origin: Vector2) -> void:
 
 
 func _resolve_grenade(origin: Vector2, attacker_id: int) -> void:
+	show_grenade_fuse.rpc(origin)
 	await get_tree().create_timer(GRENADE_FUSE_SECONDS).timeout
 	if not is_inside_tree() or not multiplayer.is_server():
 		return
@@ -214,6 +218,15 @@ func _resolve_grenade(origin: Vector2, attacker_id: int) -> void:
 			var hurtbox: Node = candidate.get_node_or_null("HurtboxComponent")
 			if hurtbox != null and hurtbox.has_method(&"receive_hit"):
 				hurtbox.call("receive_hit", int(_weapon.get("grenade_damage")), attacker_id)
+
+
+@rpc("any_peer", "call_local", "unreliable")
+func show_grenade_fuse(origin: Vector2) -> void:
+	if multiplayer.is_server() and multiplayer.get_remote_sender_id() != 0:
+		return
+	_grenade_fuse_origin = to_local(origin)
+	_grenade_fuse_remaining = GRENADE_FUSE_SECONDS
+	queue_redraw()
 
 
 @rpc("any_peer", "call_local", "unreliable")
@@ -271,6 +284,10 @@ func _draw() -> void:
 		draw_circle(_grenade_effect_origin, radius, Color(1.0, 0.42, 0.12, alpha * 0.18))
 		draw_arc(_grenade_effect_origin, radius, 0.0, TAU, 32, Color(1.0, 0.72, 0.25, alpha * 0.9), 5.0)
 		draw_circle(_grenade_effect_origin, 10.0 + progress * 8.0, Color(1.0, 0.92, 0.5, alpha))
+	if _grenade_fuse_remaining > 0.0:
+		var fuse_progress := 1.0 - (_grenade_fuse_remaining / GRENADE_FUSE_SECONDS)
+		draw_circle(_grenade_fuse_origin, 12.0, Color(0.15, 0.08, 0.04, 0.9))
+		draw_arc(_grenade_fuse_origin, 18.0, -PI * 0.5, -PI * 0.5 + TAU * fuse_progress, 20, Color(1.0, 0.8, 0.25, 0.95), 3.0)
 	if _hit_effect_remaining > 0.0:
 		var hit_alpha := _hit_effect_remaining / 0.16
 		draw_line(_hit_effect_position + Vector2(-10.0, -10.0), _hit_effect_position + Vector2(10.0, 10.0), Color(1.0, 0.95, 0.55, hit_alpha), 3.0)

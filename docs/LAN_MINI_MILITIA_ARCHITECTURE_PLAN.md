@@ -523,6 +523,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Late-joining LAN peers receive a current authoritative match snapshot before presenting gameplay state.
 - Grenade damage, radius, and cooldown use the validated `WeaponDefinition` Resource instead of entity magic numbers.
 - Grenade requests now use a host-authoritative fuse before area damage and impact presentation resolve.
+- Grenade fuse progress is broadcast as presentation-only feedback before the authoritative blast.
 - Touch controls are state-aware and do not obscure lobby or results presentation.
 - A checked-in PowerShell validation harness parser-checks all project scripts before running core smoke tests.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.

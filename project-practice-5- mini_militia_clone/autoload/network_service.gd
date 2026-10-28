@@ -91,7 +91,7 @@ func get_local_ipv4() -> String:
 
 
 func _is_private_ipv4(address: String) -> bool:
-	var octets: Array[String] = address.split(".")
+	var octets: PackedStringArray = address.split(".")
 	if not _is_valid_ipv4(address):
 		return false
 	var first := int(octets[0])
@@ -102,7 +102,7 @@ func _is_private_ipv4(address: String) -> bool:
 
 
 func _is_valid_ipv4(address: String) -> bool:
-	var octets: Array[String] = address.split(".")
+	var octets: PackedStringArray = address.split(".")
 	if octets.size() != 4:
 		return false
 	for octet: String in octets:

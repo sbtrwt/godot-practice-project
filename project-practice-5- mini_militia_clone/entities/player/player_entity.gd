@@ -20,6 +20,7 @@ var _input_tick: int = 0
 var _jetpack_active: bool = false
 var _visual_aim: Vector2 = Vector2.RIGHT
 var _flash_remaining: float = 0.0
+var _grenade_cooldown: float = 0.0
 
 
 func _ready() -> void:
@@ -47,12 +48,15 @@ func _physics_process(delta: float) -> void:
 		_simulate_direction(direction)
 		if Input.is_action_pressed(&"fire"):
 			_submit_fire()
+		if Input.is_action_just_pressed(&"grenade"):
+			_submit_grenade()
 	else:
 		global_position = global_position.lerp(_target_position, 0.25)
 
 
 func _process(delta: float) -> void:
 	_flash_remaining = maxf(_flash_remaining - delta, 0.0)
+	_grenade_cooldown = maxf(_grenade_cooldown - delta, 0.0)
 	if is_multiplayer_authority():
 		_visual_aim = InputService.aim_direction if InputService.aim_active else global_position.direction_to(get_global_mouse_position())
 	queue_redraw()
@@ -131,6 +135,37 @@ func _submit_fire() -> void:
 	var aim_direction := InputService.aim_direction if InputService.aim_active else global_position.direction_to(get_global_mouse_position())
 	_visual_aim = aim_direction.normalized()
 	request_fire.rpc_id(1, aim_direction)
+
+
+func _submit_grenade() -> void:
+	if _grenade_cooldown > 0.0:
+		return
+	_grenade_cooldown = 1.0
+	request_grenade.rpc_id(1, global_position)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func request_grenade(origin: Vector2) -> void:
+	if not multiplayer.is_server():
+		return
+	var sender_id := multiplayer.get_remote_sender_id()
+	if sender_id == 0:
+		sender_id = get_multiplayer_authority()
+	if sender_id != get_multiplayer_authority() or _grenade_cooldown > 0.0:
+		return
+	_grenade_cooldown = 1.0
+	_resolve_grenade(origin, sender_id)
+
+
+func _resolve_grenade(origin: Vector2, attacker_id: int) -> void:
+	for candidate_node: Node in get_tree().get_nodes_in_group("players"):
+		if candidate_node == self or not candidate_node is Node2D:
+			continue
+		var candidate: Node2D = candidate_node as Node2D
+		if candidate.get_multiplayer_authority() == attacker_id:
+			continue
+		if candidate.global_position.distance_to(origin) <= 180.0:
+			candidate.call("apply_authoritative_damage", 50, attacker_id)
 
 
 func _read_movement_input() -> Vector2:

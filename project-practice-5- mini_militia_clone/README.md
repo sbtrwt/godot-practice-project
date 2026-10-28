@@ -32,6 +32,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Character presentation switches between idle and jetpack sprite poses.
 - [x] Reference-style twin-stick controls: left movement/jetpack joystick, right aim joystick, and tap/hold fire.
 - [x] Aim direction and muzzle-flash feedback for authoritative shots.
+- [x] Authoritative grenade touch zone with cooldown and area damage prototype.
 - [ ] Milestone 5 completion: Android export, device testing, persistence polish, and network soak testing.
 
 The current player scene is intentionally a vertical slice. The next implementation should add touch controls, richer weapon Resources, projectile visuals, and Android export testing.

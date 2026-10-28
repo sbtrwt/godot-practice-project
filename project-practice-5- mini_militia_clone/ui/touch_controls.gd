@@ -10,6 +10,7 @@ var _right_pointer: int = -1
 var _left_vector: Vector2 = Vector2.ZERO
 var _right_vector: Vector2 = Vector2.ZERO
 var _fire_pointer: int = -1
+var _grenade_pointer: int = -1
 
 
 func _ready() -> void:
@@ -35,6 +36,9 @@ func _handle_touch(touch: InputEventScreenTouch) -> void:
 		elif point.x > 980.0 and point.y > 500.0:
 			_fire_pointer = touch.index
 			Input.action_press(&"fire")
+		elif point.x > 360.0 and point.x < 560.0 and point.y > 520.0:
+			_grenade_pointer = touch.index
+			Input.action_press(&"grenade")
 	else:
 		if touch.index == _left_pointer:
 			_left_pointer = -1
@@ -47,6 +51,9 @@ func _handle_touch(touch: InputEventScreenTouch) -> void:
 		elif touch.index == _fire_pointer:
 			_fire_pointer = -1
 			Input.action_release(&"fire")
+		elif touch.index == _grenade_pointer:
+			_grenade_pointer = -1
+			Input.action_release(&"grenade")
 		queue_redraw()
 
 
@@ -91,3 +98,5 @@ func _draw_stick(center: Vector2, value: Vector2, color: Color) -> void:
 	draw_arc(center, STICK_RADIUS, 0.0, TAU, 48, Color(1.0, 1.0, 1.0, 0.8), 5.0)
 	draw_circle(center + value * 55.0, 48.0, color)
 	draw_arc(center + value * 55.0, 48.0, 0.0, TAU, 32, Color(1.0, 1.0, 1.0, 0.75), 4.0)
+	draw_circle(Vector2(460.0, 610.0), 44.0, Color(0.25, 0.25, 0.25, 0.48))
+	draw_arc(Vector2(460.0, 610.0), 44.0, 0.0, TAU, 32, Color(1.0, 1.0, 1.0, 0.8), 4.0)

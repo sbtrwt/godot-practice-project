@@ -23,6 +23,7 @@ move_up={"deadzone": 0.5, "events": [Object(InputEventKey,"physical_keycode":87)
 move_down={"deadzone": 0.5, "events": [Object(InputEventKey,"physical_keycode":83)]}
 fire={"deadzone": 0.5, "events": [Object(InputEventMouseButton,"button_index":1)]}
 jetpack={"deadzone": 0.5, "events": [Object(InputEventKey,"physical_keycode":32)]}
+grenade={"deadzone": 0.5, "events": [Object(InputEventKey,"physical_keycode":71)]}
 
 [rendering]
 renderer/rendering_method="gl_compatibility"

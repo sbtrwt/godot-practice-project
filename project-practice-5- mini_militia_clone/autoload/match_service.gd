@@ -61,6 +61,15 @@ func return_to_lobby() -> void:
 	_set_state(MatchState.LOBBY)
 
 
+## Sends the current authoritative match snapshot to a newly connected peer.
+func sync_peer(peer_id: int) -> void:
+	if not _is_server() or peer_id <= 0:
+		return
+	_publish_state.rpc_id(peer_id, int(state), time_remaining, results_summary)
+	_publish_score.rpc_id(peer_id, scores.duplicate())
+	_publish_feed.rpc_id(peer_id, kill_feed.duplicate())
+
+
 ## Records a validated kill and ends the match at the score limit.
 func report_kill(killer_id: int, victim_id: int) -> void:
 	if not _is_server() or state != MatchState.PLAYING:
@@ -87,6 +96,12 @@ func _publish_kill(killer_id: int, victim_id: int, killer_score: int) -> void:
 func _publish_score(replicated_scores: Dictionary) -> void:
 	scores = replicated_scores.duplicate()
 	score_changed.emit(scores.duplicate())
+
+
+@rpc("authority", "reliable")
+func _publish_feed(replicated_entries: Array[String]) -> void:
+	kill_feed = replicated_entries.duplicate()
+	kill_feed_changed.emit(kill_feed.duplicate())
 
 
 func _end_match() -> void:

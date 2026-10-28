@@ -147,6 +147,7 @@ func _on_peer_joined(peer_id: int) -> void:
 		_lobby_peer_ids.append(peer_id)
 	_refresh_lobby_players()
 	_spawn_player(peer_id)
+	MatchService.sync_peer(peer_id)
 
 
 func _on_peer_left(peer_id: int) -> void:

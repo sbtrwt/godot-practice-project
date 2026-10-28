@@ -498,6 +498,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Connection failures now reset the transport and expose a visible lobby recovery action instead of leaving the user in a stale connecting state.
 - Debug builds include deterministic packet-loss and snapshot-latency hooks for repeatable network soak tests; production defaults remain disabled.
 - The prototype map now has a deterministic code-native terrain presentation layer, so gameplay remains visually usable when external art import is unavailable.
+- The visible island platforms have matching static collision surfaces for gravity, landing, and jetpack traversal.
 
 Remaining production-hardening work includes Android APK export and device testing, atomic save migrations, network simulation/soak tests, richer HUD/ViewModels, and replacing prototype shortcuts with dedicated gameplay systems.
 

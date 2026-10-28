@@ -43,6 +43,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Visible network recovery action after connection failure or transport reset.
 - [x] Deterministic debug simulation hooks for packet loss and snapshot latency.
 - [x] Asset-independent island arena presentation with terrain, rocks, hills, and palms.
+- [x] Collision surfaces aligned with the five visible island platforms.
 - [ ] Milestone 5 completion: Android export, device testing, persistence polish, and network soak testing.
 
 The current player scene is intentionally a vertical slice. The next implementation should add touch controls, richer weapon Resources, projectile visuals, and Android export testing.

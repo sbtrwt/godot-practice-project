@@ -503,6 +503,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Host setup now displays the selected LAN IPv4 address and UDP port for clients on the same hotspot.
 - Arena decoration and platform layout are now data-driven through an `ArenaDefinition` Resource, enabling map variants without renderer edits.
 - Player, weapon, and arena Resources are validated at startup and in the headless test suite before gameplay uses them.
+- The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.
 
 Remaining release-gate work includes successful Android APK export and physical device/hotspot testing, profiling/soak execution, richer HUD/ViewModels, resource validation, and replacing remaining prototype shortcuts with dedicated gameplay systems.
 

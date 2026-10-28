@@ -19,6 +19,7 @@ func _initialize() -> void:
 	_test_network_simulation()
 	_test_error_service()
 	_test_resource_validation()
+	_test_network_soak()
 	if _failures == 0:
 		print("CORE_RULE_TESTS_PASS")
 		quit(0)
@@ -102,6 +103,18 @@ func _test_resource_validation() -> void:
 	_assert(ResourceValidator.validate_player(PlayerDefinitionResource).is_empty(), "default player resource validates")
 	_assert(ResourceValidator.validate_weapon(WeaponDefinitionResource).is_empty(), "default weapon resource validates")
 	_assert(ResourceValidator.validate_arena(ArenaDefinitionResource).is_empty(), "default arena resource validates")
+
+
+func _test_network_soak() -> void:
+	var network: Node = root.get_node("NetworkService")
+	network.call("configure_simulation", true, 180, 25)
+	var dropped: int = 0
+	for _index: int in 1000:
+		if bool(network.call("should_drop_packet")):
+			dropped += 1
+	_assert(dropped >= 240 and dropped <= 260, "network soak stays within configured packet-loss envelope")
+	_assert(is_equal_approx(float(network.call("simulated_latency_seconds")), 0.18), "network soak preserves configured latency")
+	network.call("configure_simulation", false, 0, 0)
 
 
 func _assert(condition: bool, description: String) -> void:

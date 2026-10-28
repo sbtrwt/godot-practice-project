@@ -5,6 +5,7 @@ extends CharacterBody2D
 signal movement_intent_changed(direction: Vector2)
 
 const SNAPSHOT_INTERVAL: float = 0.05
+const MAX_SNAPSHOT_QUEUE: int = 32
 const CHARACTER_CELL_SIZE: Vector2 = Vector2(416.0, 512.0)
 const GRENADE_FUSE_SECONDS: float = 0.35
 
@@ -150,6 +151,8 @@ func _receive_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: 
 		return
 	var latency := NetworkService.simulated_latency_seconds()
 	if latency > 0.0:
+		while _snapshot_queue.size() >= MAX_SNAPSHOT_QUEUE:
+			_snapshot_queue.pop_front()
 		_snapshot_queue.append({"position": snapshot_position, "velocity": new_velocity, "tick": tick, "deliver_at": Time.get_ticks_msec() + latency * 1000.0})
 		return
 	_apply_snapshot(snapshot_position, new_velocity, tick)

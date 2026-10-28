@@ -138,6 +138,14 @@ offset_right = 720.0
 offset_bottom = 180.0
 text = "Start Match"
 
+[node name="NetworkRecoveryButton" type="Button" parent="UI"]
+offset_left = 32.0
+offset_top = 194.0
+offset_right = 220.0
+offset_bottom = 228.0
+text = "Reset Network"
+visible = false
+
 [node name="LobbyPlayers" type="Label" parent="UI"]
 offset_left = 760.0
 offset_top = 136.0
@@ -160,3 +168,4 @@ script = ExtResource("2_touch")
 [connection signal="pressed" from="UI/HostButton" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="UI/JoinButton" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="UI/StartMatchButton" to="." method="_on_start_match_pressed"]
+[connection signal="pressed" from="UI/NetworkRecoveryButton" to="." method="_on_network_recovery_pressed"]

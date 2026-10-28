@@ -495,6 +495,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Core health and weapon cooldown invariants have a dependency-free headless smoke-test entry point.
 - Save payloads are versioned at schema 2, with a tested v1-to-v2 migration for profile and control defaults.
 - A checked-in Android Debug export preset makes APK packaging reproducible; physical device and hotspot validation remains an explicit release gate.
+- Connection failures now reset the transport and expose a visible lobby recovery action instead of leaving the user in a stale connecting state.
 
 Remaining production-hardening work includes Android APK export and device testing, atomic save migrations, network simulation/soak tests, richer HUD/ViewModels, and replacing prototype shortcuts with dedicated gameplay systems.
 

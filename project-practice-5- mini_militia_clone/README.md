@@ -40,6 +40,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Match results state and host-controlled return to lobby.
 - [x] Headless core-rule smoke tests for health and weapon cooldown behavior.
 - [x] Versioned save schema with v1-to-v2 migration defaults.
+- [x] Visible network recovery action after connection failure or transport reset.
 - [ ] Milestone 5 completion: Android export, device testing, persistence polish, and network soak testing.
 
 The current player scene is intentionally a vertical slice. The next implementation should add touch controls, richer weapon Resources, projectile visuals, and Android export testing.

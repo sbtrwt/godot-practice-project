@@ -7,6 +7,7 @@ const PLAYER_SCENE: PackedScene = preload("res://scenes/player/player_entity.tsc
 @onready var _status_label: Label = $UI/StatusLabel
 @onready var _ip_input: LineEdit = $UI/IPInput
 @onready var _lobby_players_label: Label = $UI/LobbyPlayers
+@onready var _network_recovery_button: Button = $UI/NetworkRecoveryButton
 
 var _lobby_peer_ids: Array[int] = [1]
 
@@ -16,9 +17,11 @@ func _ready() -> void:
 	NetworkService.peer_joined.connect(_on_peer_joined)
 	NetworkService.peer_left.connect(_on_peer_left)
 	NetworkService.local_session_ready.connect(_on_local_session_ready)
+	EventBus.network_error.connect(_on_network_error)
 	_refresh_lobby_players()
 	_spawn_player(1)
 	_status_label.text = "Offline — Host or join a LAN session"
+	_network_recovery_button.visible = false
 
 
 func _on_host_pressed() -> void:
@@ -35,6 +38,18 @@ func _on_join_pressed() -> void:
 		_status_label.text = "Join failed: %s" % error_string(error)
 		return
 	_status_label.text = "Connecting to %s" % _ip_input.text
+	_network_recovery_button.visible = true
+
+
+func _on_network_recovery_pressed() -> void:
+	NetworkService.disconnect_session()
+	_status_label.text = "Network reset — host or join again"
+	_network_recovery_button.visible = false
+
+
+func _on_network_error(code: StringName, message: String) -> void:
+	_status_label.text = "%s: %s" % [str(code), message]
+	_network_recovery_button.visible = true
 
 
 func _on_start_match_pressed() -> void:

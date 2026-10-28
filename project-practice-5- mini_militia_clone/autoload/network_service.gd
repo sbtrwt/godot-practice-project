@@ -77,4 +77,4 @@ func _on_connected_to_server() -> void:
 
 func _on_connection_failed() -> void:
 	EventBus.network_error.emit(&"network_connection_failed", "The host rejected the connection.")
-	_update_state(SessionState.OFFLINE)
+	disconnect_session()

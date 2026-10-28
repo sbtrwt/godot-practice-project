@@ -132,7 +132,8 @@ func _is_valid_ipv4(address: String) -> bool:
 ## Closes the current LAN session.
 func disconnect_session() -> void:
 	_connection_elapsed = 0.0
-	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	if multiplayer != null:
+		multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	_update_state(SessionState.OFFLINE)
 	_discovery_elapsed = 0.0
 

@@ -74,7 +74,8 @@ func remove_peer(peer_id: int) -> void:
 		return
 	scores.erase(peer_id)
 	score_changed.emit(scores.duplicate())
-	_publish_score.rpc(scores.duplicate())
+	if _can_replicate():
+		_publish_score.rpc(scores.duplicate())
 
 
 ## Records a validated kill and ends the match at the score limit.
@@ -84,13 +85,15 @@ func report_kill(killer_id: int, victim_id: int) -> void:
 	scores[killer_id] = int(scores.get(killer_id, 0)) + 1
 	score_changed.emit(scores.duplicate())
 	EventBus.score_changed.emit(killer_id, scores[killer_id])
-	_publish_score.rpc(scores.duplicate())
-	_publish_kill.rpc(killer_id, victim_id, scores[killer_id])
+	_publish_kill(killer_id, victim_id, scores[killer_id])
+	if _can_replicate():
+		_publish_score.rpc(scores.duplicate())
+		_publish_kill.rpc(killer_id, victim_id, scores[killer_id])
 	if scores[killer_id] >= int(MATCH_DEFINITION.get("score_limit")):
 		_end_match()
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("authority", "call_remote", "reliable")
 func _publish_kill(killer_id: int, victim_id: int, killer_score: int) -> void:
 	var entry := "P%d eliminated P%d  (%d)" % [killer_id, victim_id, killer_score]
 	kill_feed.push_front(entry)
@@ -140,7 +143,12 @@ func _set_state(new_state: MatchState) -> void:
 	match_state_changed.emit(StringName(state_name))
 	EventBus.match_state_changed.emit(StringName(state_name))
 	if _is_server():
-		_publish_state.rpc(int(new_state), time_remaining, results_summary)
+		if _can_replicate():
+			_publish_state.rpc(int(new_state), time_remaining, results_summary)
+
+
+func _can_replicate() -> bool:
+	return is_inside_tree() and multiplayer != null and multiplayer.multiplayer_peer != null
 
 
 @rpc("authority", "reliable")

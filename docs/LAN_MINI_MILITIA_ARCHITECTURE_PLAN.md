@@ -552,6 +552,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Lobby controls now reflect session authority and match state, preventing clients from attempting host-only start commands.
 - Lobby presentation is isolated in `scenes/lobby/lobby.tscn`; UDP discovery on port `7778` advertises compatible hosts and presents selectable nearby servers while retaining manual IP entry.
 - Discovery requests use ephemeral client ports and direct responses from the host, avoiding same-machine port collisions while retaining broadcast support for Wi-Fi hotspots.
+- The dependency-free core smoke suite now completes with `CORE_RULE_TESTS_PASS`; offline RPC and network-reset paths are guarded for headless validation.
 
 Remaining release-gate work includes physical device/hotspot testing, profiling/soak execution, and replacing remaining prototype shortcuts with dedicated gameplay systems. The development-machine Android APK export has been verified; generated Android build workspaces and APKs remain ignored artifacts.
 

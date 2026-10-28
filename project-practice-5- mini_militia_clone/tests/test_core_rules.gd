@@ -67,7 +67,7 @@ func _test_weapon_cooldown() -> void:
 
 
 func _test_hurtbox_signal() -> void:
-	var hurtbox: Node = HurtboxComponentScript.new()
+	var hurtbox: HurtboxComponent = HurtboxComponentScript.new()
 	root.add_child(hurtbox)
 	var received: Array[Variant] = []
 	hurtbox.hit_received.connect(func(amount: int, attacker_id: int) -> void:
@@ -110,7 +110,6 @@ func _test_network_simulation() -> void:
 	network.call("configure_simulation", true, 120, 100)
 	_assert(bool(network.call("should_drop_packet")), "network simulation reset remains deterministic")
 	network.call("configure_simulation", false, 0, 0)
-	network.queue_free()
 
 
 func _test_error_service() -> void:
@@ -196,25 +195,48 @@ func _test_kill_feed() -> void:
 	match_service.call("_process", 3.1)
 	for index: int in 5:
 		match_service.call("report_kill", 1, index + 2)
-	var feed: Array = match_service.get("kill_feed")
+	var feed: Array = []
+	var feed_value: Variant = match_service.get("kill_feed")
+	if feed_value is Array:
+		for entry: Variant in feed_value:
+			feed.append(entry)
 	_assert(feed.size() == 4, "kill feed is bounded to four entries")
 	_assert(str(feed[0]).contains("P6"), "kill feed keeps newest elimination first")
 	match_service.call("return_to_lobby")
-	_assert((match_service.get("kill_feed") as Array).is_empty(), "returning to lobby clears kill feed")
+	var cleared_feed_value: Variant = match_service.get("kill_feed")
+	var cleared_feed: Array = []
+	if cleared_feed_value is Array:
+		for entry: Variant in cleared_feed_value:
+			cleared_feed.append(entry)
+	_assert(cleared_feed.is_empty(), "returning to lobby clears kill feed")
 	match_service.call("start_match")
 	_assert(int(match_service.get("state")) == 1, "match start enters warmup state")
 	_assert(is_equal_approx(float(match_service.get("time_remaining")), 3.0), "warmup starts with configured duration")
 	match_service.call("_process", 3.1)
 	_assert(int(match_service.get("state")) == 2, "warmup transitions to playing state")
 	match_service.call("_publish_score", {1: 3})
-	_assert(int((match_service.get("scores") as Dictionary).get(1, 0)) == 3, "score replication applies snapshots")
+	var replicated_scores: Dictionary = {}
+	var replicated_scores_value: Variant = match_service.get("scores")
+	if replicated_scores_value is Dictionary:
+		replicated_scores = replicated_scores_value
+	_assert(int(replicated_scores.get(1, 0)) == 3, "score replication applies snapshots")
 	match_service.call("_publish_state", 2, 42.0, "")
 	_assert(is_equal_approx(float(match_service.get("time_remaining")), 42.0), "state replication applies authoritative timer")
-	match_service.call("_publish_feed", ["P1 eliminated P2  (1)"])
-	_assert((match_service.get("kill_feed") as Array).size() == 1, "late-join feed snapshot applies")
+	var replicated_feed_entries: Array[String] = ["P1 eliminated P2  (1)"]
+	match_service.call("_publish_feed", replicated_feed_entries)
+	var replicated_feed: Array = []
+	var replicated_feed_value: Variant = match_service.get("kill_feed")
+	if replicated_feed_value is Array:
+		for entry: Variant in replicated_feed_value:
+			replicated_feed.append(entry)
+	_assert(replicated_feed.size() == 1, "late-join feed snapshot applies")
 	match_service.call("_publish_score", {2: 4})
 	match_service.call("remove_peer", 2)
-	_assert(not (match_service.get("scores") as Dictionary).has(2), "disconnect removes stale peer score")
+	var remaining_scores: Dictionary = {}
+	var remaining_scores_value: Variant = match_service.get("scores")
+	if remaining_scores_value is Dictionary:
+		remaining_scores = remaining_scores_value
+	_assert(not remaining_scores.has(2), "disconnect removes stale peer score")
 	match_service.call("return_to_lobby")
 
 

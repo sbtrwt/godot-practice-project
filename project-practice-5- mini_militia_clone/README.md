@@ -50,6 +50,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Composition-root validation for player, weapon, and arena Resources.
 - [x] Arena resource validation checks platform types, dimensions, and playable bounds.
 - [x] Authoritative deaths include a replicated one-second respawn window with collision disabled.
+- [x] Authoritative hitscan impacts broadcast presentation-only hit markers.
 - [x] Deterministic 1,000-packet network soak assertion for loss and latency configuration.
 - [x] Peer nameplates keep remote players identifiable during LAN matches.
 - [x] Lobby persists and restores the last successful host IP through `SaveService`.

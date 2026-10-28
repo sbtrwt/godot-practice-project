@@ -27,6 +27,8 @@ var _grenade_effect_remaining: float = 0.0
 var _grenade_effect_origin: Vector2 = Vector2.ZERO
 var _snapshot_queue: Array[Dictionary] = []
 var _respawning: bool = false
+var _hit_effect_remaining: float = 0.0
+var _hit_effect_position: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
@@ -68,6 +70,7 @@ func _process(delta: float) -> void:
 	_flash_remaining = maxf(_flash_remaining - delta, 0.0)
 	_grenade_cooldown = maxf(_grenade_cooldown - delta, 0.0)
 	_grenade_effect_remaining = maxf(_grenade_effect_remaining - delta, 0.0)
+	_hit_effect_remaining = maxf(_hit_effect_remaining - delta, 0.0)
 	_deliver_queued_snapshots()
 	if is_multiplayer_authority():
 		_visual_aim = InputService.aim_direction if InputService.aim_active else global_position.direction_to(get_global_mouse_position())
@@ -253,6 +256,10 @@ func _draw() -> void:
 		draw_circle(_grenade_effect_origin, radius, Color(1.0, 0.42, 0.12, alpha * 0.18))
 		draw_arc(_grenade_effect_origin, radius, 0.0, TAU, 32, Color(1.0, 0.72, 0.25, alpha * 0.9), 5.0)
 		draw_circle(_grenade_effect_origin, 10.0 + progress * 8.0, Color(1.0, 0.92, 0.5, alpha))
+	if _hit_effect_remaining > 0.0:
+		var hit_alpha := _hit_effect_remaining / 0.16
+		draw_line(_hit_effect_position + Vector2(-10.0, -10.0), _hit_effect_position + Vector2(10.0, 10.0), Color(1.0, 0.95, 0.55, hit_alpha), 3.0)
+		draw_line(_hit_effect_position + Vector2(10.0, -10.0), _hit_effect_position + Vector2(-10.0, 10.0), Color(1.0, 0.95, 0.55, hit_alpha), 3.0)
 
 
 func _resolve_hitscan(shooter_id: int, aim_direction: Vector2) -> void:
@@ -273,7 +280,15 @@ func _resolve_hitscan(shooter_id: int, aim_direction: Vector2) -> void:
 		best_target = candidate
 		best_distance = distance
 	if best_target != null:
+		show_hit.rpc(best_target.global_position)
 		best_target.call("apply_authoritative_damage", int(_weapon.get("damage")), shooter_id)
+
+
+@rpc("authority", "call_local", "unreliable")
+func show_hit(world_position: Vector2) -> void:
+	_hit_effect_position = to_local(world_position)
+	_hit_effect_remaining = 0.16
+	queue_redraw()
 
 
 ## Applies damage only when called by the authority.

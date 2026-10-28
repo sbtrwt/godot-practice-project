@@ -102,6 +102,14 @@ theme_override_font_sizes/font_size = 18
 text = "No score"
 horizontal_alignment = 2
 
+[node name="ReturnButton" type="Button" parent="UI/MatchHud"]
+offset_left = 550.0
+offset_top = 92.0
+offset_right = 730.0
+offset_bottom = 122.0
+text = "RETURN TO LOBBY"
+visible = false
+
 [node name="IPInput" type="LineEdit" parent="UI"]
 offset_left = 32.0
 offset_top = 140.0

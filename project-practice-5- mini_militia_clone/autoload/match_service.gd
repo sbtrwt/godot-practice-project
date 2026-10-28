@@ -31,6 +31,15 @@ func start_match() -> void:
 	_set_state(MatchState.PLAYING)
 
 
+## Returns the session to the lobby for another round.
+func return_to_lobby() -> void:
+	if not multiplayer.is_server():
+		return
+	time_remaining = 0.0
+	scores.clear()
+	_set_state(MatchState.LOBBY)
+
+
 ## Records a validated kill and ends the match at the score limit.
 func report_kill(killer_id: int) -> void:
 	if not multiplayer.is_server() or state != MatchState.PLAYING:

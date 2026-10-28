@@ -4,12 +4,14 @@ extends Control
 @onready var _state_label: Label = $State
 @onready var _timer_label: Label = $Timer
 @onready var _score_label: Label = $Score
+@onready var _return_button: Button = $ReturnButton
 
 
 func _ready() -> void:
 	MatchService.match_state_changed.connect(_on_match_state_changed)
 	MatchService.score_changed.connect(_on_score_changed)
 	_on_match_state_changed(&"lobby")
+	_return_button.pressed.connect(_on_return_button_pressed)
 
 
 func _process(_delta: float) -> void:
@@ -19,6 +21,7 @@ func _process(_delta: float) -> void:
 
 func _on_match_state_changed(state: StringName) -> void:
 	_state_label.text = str(state).to_upper()
+	_return_button.visible = state == &"results" and multiplayer.is_server()
 
 
 func _on_score_changed(scores: Dictionary) -> void:
@@ -26,3 +29,7 @@ func _on_score_changed(scores: Dictionary) -> void:
 	for peer_id: Variant in scores.keys():
 		entries.append("P%s: %s" % [peer_id, scores[peer_id]])
 	_score_label.text = "  ".join(entries) if not entries.is_empty() else "No score"
+
+
+func _on_return_button_pressed() -> void:
+	MatchService.return_to_lobby()

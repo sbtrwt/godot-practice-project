@@ -25,6 +25,10 @@ func _ready() -> void:
 	EventBus.network_error.connect(_on_network_error)
 	_refresh_lobby_players()
 	_spawn_player(1)
+	var saved_data: Dictionary = SaveService.load_game()
+	var saved_ip: Variant = saved_data.get("last_host_ip", "")
+	if saved_ip is String and not String(saved_ip).is_empty():
+		_ip_input.text = String(saved_ip)
 	_status_label.text = "Offline — Host or join a LAN session"
 	_network_recovery_button.visible = false
 
@@ -112,6 +116,8 @@ func _on_peer_left(peer_id: int) -> void:
 
 
 func _on_local_session_ready(peer_id: int) -> void:
+	if peer_id != 1:
+		SaveService.save_game({"last_host_ip": _ip_input.text.strip_edges()})
 	if not _lobby_peer_ids.has(peer_id):
 		_lobby_peer_ids.append(peer_id)
 	_refresh_lobby_players()

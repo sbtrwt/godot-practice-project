@@ -10,6 +10,8 @@ const ARENA_DEFINITION = preload("res://data/default_arena.tres")
 @onready var _players: Node2D = $Players
 @onready var _status_label: Label = $UI/StatusLabel
 @onready var _ip_input: LineEdit = $UI/IPInput
+@onready var _host_button: Button = $UI/HostButton
+@onready var _join_button: Button = $UI/JoinButton
 @onready var _lobby_players_label: Label = $UI/LobbyPlayers
 @onready var _network_recovery_button: Button = $UI/NetworkRecoveryButton
 @onready var _start_match_button: Button = $UI/StartMatchButton
@@ -20,7 +22,12 @@ var _lobby_peer_ids: Array[int] = [1]
 
 
 func _ready() -> void:
-	_validate_configured_resources()
+	if not _validate_configured_resources():
+		_status_label.text = "Configuration invalid — check ErrorService diagnostics"
+		_host_button.disabled = true
+		_join_button.disabled = true
+		_start_match_button.disabled = true
+		return
 	_build_arena_collision()
 	NetworkService.session_state_changed.connect(_on_session_state_changed)
 	NetworkService.peer_joined.connect(_on_peer_joined)
@@ -40,7 +47,8 @@ func _ready() -> void:
 	_update_start_match_button()
 
 
-func _validate_configured_resources() -> void:
+func _validate_configured_resources() -> bool:
+	var valid := true
 	var validations: Array[Array] = [
 		RESOURCE_VALIDATOR.validate_player(PLAYER_DEFINITION),
 		RESOURCE_VALIDATOR.validate_weapon(WEAPON_DEFINITION),
@@ -48,7 +56,9 @@ func _validate_configured_resources() -> void:
 	]
 	for errors: Array in validations:
 		for message: String in errors:
+			valid = false
 			ErrorService.report(&"resource_validation_failed", message)
+	return valid
 
 
 func _build_arena_collision() -> void:

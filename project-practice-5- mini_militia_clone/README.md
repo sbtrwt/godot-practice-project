@@ -38,9 +38,20 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Explicit LAN lobby flow with host-controlled match start.
 - [x] Live LAN lobby player list.
 - [x] Match results state and host-controlled return to lobby.
+- [x] Headless core-rule smoke tests for health and weapon cooldown behavior.
 - [ ] Milestone 5 completion: Android export, device testing, persistence polish, and network soak testing.
 
 The current player scene is intentionally a vertical slice. The next implementation should add touch controls, richer weapon Resources, projectile visuals, and Android export testing.
+
+## Automated validation
+
+Run the dependency-free gameplay smoke tests from the project directory:
+
+```text
+Godot_v4.7-stable_win64_console.exe --headless --path . --script res://tests/test_core_rules.gd
+```
+
+The command exits with status `0` only when health and weapon cooldown invariants pass.
 
 ## Android testing
 

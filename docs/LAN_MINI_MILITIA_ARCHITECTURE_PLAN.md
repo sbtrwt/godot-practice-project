@@ -492,6 +492,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - The LAN flow now keeps peers in the lobby until the host explicitly starts the match.
 - The lobby exposes a live peer list through the application/presentation boundary.
 - Match results can return to the lobby through a host-authorized service command without restarting the session.
+- Core health and weapon cooldown invariants have a dependency-free headless smoke-test entry point.
 
 Remaining production-hardening work includes Android APK export and device testing, atomic save migrations, network simulation/soak tests, richer HUD/ViewModels, and replacing prototype shortcuts with dedicated gameplay systems.
 

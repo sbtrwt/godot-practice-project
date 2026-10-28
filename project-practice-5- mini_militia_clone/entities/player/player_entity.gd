@@ -22,6 +22,8 @@ var _jetpack_active: bool = false
 var _visual_aim: Vector2 = Vector2.RIGHT
 var _flash_remaining: float = 0.0
 var _grenade_cooldown: float = 0.0
+var _grenade_effect_remaining: float = 0.0
+var _grenade_effect_origin: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
@@ -60,6 +62,7 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 	_flash_remaining = maxf(_flash_remaining - delta, 0.0)
 	_grenade_cooldown = maxf(_grenade_cooldown - delta, 0.0)
+	_grenade_effect_remaining = maxf(_grenade_effect_remaining - delta, 0.0)
 	if is_multiplayer_authority():
 		_visual_aim = InputService.aim_direction if InputService.aim_active else global_position.direction_to(get_global_mouse_position())
 	queue_redraw()
@@ -161,6 +164,7 @@ func request_grenade(origin: Vector2) -> void:
 
 
 func _resolve_grenade(origin: Vector2, attacker_id: int) -> void:
+	show_grenade.rpc(origin)
 	for candidate_node: Node in get_tree().get_nodes_in_group("players"):
 		if candidate_node == self or not candidate_node is Node2D:
 			continue
@@ -169,6 +173,13 @@ func _resolve_grenade(origin: Vector2, attacker_id: int) -> void:
 			continue
 		if candidate.global_position.distance_to(origin) <= 180.0:
 			candidate.call("apply_authoritative_damage", 50, attacker_id)
+
+
+@rpc("authority", "call_local", "unreliable")
+func show_grenade(origin: Vector2) -> void:
+	_grenade_effect_origin = to_local(origin)
+	_grenade_effect_remaining = 0.28
+	queue_redraw()
 
 
 func _read_movement_input() -> Vector2:
@@ -206,6 +217,13 @@ func _draw() -> void:
 		var flash_position: Vector2 = aim * 47.0
 		draw_circle(flash_position, 13.0, Color(1.0, 0.75, 0.25, 0.9))
 		draw_circle(flash_position, 6.0, Color(1.0, 1.0, 0.85, 1.0))
+	if _grenade_effect_remaining > 0.0:
+		var progress := 1.0 - (_grenade_effect_remaining / 0.28)
+		var radius := lerpf(18.0, 180.0, progress)
+		var alpha := 1.0 - progress
+		draw_circle(_grenade_effect_origin, radius, Color(1.0, 0.42, 0.12, alpha * 0.18))
+		draw_arc(_grenade_effect_origin, radius, 0.0, TAU, 32, Color(1.0, 0.72, 0.25, alpha * 0.9), 5.0)
+		draw_circle(_grenade_effect_origin, 10.0 + progress * 8.0, Color(1.0, 0.92, 0.5, alpha))
 
 
 func _resolve_hitscan(shooter_id: int, aim_direction: Vector2) -> void:

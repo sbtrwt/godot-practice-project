@@ -5,11 +5,13 @@ extends CharacterBody2D
 signal movement_intent_changed(direction: Vector2)
 
 const SNAPSHOT_INTERVAL: float = 0.05
+const CHARACTER_CELL_SIZE: Vector2 = Vector2(416.0, 512.0)
 
 @export var definition: Resource
 
 @onready var _health: Node = $HealthComponent
 @onready var _weapon: Node = $WeaponComponent
+@onready var _character_sprite: Sprite2D = $CharacterSprite
 
 var _server_input: Vector2 = Vector2.ZERO
 var _target_position: Vector2
@@ -66,7 +68,19 @@ func _simulate_direction(direction: Vector2) -> void:
 		velocity.y = move_toward(velocity.y, -float(definition.get("jetpack_thrust")), 120.0)
 	else:
 		velocity.y = move_toward(velocity.y, float(definition.get("gravity")), 80.0)
+	_update_character_sprite()
 	move_and_slide()
+
+
+func _update_character_sprite() -> void:
+	var row: float = CHARACTER_CELL_SIZE.y if _jetpack_active else 0.0
+	_character_sprite.region_rect = Rect2(
+		0.0,
+		row,
+		CHARACTER_CELL_SIZE.x,
+		CHARACTER_CELL_SIZE.y,
+	)
+	_character_sprite.flip_h = get_global_mouse_position().x < global_position.x
 
 
 func _submit_input(direction: Vector2) -> void:

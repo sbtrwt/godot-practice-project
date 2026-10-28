@@ -20,6 +20,7 @@ func _initialize() -> void:
 	_test_error_service()
 	_test_resource_validation()
 	_test_network_soak()
+	_test_match_warmup()
 	if _failures == 0:
 		print("CORE_RULE_TESTS_PASS")
 		quit(0)
@@ -115,6 +116,17 @@ func _test_network_soak() -> void:
 	_assert(dropped >= 240 and dropped <= 260, "network soak stays within configured packet-loss envelope")
 	_assert(is_equal_approx(float(network.call("simulated_latency_seconds")), 0.18), "network soak preserves configured latency")
 	network.call("configure_simulation", false, 0, 0)
+
+
+func _test_match_warmup() -> void:
+	var match_service: Node = root.get_node("MatchService")
+	match_service.call("return_to_lobby")
+	match_service.call("start_match")
+	_assert(int(match_service.get("state")) == 1, "match start enters warmup state")
+	_assert(is_equal_approx(float(match_service.get("time_remaining")), 3.0), "warmup starts with configured duration")
+	match_service.call("_process", 3.1)
+	_assert(int(match_service.get("state")) == 2, "warmup transitions to playing state")
+	match_service.call("return_to_lobby")
 
 
 func _assert(condition: bool, description: String) -> void:

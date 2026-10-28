@@ -16,7 +16,7 @@ var scores: Dictionary = {}
 
 
 func _process(delta: float) -> void:
-	if not multiplayer.is_server() or (state != MatchState.PLAYING and state != MatchState.WARMUP):
+	if not _is_server() or (state != MatchState.PLAYING and state != MatchState.WARMUP):
 		return
 	time_remaining = maxf(time_remaining - delta, 0.0)
 	if state == MatchState.WARMUP and time_remaining <= 0.0:
@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 
 ## Starts a match. Only the host may change the authoritative state.
 func start_match() -> void:
-	if not multiplayer.is_server():
+	if not _is_server():
 		return
 	scores.clear()
 	time_remaining = WARMUP_DURATION
@@ -38,7 +38,7 @@ func start_match() -> void:
 
 ## Returns the session to the lobby for another round.
 func return_to_lobby() -> void:
-	if not multiplayer.is_server():
+	if not _is_server():
 		return
 	time_remaining = 0.0
 	scores.clear()
@@ -47,7 +47,7 @@ func return_to_lobby() -> void:
 
 ## Records a validated kill and ends the match at the score limit.
 func report_kill(killer_id: int) -> void:
-	if not multiplayer.is_server() or state != MatchState.PLAYING:
+	if not _is_server() or state != MatchState.PLAYING:
 		return
 	scores[killer_id] = int(scores.get(killer_id, 0)) + 1
 	score_changed.emit(scores.duplicate())
@@ -65,3 +65,7 @@ func _set_state(new_state: MatchState) -> void:
 	var state_name: String = str(MatchState.keys()[new_state]).to_snake_case()
 	match_state_changed.emit(StringName(state_name))
 	EventBus.match_state_changed.emit(StringName(state_name))
+
+
+func _is_server() -> bool:
+	return multiplayer == null or multiplayer.is_server()

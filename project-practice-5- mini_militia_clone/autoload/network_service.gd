@@ -23,6 +23,7 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	multiplayer.connection_failed.connect(_on_connection_failed)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	_update_state(SessionState.OFFLINE)
 
 
@@ -115,4 +116,10 @@ func _on_connected_to_server() -> void:
 func _on_connection_failed() -> void:
 	ErrorService.report(&"network_connection_failed", "The host rejected the connection.")
 	EventBus.network_error.emit(&"network_connection_failed", "The host rejected the connection.")
+	disconnect_session()
+
+
+func _on_server_disconnected() -> void:
+	ErrorService.report(&"network_server_disconnected", "The host ended the LAN session.")
+	EventBus.network_error.emit(&"network_server_disconnected", "The host ended the LAN session.")
 	disconnect_session()

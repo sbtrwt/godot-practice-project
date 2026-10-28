@@ -510,6 +510,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - The Android Debug preset explicitly enables Internet permission for ENet UDP LAN sessions.
 - Touch controls include visible gesture guidance for movement, left-stick jetpack, right-stick aim, tap fire, and grenade.
 - Match start now enters a host-authoritative warmup countdown before enabling live scoring.
+- Established client sessions route host disconnects through the same ErrorService and lobby recovery path as connection failures.
 
 Remaining release-gate work includes successful Android APK export and physical device/hotspot testing, profiling/soak execution, richer HUD/ViewModels, resource validation, and replacing remaining prototype shortcuts with dedicated gameplay systems.
 

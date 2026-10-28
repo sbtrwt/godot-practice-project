@@ -1,9 +1,10 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://entities/player/player_entity.gd" id="1_player"]
 [ext_resource type="Resource" path="res://data/default_player.tres" id="2_definition"]
 [ext_resource type="Script" path="res://entities/components/health_component.gd" id="3_health"]
 [ext_resource type="Script" path="res://entities/components/weapon_component.gd" id="4_weapon"]
+[ext_resource type="Script" path="res://entities/components/hurtbox_component.gd" id="7_hurtbox"]
 [ext_resource type="Resource" path="res://data/default_pistol.tres" id="5_weapon_data"]
 [ext_resource type="Texture2D" path="res://assets/characters/soldier_fallback.svg" id="6_character"]
 
@@ -39,6 +40,9 @@ shape = SubResource("RectangleShape2D_player")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_health")
+
+[node name="HurtboxComponent" type="Node" parent="."]
+script = ExtResource("7_hurtbox")
 
 [node name="WeaponComponent" type="Node" parent="."]
 script = ExtResource("4_weapon")

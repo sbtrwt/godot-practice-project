@@ -511,6 +511,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - LAN peers exchange a protocol version during connection setup and route mismatches through the recovery UI.
 - LAN joins have an eight-second timeout that records a diagnostic and returns to the recoverable offline state.
 - LAN timeout state reset and diagnostics are covered by the dependency-free headless suite.
+- Hitscan damage is routed through a reusable HurtboxComponent signal boundary, keeping weapon resolution decoupled from entity health rules.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.
 - Player nameplates are presentation-only and derive identity from multiplayer authority, keeping LAN matches readable without coupling UI to gameplay rules.
 - The lobby uses the versioned SaveService to restore the last host IP and persist it after a join attempt.

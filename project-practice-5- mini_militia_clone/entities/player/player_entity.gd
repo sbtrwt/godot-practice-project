@@ -10,6 +10,7 @@ const CHARACTER_CELL_SIZE: Vector2 = Vector2(416.0, 512.0)
 @export var definition: Resource
 
 @onready var _health: Node = $HealthComponent
+@onready var _hurtbox: Node = $HurtboxComponent
 @onready var _weapon: Node = $WeaponComponent
 @onready var _character_sprite: Sprite2D = $CharacterSprite
 @onready var _health_bar: ProgressBar = $HealthBar
@@ -40,6 +41,7 @@ func _ready() -> void:
 	_health_bar.value = int(definition.get("max_health"))
 	Signal(_health, &"health_changed").connect(_on_health_changed)
 	Signal(_health, &"died").connect(_on_health_died)
+	Signal(_hurtbox, &"hit_received").connect(_on_hurtbox_hit)
 	_target_position = global_position
 	add_to_group("players")
 
@@ -202,7 +204,9 @@ func _resolve_grenade(origin: Vector2, attacker_id: int) -> void:
 		if candidate.get_multiplayer_authority() == attacker_id:
 			continue
 		if candidate.global_position.distance_to(origin) <= 180.0:
-			candidate.call("apply_authoritative_damage", 50, attacker_id)
+			var hurtbox: Node = candidate.get_node_or_null("HurtboxComponent")
+			if hurtbox != null and hurtbox.has_method(&"receive_hit"):
+				hurtbox.call("receive_hit", 50, attacker_id)
 
 
 @rpc("authority", "call_local", "unreliable")
@@ -281,7 +285,9 @@ func _resolve_hitscan(shooter_id: int, aim_direction: Vector2) -> void:
 		best_distance = distance
 	if best_target != null:
 		show_hit.rpc(best_target.global_position)
-		best_target.call("apply_authoritative_damage", int(_weapon.get("damage")), shooter_id)
+		var hurtbox: Node = best_target.get_node_or_null("HurtboxComponent")
+		if hurtbox != null and hurtbox.has_method(&"receive_hit"):
+			hurtbox.call("receive_hit", int(_weapon.get("damage")), shooter_id)
 
 
 @rpc("authority", "call_local", "unreliable")
@@ -291,8 +297,8 @@ func show_hit(world_position: Vector2) -> void:
 	queue_redraw()
 
 
-## Applies damage only when called by the authority.
-func apply_authoritative_damage(amount: int, attacker_id: int) -> void:
+## Applies a received hit only when called by the authority.
+func _on_hurtbox_hit(amount: int, attacker_id: int) -> void:
 	if not multiplayer.is_server():
 		return
 	_health.call("take_damage", amount)

@@ -41,6 +41,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Results HUD identifies authoritative winners and ties.
 - [x] Host-authoritative match state, scores, timers, and results are replicated to LAN clients.
 - [x] Host-authoritative health snapshots update remote player health bars.
+- [x] Health snapshot RPCs are guarded against client-originated spoofing.
 - [x] Arena spawn and respawn positions are Resource-driven and validated.
 - [x] Arena platform collision surfaces are generated from the same Resource as presentation geometry.
 - [x] Lobby rejects malformed LAN addresses before creating a transport.

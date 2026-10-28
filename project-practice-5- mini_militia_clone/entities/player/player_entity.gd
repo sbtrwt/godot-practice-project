@@ -339,8 +339,10 @@ func _on_health_changed(_current: int, _maximum: int) -> void:
 		_publish_health.rpc(_current, _maximum)
 
 
-@rpc("authority", "call_remote", "reliable")
+@rpc("any_peer", "call_remote", "reliable")
 func _publish_health(current: int, maximum: int) -> void:
+	if multiplayer.is_server():
+		return
 	_health.call("apply_replicated_health", current, maximum)
 
 

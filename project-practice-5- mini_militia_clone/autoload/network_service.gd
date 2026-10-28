@@ -37,7 +37,6 @@ func _ready() -> void:
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	_update_state(SessionState.OFFLINE)
 	_discovery_socket.set_broadcast_enabled(true)
-	_discovery_socket.bind(DISCOVERY_PORT)
 
 
 func _process(delta: float) -> void:
@@ -69,6 +68,8 @@ func host_game() -> Error:
 		EventBus.network_error.emit(&"network_host_failed", error_string(error))
 		return error
 	multiplayer.multiplayer_peer = peer
+	_discovery_socket.close()
+	_discovery_socket.bind(DISCOVERY_PORT)
 	_update_state(SessionState.HOSTING)
 	_discovery_elapsed = DISCOVERY_INTERVAL_SECONDS
 	return OK
@@ -140,6 +141,8 @@ func disconnect_session() -> void:
 func start_server_discovery() -> void:
 	_discovery_active = true
 	_discovered_servers.clear()
+	_discovery_socket.close()
+	_discovery_socket.bind(0)
 	var empty_servers: Array[Dictionary] = []
 	discovery_changed.emit(empty_servers)
 	_send_discovery_request()
@@ -191,14 +194,20 @@ func _update_state(new_state: SessionState) -> void:
 func _send_discovery_request() -> void:
 	_discovery_socket.set_dest_address("255.255.255.255", DISCOVERY_PORT)
 	_discovery_socket.put_packet(("LAN_MINI_MILITIA_DISCOVER|%d" % PROTOCOL_VERSION).to_utf8_buffer())
+	_discovery_socket.set_dest_address("127.0.0.1", DISCOVERY_PORT)
+	_discovery_socket.put_packet(("LAN_MINI_MILITIA_DISCOVER|%d" % PROTOCOL_VERSION).to_utf8_buffer())
 
 
 func _broadcast_advertisement() -> void:
+	_send_advertisement("255.255.255.255", DISCOVERY_PORT)
+
+
+func _send_advertisement(address: String, port: int) -> void:
 	var players: int = multiplayer.get_peers().size() + 1
 	var packet := "LAN_MINI_MILITIA_SERVER|%d|%s|%d|%d" % [
 		PROTOCOL_VERSION, get_local_ipv4(), PORT, players
 	]
-	_discovery_socket.set_dest_address("255.255.255.255", DISCOVERY_PORT)
+	_discovery_socket.set_dest_address(address, port)
 	_discovery_socket.put_packet(packet.to_utf8_buffer())
 
 
@@ -209,7 +218,7 @@ func _poll_discovery() -> void:
 		var parts: PackedStringArray = packet.split("|")
 		if parts.size() >= 2 and parts[0] == "LAN_MINI_MILITIA_DISCOVER":
 			if session_state == SessionState.HOSTING:
-				_broadcast_advertisement()
+				_send_advertisement(sender_ip, _discovery_socket.get_packet_port())
 			continue
 		if not _discovery_active or parts.size() < 5 or parts[0] != "LAN_MINI_MILITIA_SERVER":
 			continue

@@ -2,6 +2,10 @@ extends Node2D
 ## Composition root for the first playable LAN prototype.
 
 const PLAYER_SCENE: PackedScene = preload("res://scenes/player/player_entity.tscn")
+const RESOURCE_VALIDATOR = preload("res://data/resource_validator.gd")
+const PLAYER_DEFINITION = preload("res://data/default_player.tres")
+const WEAPON_DEFINITION = preload("res://data/default_pistol.tres")
+const ARENA_DEFINITION = preload("res://data/default_arena.tres")
 
 @onready var _players: Node2D = $Players
 @onready var _status_label: Label = $UI/StatusLabel
@@ -13,6 +17,7 @@ var _lobby_peer_ids: Array[int] = [1]
 
 
 func _ready() -> void:
+	_validate_configured_resources()
 	NetworkService.session_state_changed.connect(_on_session_state_changed)
 	NetworkService.peer_joined.connect(_on_peer_joined)
 	NetworkService.peer_left.connect(_on_peer_left)
@@ -22,6 +27,17 @@ func _ready() -> void:
 	_spawn_player(1)
 	_status_label.text = "Offline — Host or join a LAN session"
 	_network_recovery_button.visible = false
+
+
+func _validate_configured_resources() -> void:
+	var validations: Array[Array] = [
+		RESOURCE_VALIDATOR.validate_player(PLAYER_DEFINITION),
+		RESOURCE_VALIDATOR.validate_weapon(WEAPON_DEFINITION),
+		RESOURCE_VALIDATOR.validate_arena(ARENA_DEFINITION),
+	]
+	for errors: Array in validations:
+		for message: String in errors:
+			ErrorService.report(&"resource_validation_failed", message)
 
 
 func _on_host_pressed() -> void:

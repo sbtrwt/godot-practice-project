@@ -47,6 +47,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Centralized bounded error-reporting ring buffer for recovery diagnostics.
 - [x] Host lobby displays a discoverable LAN IPv4 address and UDP port.
 - [x] Arena layout is configured through an `ArenaDefinition` Resource.
+- [x] Composition-root validation for player, weapon, and arena Resources.
 - [ ] Milestone 5 completion: successful Android export/device testing, profiling/soak execution, resource validation, and final gameplay-system replacement.
 
 The current player scene remains a prototype vertical slice. Remaining work is release validation and replacing prototype shortcuts with dedicated gameplay systems.

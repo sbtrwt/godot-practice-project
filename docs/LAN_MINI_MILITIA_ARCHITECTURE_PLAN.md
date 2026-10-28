@@ -533,6 +533,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Match duration, warmup, and score limit are configured through a validated `MatchDefinition` Resource.
 - Host and join retry paths explicitly reset stale ENet transports before reconnecting.
 - Save failures during LAN persistence are routed through `ErrorService` and the recovery UI.
+- Debug observability includes authoritative match state and remaining time for LAN soak diagnosis.
 - Touch controls are state-aware and do not obscure lobby or results presentation.
 - A checked-in PowerShell validation harness parser-checks all project scripts before running core smoke tests.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.

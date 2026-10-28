@@ -3,6 +3,7 @@ extends SceneTree
 
 const HealthComponentScript = preload("res://entities/components/health_component.gd")
 const WeaponComponentScript = preload("res://entities/components/weapon_component.gd")
+const SaveServiceScript = preload("res://autoload/save_service.gd")
 
 var _failures: int = 0
 
@@ -10,6 +11,7 @@ var _failures: int = 0
 func _initialize() -> void:
 	_test_health_component()
 	_test_weapon_cooldown()
+	_test_save_migration()
 	if _failures == 0:
 		print("CORE_RULE_TESTS_PASS")
 		quit(0)
@@ -45,6 +47,27 @@ func _test_weapon_cooldown() -> void:
 	weapon.call("_process", 0.25)
 	_assert(bool(weapon.call("try_fire")), "weapon accepts shot after cooldown")
 	weapon.queue_free()
+
+
+func _test_save_migration() -> void:
+	var save_service: Node = SaveServiceScript.new()
+	root.add_child(save_service)
+	var migrated: Dictionary = save_service.call("migrate_payload", {
+		"version": 1,
+		"data": {"credits": 250},
+	})
+	var settings: Dictionary = {}
+	var settings_value: Variant = migrated.get("settings", {})
+	if settings_value is Dictionary:
+		settings = settings_value
+	var profile: Dictionary = {}
+	var profile_value: Variant = migrated.get("profile", {})
+	if profile_value is Dictionary:
+		profile = profile_value
+	_assert(migrated.get("credits", 0) == 250, "save migration preserves existing data")
+	_assert(settings.get("control_scheme", "") == "twin_stick", "save migration adds control defaults")
+	_assert(profile.get("display_name", "") == "Player", "save migration adds profile defaults")
+	save_service.queue_free()
 
 
 func _assert(condition: bool, description: String) -> void:

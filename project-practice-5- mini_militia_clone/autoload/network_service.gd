@@ -9,6 +9,7 @@ signal local_session_ready(peer_id: int)
 const PORT: int = 7777
 const MAX_PLAYERS: int = 6
 const PROTOCOL_VERSION: int = 1
+const CONNECT_TIMEOUT_SECONDS: float = 8.0
 
 enum SessionState { OFFLINE, HOSTING, CONNECTING, CONNECTED }
 
@@ -17,6 +18,7 @@ var simulation_enabled: bool = OS.is_debug_build()
 var simulated_latency_ms: int = 0
 var simulated_packet_loss_percent: int = 0
 var _packet_counter: int = 0
+var _connection_elapsed: float = 0.0
 
 
 func _ready() -> void:
@@ -26,6 +28,18 @@ func _ready() -> void:
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	_update_state(SessionState.OFFLINE)
+
+
+func _process(delta: float) -> void:
+	if session_state != SessionState.CONNECTING:
+		return
+	_connection_elapsed += delta
+	if _connection_elapsed < CONNECT_TIMEOUT_SECONDS:
+		return
+	var message := "Connection timed out after %d seconds." % int(CONNECT_TIMEOUT_SECONDS)
+	ErrorService.report(&"network_connection_timeout", message)
+	EventBus.network_error.emit(&"network_connection_timeout", message)
+	disconnect_session()
 
 
 ## Starts a LAN server on the configured UDP port.
@@ -52,6 +66,7 @@ func join_game(ip_address: String) -> Error:
 		EventBus.network_error.emit(&"network_join_failed", error_string(error))
 		return error
 	multiplayer.multiplayer_peer = peer
+	_connection_elapsed = 0.0
 	_update_state(SessionState.CONNECTING)
 	return OK
 
@@ -80,6 +95,7 @@ func _is_private_ipv4(address: String) -> bool:
 
 ## Closes the current LAN session.
 func disconnect_session() -> void:
+	_connection_elapsed = 0.0
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	_update_state(SessionState.OFFLINE)
 
@@ -122,6 +138,7 @@ func _on_peer_disconnected(peer_id: int) -> void:
 
 
 func _on_connected_to_server() -> void:
+	_connection_elapsed = 0.0
 	_update_state(SessionState.CONNECTED)
 	_send_protocol_version.rpc_id(1, PROTOCOL_VERSION)
 	local_session_ready.emit(multiplayer.get_unique_id())

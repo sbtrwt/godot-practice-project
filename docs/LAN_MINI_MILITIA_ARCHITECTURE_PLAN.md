@@ -488,6 +488,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Shot presentation is broadcast from the authority so aim lines and muzzle flashes remain presentation-only feedback.
 - Grenade requests are validated by the host and resolve area damage on the authority; projectile visuals remain a follow-up presentation task.
 - Player health bars are presentation nodes driven by component signals, keeping health rules out of the view.
+- The live scene has a deterministic vector fallback when a runtime cannot import external raster/vector art; source art remains versioned for editor/device builds.
 
 Remaining production-hardening work includes Android APK export and device testing, atomic save migrations, network simulation/soak tests, richer HUD/ViewModels, and replacing prototype shortcuts with dedicated gameplay systems.
 

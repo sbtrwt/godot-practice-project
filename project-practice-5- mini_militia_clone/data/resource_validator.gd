@@ -43,4 +43,13 @@ static func validate_arena(resource: Resource) -> Array[String]:
 		platform_array = platforms
 	if platform_array.is_empty():
 		errors.append("arena requires at least one platform")
+	for platform_value: Variant in platform_array:
+		if not platform_value is Rect2:
+			errors.append("arena platform must be a Rect2")
+			continue
+		var platform: Rect2 = platform_value
+		if platform.size.x <= 0.0 or platform.size.y <= 0.0:
+			errors.append("arena platform dimensions must be positive")
+		elif not Rect2(0.0, 0.0, 1280.0, 720.0).encloses(platform):
+			errors.append("arena platform must fit inside the playable bounds")
 	return errors

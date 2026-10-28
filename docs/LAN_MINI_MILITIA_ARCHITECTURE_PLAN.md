@@ -503,6 +503,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Host setup now displays the selected LAN IPv4 address and UDP port for clients on the same hotspot.
 - Arena decoration and platform layout are now data-driven through an `ArenaDefinition` Resource, enabling map variants without renderer edits.
 - Player, weapon, and arena Resources are validated at startup and in the headless test suite before gameplay uses them.
+- Arena validation rejects malformed platform types, non-positive dimensions, and out-of-bounds geometry.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.
 - Player nameplates are presentation-only and derive identity from multiplayer authority, keeping LAN matches readable without coupling UI to gameplay rules.
 - The lobby uses the versioned SaveService to restore the last host IP and persist it after a join attempt.

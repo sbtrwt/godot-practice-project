@@ -48,6 +48,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Host lobby displays a discoverable LAN IPv4 address and UDP port.
 - [x] Arena layout is configured through an `ArenaDefinition` Resource.
 - [x] Composition-root validation for player, weapon, and arena Resources.
+- [x] Arena resource validation checks platform types, dimensions, and playable bounds.
 - [x] Deterministic 1,000-packet network soak assertion for loss and latency configuration.
 - [x] Peer nameplates keep remote players identifiable during LAN matches.
 - [x] Lobby persists and restores the last successful host IP through `SaveService`.

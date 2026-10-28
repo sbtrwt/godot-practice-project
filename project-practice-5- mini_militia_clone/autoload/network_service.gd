@@ -60,10 +60,21 @@ func get_local_ipv4() -> String:
 	for address: String in IP.get_local_addresses():
 		if address.contains(":"):
 			continue
-		if address.begins_with("127.") or address == "0.0.0.0":
+		if not _is_private_ipv4(address):
 			continue
 		return address
 	return "unavailable"
+
+
+func _is_private_ipv4(address: String) -> bool:
+	var octets := address.split(".")
+	if octets.size() != 4:
+		return false
+	var first := int(octets[0])
+	var second := int(octets[1])
+	if first == 10 or first == 192 and second == 168:
+		return true
+	return first == 172 and second >= 16 and second <= 31
 
 
 ## Closes the current LAN session.

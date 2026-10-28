@@ -21,9 +21,12 @@ func _process(delta: float) -> void:
 	var peer_count: int = multiplayer.get_peers().size()
 	var unique_id: int = multiplayer.get_unique_id()
 	var session: String = str(NetworkService.session_state)
-	text = "NET  session=%s  peer_id=%d  peers=%d  fps=%d" % [
+	text = "NET session=%s peer_id=%d peers=%d fps=%d sim=%s lag=%dms loss=%d%%" % [
 		session,
 		unique_id,
 		peer_count,
 		Engine.get_frames_per_second(),
+		"on" if NetworkService.simulation_enabled else "off",
+		NetworkService.simulated_latency_ms,
+		NetworkService.simulated_packet_loss_percent,
 	]

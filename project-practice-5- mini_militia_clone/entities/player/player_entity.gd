@@ -24,6 +24,7 @@ var _flash_remaining: float = 0.0
 var _grenade_cooldown: float = 0.0
 var _grenade_effect_remaining: float = 0.0
 var _grenade_effect_origin: Vector2 = Vector2.ZERO
+var _snapshot_queue: Array[Dictionary] = []
 
 
 func _ready() -> void:
@@ -63,6 +64,7 @@ func _process(delta: float) -> void:
 	_flash_remaining = maxf(_flash_remaining - delta, 0.0)
 	_grenade_cooldown = maxf(_grenade_cooldown - delta, 0.0)
 	_grenade_effect_remaining = maxf(_grenade_effect_remaining - delta, 0.0)
+	_deliver_queued_snapshots()
 	if is_multiplayer_authority():
 		_visual_aim = InputService.aim_direction if InputService.aim_active else global_position.direction_to(get_global_mouse_position())
 	queue_redraw()
@@ -103,6 +105,8 @@ func _update_character_sprite() -> void:
 
 
 func _submit_input(direction: Vector2) -> void:
+	if NetworkService.should_drop_packet():
+		return
 	_input_tick += 1
 	_jetpack_active = InputService.jetpack_active or Input.is_action_pressed(&"jetpack")
 	submit_input.rpc_id(1, Vector2(direction.x, 0.0), _input_tick, _jetpack_active)
@@ -126,6 +130,25 @@ func _send_snapshot() -> void:
 
 @rpc("authority", "call_remote", "unreliable")
 func _receive_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: int) -> void:
+	if tick < _input_tick:
+		return
+	var latency := NetworkService.simulated_latency_seconds()
+	if latency > 0.0:
+		_snapshot_queue.append({"position": snapshot_position, "velocity": new_velocity, "tick": tick, "deliver_at": Time.get_ticks_msec() + latency * 1000.0})
+		return
+	_apply_snapshot(snapshot_position, new_velocity, tick)
+
+
+func _deliver_queued_snapshots() -> void:
+	if _snapshot_queue.is_empty():
+		return
+	var now := Time.get_ticks_msec()
+	while not _snapshot_queue.is_empty() and float(_snapshot_queue[0]["deliver_at"]) <= now:
+		var snapshot := _snapshot_queue.pop_front()
+		_apply_snapshot(snapshot["position"], snapshot["velocity"], int(snapshot["tick"]))
+
+
+func _apply_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: int) -> void:
 	if tick < _input_tick:
 		return
 	_input_tick = tick

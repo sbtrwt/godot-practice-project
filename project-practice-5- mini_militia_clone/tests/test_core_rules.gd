@@ -12,6 +12,7 @@ func _initialize() -> void:
 	_test_health_component()
 	_test_weapon_cooldown()
 	_test_save_migration()
+	_test_network_simulation()
 	if _failures == 0:
 		print("CORE_RULE_TESTS_PASS")
 		quit(0)
@@ -68,6 +69,15 @@ func _test_save_migration() -> void:
 	_assert(settings.get("control_scheme", "") == "twin_stick", "save migration adds control defaults")
 	_assert(profile.get("display_name", "") == "Player", "save migration adds profile defaults")
 	save_service.queue_free()
+
+
+func _test_network_simulation() -> void:
+	var network: Node = root.get_node("NetworkService")
+	network.call("configure_simulation", true, 120, 100)
+	_assert(is_equal_approx(float(network.call("simulated_latency_seconds")), 0.12), "network simulation exposes configured latency")
+	_assert(bool(network.call("should_drop_packet")), "network simulation drops packets at 100 percent loss")
+	network.call("configure_simulation", false, 0, 0)
+	network.queue_free()
 
 
 func _assert(condition: bool, description: String) -> void:

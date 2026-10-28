@@ -41,6 +41,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Headless core-rule smoke tests for health and weapon cooldown behavior.
 - [x] Versioned save schema with v1-to-v2 migration defaults.
 - [x] Visible network recovery action after connection failure or transport reset.
+- [x] Deterministic debug simulation hooks for packet loss and snapshot latency.
 - [ ] Milestone 5 completion: Android export, device testing, persistence polish, and network soak testing.
 
 The current player scene is intentionally a vertical slice. The next implementation should add touch controls, richer weapon Resources, projectile visuals, and Android export testing.
@@ -54,6 +55,8 @@ Godot_v4.7-stable_win64_console.exe --headless --path . --script res://tests/tes
 ```
 
 The command exits with status `0` only when health and weapon cooldown invariants pass.
+
+In debug builds, `NetworkService.configure_simulation(true, latency_ms, packet_loss_percent)` can be used by soak harnesses to exercise delayed snapshots and dropped client input. Defaults are zero latency and zero packet loss.
 
 ## Android testing
 

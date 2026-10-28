@@ -12,6 +12,10 @@ const MAX_PLAYERS: int = 6
 enum SessionState { OFFLINE, HOSTING, CONNECTING, CONNECTED }
 
 var session_state: SessionState = SessionState.OFFLINE
+var simulation_enabled: bool = OS.is_debug_build()
+var simulated_latency_ms: int = 0
+var simulated_packet_loss_percent: int = 0
+var _packet_counter: int = 0
 
 
 func _ready() -> void:
@@ -52,6 +56,26 @@ func join_game(ip_address: String) -> Error:
 func disconnect_session() -> void:
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	_update_state(SessionState.OFFLINE)
+
+
+## Debug-only deterministic packet simulation used by local soak tests.
+func configure_simulation(enabled: bool, latency_ms: int, packet_loss_percent: int) -> void:
+	simulation_enabled = enabled and OS.is_debug_build()
+	simulated_latency_ms = clampi(latency_ms, 0, 2000)
+	simulated_packet_loss_percent = clampi(packet_loss_percent, 0, 100)
+
+
+func should_drop_packet() -> bool:
+	if not simulation_enabled or simulated_packet_loss_percent <= 0:
+		return false
+	_packet_counter += 1
+	return (_packet_counter % 100) < simulated_packet_loss_percent
+
+
+func simulated_latency_seconds() -> float:
+	if not simulation_enabled:
+		return 0.0
+	return float(simulated_latency_ms) / 1000.0
 
 
 func _update_state(new_state: SessionState) -> void:

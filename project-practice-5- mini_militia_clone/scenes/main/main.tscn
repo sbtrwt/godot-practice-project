@@ -144,6 +144,15 @@ theme_override_font_sizes/font_size = 18
 text = "No score"
 horizontal_alignment = 2
 
+[node name="KillFeed" type="Label" parent="UI/MatchHud"]
+offset_left = 930.0
+offset_top = 66.0
+offset_right = 1248.0
+offset_bottom = 170.0
+theme_override_colors/font_color = Color(1, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 2
+
 [node name="ViewModel" type="Node" parent="UI/MatchHud"]
 script = ExtResource("7_match_vm")
 

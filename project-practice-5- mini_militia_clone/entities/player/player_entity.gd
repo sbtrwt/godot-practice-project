@@ -297,7 +297,7 @@ func apply_authoritative_damage(amount: int, attacker_id: int) -> void:
 		return
 	_health.call("take_damage", amount)
 	if int(_health.get("current_health")) <= 0:
-		MatchService.report_kill(attacker_id)
+		MatchService.report_kill(attacker_id, get_multiplayer_authority())
 		_respawn_after_delay()
 
 

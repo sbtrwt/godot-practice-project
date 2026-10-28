@@ -32,6 +32,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Character presentation switches between idle and jetpack sprite poses.
 - [x] Reference-style twin-stick controls: left movement/jetpack joystick, right aim joystick, and tap/hold fire.
 - [x] Aim direction and muzzle-flash feedback for authoritative shots.
+- [x] Authoritative hitscan impact markers and bounded LAN kill feed.
 - [x] Authoritative grenade touch zone with cooldown and area damage prototype.
 - [x] Per-player health bars driven by the HealthComponent.
 - [x] Headless-safe scene fallback when external art import is unavailable.

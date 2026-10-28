@@ -3,6 +3,7 @@ extends Node
 
 signal match_state_changed(state: StringName)
 signal score_changed(scores: Dictionary)
+signal kill_feed_changed(entries: Array[String])
 
 enum MatchState { LOBBY, WARMUP, PLAYING, RESULTS }
 
@@ -13,6 +14,7 @@ const SCORE_LIMIT: int = 10
 var state: MatchState = MatchState.LOBBY
 var time_remaining: float = 0.0
 var scores: Dictionary = {}
+var kill_feed: Array[String] = []
 
 
 func _process(delta: float) -> void:
@@ -32,6 +34,8 @@ func start_match() -> void:
 	if not _is_server():
 		return
 	scores.clear()
+	kill_feed.clear()
+	kill_feed_changed.emit(kill_feed.duplicate())
 	time_remaining = WARMUP_DURATION
 	_set_state(MatchState.WARMUP)
 
@@ -42,18 +46,30 @@ func return_to_lobby() -> void:
 		return
 	time_remaining = 0.0
 	scores.clear()
+	kill_feed.clear()
+	kill_feed_changed.emit(kill_feed.duplicate())
 	_set_state(MatchState.LOBBY)
 
 
 ## Records a validated kill and ends the match at the score limit.
-func report_kill(killer_id: int) -> void:
+func report_kill(killer_id: int, victim_id: int) -> void:
 	if not _is_server() or state != MatchState.PLAYING:
 		return
 	scores[killer_id] = int(scores.get(killer_id, 0)) + 1
 	score_changed.emit(scores.duplicate())
 	EventBus.score_changed.emit(killer_id, scores[killer_id])
+	_publish_kill.rpc(killer_id, victim_id, scores[killer_id])
 	if scores[killer_id] >= SCORE_LIMIT:
 		_end_match()
+
+
+@rpc("authority", "call_local", "reliable")
+func _publish_kill(killer_id: int, victim_id: int, killer_score: int) -> void:
+	var entry := "P%d eliminated P%d  (%d)" % [killer_id, victim_id, killer_score]
+	kill_feed.push_front(entry)
+	if kill_feed.size() > 4:
+		kill_feed.pop_back()
+	kill_feed_changed.emit(kill_feed.duplicate())
 
 
 func _end_match() -> void:

@@ -506,6 +506,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Arena validation rejects malformed platform types, non-positive dimensions, and out-of-bounds geometry.
 - Player death presentation now has an authority-driven respawn window; hidden players cannot collide or immediately re-enter combat.
 - Authoritative hitscan resolution broadcasts a short-lived impact marker without coupling hit feedback to damage rules.
+- Authoritative kills publish a bounded kill-feed event; the HUD consumes it through the MatchViewModel.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.
 - Player nameplates are presentation-only and derive identity from multiplayer authority, keeping LAN matches readable without coupling UI to gameplay rules.
 - The lobby uses the versioned SaveService to restore the last host IP and persist it after a join attempt.

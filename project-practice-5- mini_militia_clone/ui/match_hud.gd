@@ -5,6 +5,7 @@ extends Control
 @onready var _timer_label: Label = $Timer
 @onready var _score_label: Label = $Score
 @onready var _return_button: Button = $ReturnButton
+@onready var _kill_feed_label: Label = $KillFeed
 @onready var _view_model: Node = $ViewModel
 
 
@@ -12,6 +13,7 @@ func _ready() -> void:
 	Signal(_view_model, &"state_changed").connect(_on_state_changed)
 	Signal(_view_model, &"timer_changed").connect(_on_timer_changed)
 	Signal(_view_model, &"score_changed").connect(_on_score_changed)
+	Signal(_view_model, &"kill_feed_changed").connect(_on_kill_feed_changed)
 	_return_button.pressed.connect(_on_return_button_pressed)
 
 
@@ -26,6 +28,10 @@ func _on_timer_changed(text: String) -> void:
 
 func _on_score_changed(text: String) -> void:
 	_score_label.text = text
+
+
+func _on_kill_feed_changed(text: String) -> void:
+	_kill_feed_label.text = text
 
 
 func _on_return_button_pressed() -> void:

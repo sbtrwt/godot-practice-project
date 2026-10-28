@@ -18,6 +18,7 @@ func _ready() -> void:
 	NetworkService.discovery_changed.connect(_on_discovery_changed)
 	NetworkService.session_state_changed.connect(_on_session_state_changed)
 	NetworkService.local_session_ready.connect(_on_local_session_ready)
+	EventBus.network_error.connect(_on_network_error)
 	MatchService.match_state_changed.connect(_on_match_state_changed)
 	NetworkService.start_server_discovery()
 	_start_button.disabled = true
@@ -54,7 +55,7 @@ func _on_join_pressed() -> void:
 	if error != OK:
 		_status.text = "Join failed: %s" % error_string(error)
 		return
-	_status.text = "Connecting to %s..." % address
+	_status.text = "Connecting to %s:%d..." % [address, NetworkService.PORT]
 
 
 func _on_start_pressed() -> void:
@@ -93,6 +94,12 @@ func _on_local_session_ready(_peer_id: int) -> void:
 		_start_button.disabled = false
 	else:
 		_status.text = "Connected — waiting for the host to start"
+
+
+func _on_network_error(code: StringName, message: String) -> void:
+	_status.text = "%s: %s" % [str(code), message]
+	_host_button.disabled = false
+	_join_button.disabled = false
 
 
 func _on_match_state_changed(state: StringName) -> void:

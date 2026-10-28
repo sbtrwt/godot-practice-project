@@ -482,6 +482,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Atomic local save replacement and a debug network/FPS overlay.
 - Bounded arena collision and a presentation-only match HUD.
 - Side-view movement tuning with gravity, horizontal input, and jetpack thrust.
+- Original transparent character sprite sheet integrated through the presentation layer.
 
 Remaining production-hardening work includes Android APK export and device testing, atomic save migrations, network simulation/soak tests, richer HUD/ViewModels, and replacing prototype shortcuts with dedicated gameplay systems.
 

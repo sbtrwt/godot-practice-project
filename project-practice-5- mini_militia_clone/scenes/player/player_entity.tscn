@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://entities/components/health_component.gd" id="3_health"]
 [ext_resource type="Script" path="res://entities/components/weapon_component.gd" id="4_weapon"]
 [ext_resource type="Resource" path="res://data/default_pistol.tres" id="5_weapon_data"]
+[ext_resource type="Texture2D" path="res://assets/characters/soldiers_prototype.png" id="6_character_texture"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(40, 64)
@@ -16,6 +17,15 @@ definition = ExtResource("2_definition")
 [node name="Body" type="Polygon2D" parent="."]
 polygon = PackedVector2Array(-20, -32, 20, -32, 20, 32, -20, 32)
 color = Color(0.2, 0.65, 1, 1)
+visible = false
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+texture = ExtResource("6_character_texture")
+position = Vector2(0, -8)
+scale = Vector2(0.15, 0.15)
+region_enabled = true
+region_rect = Rect2(0, 0, 416, 512)
+z_index = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_player")

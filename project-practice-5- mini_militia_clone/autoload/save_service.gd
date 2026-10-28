@@ -3,6 +3,7 @@ extends Node
 
 const SAVE_PATH: String = "user://mini_militia_clone_save.json"
 const TEMP_SAVE_PATH: String = "user://mini_militia_clone_save.tmp"
+const BACKUP_SAVE_PATH: String = "user://mini_militia_clone_save.backup"
 const SAVE_VERSION: int = 2
 
 
@@ -14,12 +15,22 @@ func save_game(data: Dictionary) -> Error:
 		return FileAccess.get_open_error()
 	file.store_string(JSON.stringify(payload))
 	file.close()
+	var save_absolute := ProjectSettings.globalize_path(SAVE_PATH)
+	var temp_absolute := ProjectSettings.globalize_path(TEMP_SAVE_PATH)
+	var backup_absolute := ProjectSettings.globalize_path(BACKUP_SAVE_PATH)
 	if FileAccess.file_exists(SAVE_PATH):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
-	return DirAccess.rename_absolute(
-		ProjectSettings.globalize_path(TEMP_SAVE_PATH),
-		ProjectSettings.globalize_path(SAVE_PATH)
-	)
+		if FileAccess.file_exists(BACKUP_SAVE_PATH):
+			DirAccess.remove_absolute(backup_absolute)
+		var backup_error := DirAccess.rename_absolute(save_absolute, backup_absolute)
+		if backup_error != OK:
+			return backup_error
+	var promote_error := DirAccess.rename_absolute(temp_absolute, save_absolute)
+	if promote_error != OK and FileAccess.file_exists(BACKUP_SAVE_PATH):
+		DirAccess.rename_absolute(backup_absolute, save_absolute)
+		return promote_error
+	if FileAccess.file_exists(BACKUP_SAVE_PATH):
+		DirAccess.remove_absolute(backup_absolute)
+	return promote_error
 
 
 ## Loads data or returns an empty dictionary when no compatible save exists.

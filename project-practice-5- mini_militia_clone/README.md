@@ -56,6 +56,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Host-authoritative three-second warmup phase precedes live match scoring.
 - [x] Established clients recover visibly when the host disconnects.
 - [x] Fresh host/join/reset actions clear stale network diagnostics.
+- [x] Save promotion uses a backup-and-restore sequence to preserve the previous file on failure.
 - [x] Host address selection prefers private hotspot IPv4 ranges over virtual/link-local adapters.
 - [x] Lobby Start Match control is disabled for clients and non-lobby states.
 - [ ] Milestone 5 completion: successful Android export/device testing, profiling/soak execution, resource validation, and final gameplay-system replacement.

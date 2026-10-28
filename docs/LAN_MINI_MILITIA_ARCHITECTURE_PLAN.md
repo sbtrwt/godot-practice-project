@@ -512,6 +512,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Match start now enters a host-authoritative warmup countdown before enabling live scoring.
 - Established client sessions route host disconnects through the same ErrorService and lobby recovery path as connection failures.
 - New network attempts and explicit reset clear prior diagnostics so the debug surface reports current-session failures.
+- Save writes now stage through a backup file and restore it if temporary-file promotion fails.
 - LAN address discovery filters to RFC1918 private IPv4 ranges so virtual and link-local adapters are not advertised.
 - Lobby controls now reflect session authority and match state, preventing clients from attempting host-only start commands.
 

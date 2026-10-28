@@ -73,6 +73,8 @@ In debug builds, `NetworkService.configure_simulation(true, latency_ms, packet_l
 
 An `Android Debug` export preset is checked in. Install Godot's Android export templates and SDK/JDK, then export a debug APK with:
 
+The preset explicitly enables Android Internet permission because ENet LAN sessions use UDP networking.
+
 ```text
 Godot_v4.7-stable_win64_console.exe --headless --path . --export-debug "Android Debug" build/lan-mini-militia-debug.apk
 ```

@@ -6,6 +6,7 @@ signal movement_intent_changed(direction: Vector2)
 
 const SNAPSHOT_INTERVAL: float = 0.05
 const CHARACTER_CELL_SIZE: Vector2 = Vector2(416.0, 512.0)
+const GRENADE_FUSE_SECONDS: float = 0.35
 
 @export var definition: Resource
 @export var spawn_position: Vector2 = Vector2(320.0, 360.0)
@@ -197,6 +198,9 @@ func request_grenade(origin: Vector2) -> void:
 
 
 func _resolve_grenade(origin: Vector2, attacker_id: int) -> void:
+	await get_tree().create_timer(GRENADE_FUSE_SECONDS).timeout
+	if not is_inside_tree() or not multiplayer.is_server():
+		return
 	show_grenade.rpc(origin)
 	for candidate_node: Node in get_tree().get_nodes_in_group("players"):
 		if candidate_node == self or not candidate_node is Node2D:

@@ -2,10 +2,12 @@ extends Control
 ## Twin-stick touch controls: left stick moves/jetpacks, right stick aims, Fire taps/shoots.
 
 const STICK_RADIUS: float = 100.0
+const FIRE_RADIUS: float = 82.0
 
 var _viewport_size: Vector2 = Vector2(1280.0, 720.0)
 var _left_center: Vector2 = Vector2(150.0, 610.0)
 var _right_center: Vector2 = Vector2(1120.0, 610.0)
+var _fire_center: Vector2 = Vector2(1010.0, 610.0)
 var _grenade_center: Vector2 = Vector2(460.0, 610.0)
 var _left_pointer: int = -1
 var _right_pointer: int = -1
@@ -28,7 +30,8 @@ func _notification(what: int) -> void:
 func _refresh_layout() -> void:
 	_viewport_size = get_viewport_rect().size
 	_left_center = Vector2(150.0, _viewport_size.y - 110.0)
-	_right_center = Vector2(_viewport_size.x - 160.0, _viewport_size.y - 110.0)
+	_right_center = Vector2(_viewport_size.x - 300.0, _viewport_size.y - 110.0)
+	_fire_center = Vector2(_viewport_size.x - 110.0, _viewport_size.y - 110.0)
 	_grenade_center = _left_center + Vector2(310.0, 0.0)
 
 
@@ -45,12 +48,12 @@ func _handle_touch(touch: InputEventScreenTouch) -> void:
 		if point.distance_to(_left_center) <= STICK_RADIUS and _left_pointer == -1:
 			_left_pointer = touch.index
 			_update_left(point)
+		elif point.distance_to(_fire_center) <= FIRE_RADIUS and _fire_pointer == -1:
+			_fire_pointer = touch.index
+			Input.action_press(&"fire")
 		elif point.distance_to(_right_center) <= STICK_RADIUS and _right_pointer == -1:
 			_right_pointer = touch.index
 			_update_right(point)
-		elif point.x > _viewport_size.x - 300.0 and point.y > _viewport_size.y - 220.0:
-			_fire_pointer = touch.index
-			Input.action_press(&"fire")
 		elif point.distance_to(_grenade_center) <= 55.0:
 			_grenade_pointer = touch.index
 			Input.action_press(&"grenade")
@@ -108,7 +111,9 @@ func _draw() -> void:
 	_draw_stick(_right_center, _right_vector, Color(0.75, 0.38, 0.34, 0.5))
 	draw_string(ThemeDB.fallback_font, _left_center + Vector2(-78.0, -116.0), "MOVE / UP = JETPACK", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 14, Color(1.0, 1.0, 1.0, 0.78))
 	draw_string(ThemeDB.fallback_font, _right_center + Vector2(-55.0, -116.0), "AIM", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 14, Color(1.0, 1.0, 1.0, 0.78))
-	draw_string(ThemeDB.fallback_font, _right_center + Vector2(-10.0, 90.0), "TAP FIRE", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 14, Color(1.0, 0.9, 0.85, 0.82))
+	draw_circle(_fire_center, FIRE_RADIUS, Color(0.75, 0.38, 0.34, 0.38))
+	draw_arc(_fire_center, FIRE_RADIUS, 0.0, TAU, 40, Color(1.0, 1.0, 1.0, 0.8), 5.0)
+	draw_string(ThemeDB.fallback_font, _fire_center + Vector2(-40.0, 5.0), "FIRE", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 16, Color(1.0, 0.9, 0.85, 0.9))
 	draw_string(ThemeDB.fallback_font, _grenade_center + Vector2(-55.0, 70.0), "GRENADE", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 14, Color(1.0, 1.0, 1.0, 0.78))
 
 

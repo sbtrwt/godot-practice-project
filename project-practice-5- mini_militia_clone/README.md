@@ -96,6 +96,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Dedicated lobby scene with nearby LAN server discovery and manual IP fallback.
 - [x] Discovery clients use ephemeral UDP ports and direct host replies for same-machine debug instances and mobile hotspots.
 - [x] Core smoke suite runs cleanly under strict Godot warning-as-error settings.
+- [x] Mobile aim and fire touch regions are separated so fire taps cannot be captured by the aim joystick.
 - [x] Android Debug APK export verified with Godot 4.7 and the checked-in preset.
 - [ ] Milestone 5 completion: successful Android export/device testing, profiling/soak execution, and final gameplay-system replacement.
 

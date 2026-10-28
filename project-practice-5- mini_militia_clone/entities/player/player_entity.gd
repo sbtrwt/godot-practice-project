@@ -234,6 +234,8 @@ func show_shot(aim_direction: Vector2) -> void:
 
 
 func _draw() -> void:
+	var player_label := "P%d" % get_multiplayer_authority()
+	draw_string(ThemeDB.fallback_font, Vector2(-18.0, -48.0), player_label, HORIZONTAL_ALIGNMENT_LEFT, -1.0, 14, Color(0.92, 0.96, 1.0, 0.9))
 	var aim: Vector2 = _visual_aim.normalized()
 	draw_line(Vector2.ZERO, aim * 52.0, Color(1.0, 0.88, 0.5, 0.55), 3.0)
 	if _flash_remaining > 0.0:

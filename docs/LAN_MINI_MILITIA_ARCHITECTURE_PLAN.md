@@ -504,6 +504,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Arena decoration and platform layout are now data-driven through an `ArenaDefinition` Resource, enabling map variants without renderer edits.
 - Player, weapon, and arena Resources are validated at startup and in the headless test suite before gameplay uses them.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.
+- Player nameplates are presentation-only and derive identity from multiplayer authority, keeping LAN matches readable without coupling UI to gameplay rules.
 
 Remaining release-gate work includes successful Android APK export and physical device/hotspot testing, profiling/soak execution, richer HUD/ViewModels, resource validation, and replacing remaining prototype shortcuts with dedicated gameplay systems.
 

@@ -9,6 +9,7 @@ const GAME_SCENE: String = "res://scenes/main/main.tscn"
 @onready var _host_button: Button = %HostButton
 @onready var _join_button: Button = %JoinButton
 @onready var _start_button: Button = %StartButton
+@onready var _players_label: Label = %Players
 
 var _servers: Array[Dictionary] = []
 
@@ -18,11 +19,14 @@ func _ready() -> void:
 	NetworkService.discovery_changed.connect(_on_discovery_changed)
 	NetworkService.session_state_changed.connect(_on_session_state_changed)
 	NetworkService.local_session_ready.connect(_on_local_session_ready)
+	NetworkService.peer_joined.connect(_on_peer_joined)
+	NetworkService.peer_left.connect(_on_peer_left)
 	EventBus.network_error.connect(_on_network_error)
 	MatchService.match_state_changed.connect(_on_match_state_changed)
 	NetworkService.start_server_discovery()
 	_start_button.disabled = true
 	_status.text = "Scanning nearby LAN hosts..."
+	_refresh_player_count()
 
 
 func _exit_tree() -> void:
@@ -93,6 +97,22 @@ func _on_local_session_ready(_peer_id: int) -> void:
 		_start_button.disabled = false
 	else:
 		_status.text = "Connected — waiting for the host to start"
+	_refresh_player_count()
+
+
+func _on_peer_joined(_peer_id: int) -> void:
+	_refresh_player_count()
+
+
+func _on_peer_left(_peer_id: int) -> void:
+	_refresh_player_count()
+
+
+func _refresh_player_count() -> void:
+	var count: int = multiplayer.get_peers().size()
+	if NetworkService.session_state != NetworkService.SessionState.OFFLINE:
+		count += 1
+	_players_label.text = "PLAYERS  %d/6" % count
 
 
 func _on_network_error(code: StringName, message: String) -> void:

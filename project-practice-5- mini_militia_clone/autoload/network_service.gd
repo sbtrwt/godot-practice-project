@@ -118,6 +118,7 @@ func configure_simulation(enabled: bool, latency_ms: int, packet_loss_percent: i
 	simulation_enabled = enabled and OS.is_debug_build()
 	simulated_latency_ms = clampi(latency_ms, 0, 2000)
 	simulated_packet_loss_percent = clampi(packet_loss_percent, 0, 100)
+	_packet_counter = 0
 
 
 func should_drop_packet() -> bool:

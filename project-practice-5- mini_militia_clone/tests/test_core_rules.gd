@@ -106,6 +106,9 @@ func _test_network_simulation() -> void:
 	_assert(is_equal_approx(float(network.call("simulated_latency_seconds")), 0.12), "network simulation exposes configured latency")
 	_assert(bool(network.call("should_drop_packet")), "network simulation drops packets at 100 percent loss")
 	network.call("configure_simulation", false, 0, 0)
+	network.call("configure_simulation", true, 120, 100)
+	_assert(bool(network.call("should_drop_packet")), "network simulation reset remains deterministic")
+	network.call("configure_simulation", false, 0, 0)
 	network.queue_free()
 
 

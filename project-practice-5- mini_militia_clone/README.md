@@ -87,6 +87,12 @@ The current player scene remains a prototype vertical slice. Remaining work is r
 
 ## Automated validation
 
+Run the checked-in PowerShell validation harness from this project directory. It parser-checks every GDScript file, then runs the dependency-free core smoke suite:
+
+```powershell
+.\tools\validate_project.ps1 -GodotExecutable "D:\program files\Godot\Godot_v4.7-stable_win64\Godot_v4.7-stable_win64_console.exe"
+```
+
 Run the dependency-free gameplay smoke tests from the project directory:
 
 ```text

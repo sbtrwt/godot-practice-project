@@ -524,6 +524,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Grenade damage, radius, and cooldown use the validated `WeaponDefinition` Resource instead of entity magic numbers.
 - Grenade requests now use a host-authoritative fuse before area damage and impact presentation resolve.
 - Touch controls are state-aware and do not obscure lobby or results presentation.
+- A checked-in PowerShell validation harness parser-checks all project scripts before running core smoke tests.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.
 - Player nameplates are presentation-only and derive identity from multiplayer authority, keeping LAN matches readable without coupling UI to gameplay rules.
 - The lobby uses the versioned SaveService to restore the last host IP and persist it after a join attempt.

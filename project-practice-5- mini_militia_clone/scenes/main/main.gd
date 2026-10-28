@@ -45,6 +45,7 @@ func _validate_configured_resources() -> void:
 
 
 func _on_host_pressed() -> void:
+	ErrorService.clear()
 	var error := NetworkService.host_game()
 	if error != OK:
 		_status_label.text = "Host failed: %s" % error_string(error)
@@ -53,6 +54,7 @@ func _on_host_pressed() -> void:
 
 
 func _on_join_pressed() -> void:
+	ErrorService.clear()
 	var error := NetworkService.join_game(_ip_input.text.strip_edges())
 	if error != OK:
 		_status_label.text = "Join failed: %s" % error_string(error)
@@ -63,6 +65,7 @@ func _on_join_pressed() -> void:
 
 func _on_network_recovery_pressed() -> void:
 	NetworkService.disconnect_session()
+	ErrorService.clear()
 	_status_label.text = "Network reset — host or join again"
 	_network_recovery_button.visible = false
 

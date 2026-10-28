@@ -364,9 +364,19 @@ func _respawn_after_delay() -> void:
 	if not is_inside_tree():
 		return
 	global_position = spawn_position
+	_publish_respawn_position.rpc(global_position)
 	_health.call("heal", int(_health.get("max_health")))
 	_respawning = false
 	_set_respawning_visual.rpc(false)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _publish_respawn_position(position: Vector2) -> void:
+	if multiplayer.is_server():
+		return
+	_target_position = position
+	global_position = position
+	velocity = Vector2.ZERO
 
 
 @rpc("any_peer", "call_local", "reliable")

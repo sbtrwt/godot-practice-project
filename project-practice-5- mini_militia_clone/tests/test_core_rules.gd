@@ -154,6 +154,13 @@ func _test_network_timeout() -> void:
 func _test_match_warmup() -> void:
 	var match_service: Node = root.get_node("MatchService")
 	match_service.call("return_to_lobby")
+	match_service.call("start_match")
+	match_service.call("_process", 3.1)
+	match_service.call("report_kill", 1, 2)
+	match_service.call("report_kill", 1, 3)
+	match_service.call("_end_match")
+	_assert(str(match_service.get("results_summary")).contains("WINNER P1"), "results identify the authoritative winner")
+	match_service.call("return_to_lobby")
 
 
 func _test_kill_feed() -> void:

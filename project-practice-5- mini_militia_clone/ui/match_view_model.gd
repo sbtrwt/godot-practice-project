@@ -5,6 +5,7 @@ signal state_changed(state: StringName, can_return_to_lobby: bool)
 signal timer_changed(text: String)
 signal score_changed(text: String)
 signal kill_feed_changed(text: String)
+signal results_changed(text: String)
 
 var _last_timer_text: String = ""
 
@@ -13,9 +14,11 @@ func _ready() -> void:
 	MatchService.match_state_changed.connect(_on_match_state_changed)
 	MatchService.score_changed.connect(_on_score_changed)
 	MatchService.kill_feed_changed.connect(_on_kill_feed_changed)
+	MatchService.results_changed.connect(_on_results_changed)
 	_on_match_state_changed(&"lobby")
 	_on_score_changed({})
 	_on_kill_feed_changed([])
+	_on_results_changed("")
 
 
 func _process(_delta: float) -> void:
@@ -44,3 +47,7 @@ func _on_score_changed(scores: Dictionary) -> void:
 
 func _on_kill_feed_changed(entries: Array[String]) -> void:
 	kill_feed_changed.emit("\n".join(entries))
+
+
+func _on_results_changed(summary: String) -> void:
+	results_changed.emit(summary)

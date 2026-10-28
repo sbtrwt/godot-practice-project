@@ -39,6 +39,14 @@ func _ready() -> void:
 	MatchService.match_state_changed.connect(_on_match_state_changed)
 	_refresh_lobby_players()
 	_spawn_player(1)
+	for peer_id: int in multiplayer.get_peers():
+		_spawn_player(peer_id)
+	_host_button.visible = false
+	_join_button.visible = false
+	_ip_input.visible = false
+	_start_match_button.visible = false
+	_network_recovery_button.visible = false
+	_lobby_players_label.visible = false
 	var saved_data: Dictionary = SaveService.load_game()
 	var saved_ip: Variant = saved_data.get("last_host_ip", "")
 	if saved_ip is String and not String(saved_ip).is_empty():

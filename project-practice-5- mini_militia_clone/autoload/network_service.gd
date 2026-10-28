@@ -5,11 +5,15 @@ signal session_state_changed(state: StringName)
 signal peer_joined(peer_id: int)
 signal peer_left(peer_id: int)
 signal local_session_ready(peer_id: int)
+signal server_discovered(server: Dictionary)
+signal discovery_changed(servers: Array[Dictionary])
 
 const PORT: int = 7777
 const MAX_PLAYERS: int = 6
 const PROTOCOL_VERSION: int = 1
 const CONNECT_TIMEOUT_SECONDS: float = 8.0
+const DISCOVERY_PORT: int = 7778
+const DISCOVERY_INTERVAL_SECONDS: float = 1.0
 
 enum SessionState { OFFLINE, HOSTING, CONNECTING, CONNECTED }
 
@@ -19,6 +23,10 @@ var simulated_latency_ms: int = 0
 var simulated_packet_loss_percent: int = 0
 var _packet_counter: int = 0
 var _connection_elapsed: float = 0.0
+var _discovery_socket: PacketPeerUDP = PacketPeerUDP.new()
+var _discovery_elapsed: float = 0.0
+var _discovery_active: bool = false
+var _discovered_servers: Dictionary = {}
 
 
 func _ready() -> void:
@@ -28,9 +36,17 @@ func _ready() -> void:
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	_update_state(SessionState.OFFLINE)
+	_discovery_socket.set_broadcast_enabled(true)
+	_discovery_socket.bind(DISCOVERY_PORT)
 
 
 func _process(delta: float) -> void:
+	_poll_discovery()
+	if session_state == SessionState.HOSTING:
+		_discovery_elapsed += delta
+		if _discovery_elapsed >= DISCOVERY_INTERVAL_SECONDS:
+			_discovery_elapsed = 0.0
+			_broadcast_advertisement()
 	if session_state != SessionState.CONNECTING:
 		return
 	_connection_elapsed += delta
@@ -54,6 +70,7 @@ func host_game() -> Error:
 		return error
 	multiplayer.multiplayer_peer = peer
 	_update_state(SessionState.HOSTING)
+	_discovery_elapsed = DISCOVERY_INTERVAL_SECONDS
 	return OK
 
 
@@ -116,6 +133,32 @@ func disconnect_session() -> void:
 	_connection_elapsed = 0.0
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	_update_state(SessionState.OFFLINE)
+	_discovery_elapsed = 0.0
+
+
+## Starts listening for host advertisements on the local Wi-Fi network.
+func start_server_discovery() -> void:
+	_discovery_active = true
+	_discovered_servers.clear()
+	var empty_servers: Array[Dictionary] = []
+	discovery_changed.emit(empty_servers)
+	_send_discovery_request()
+
+
+## Stops listening for host advertisements.
+func stop_server_discovery() -> void:
+	_discovery_active = false
+
+
+## Returns the most recently discovered LAN servers.
+func get_discovered_servers() -> Array[Dictionary]:
+	var servers: Array[Dictionary] = []
+	for server: Variant in _discovered_servers.values():
+		servers.append(server)
+	servers.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		return String(left.get("name", "")) < String(right.get("name", ""))
+	)
+	return servers
 
 
 ## Debug-only deterministic packet simulation used by local soak tests.
@@ -143,6 +186,49 @@ func _update_state(new_state: SessionState) -> void:
 	session_state = new_state
 	var state_name: String = str(SessionState.keys()[new_state]).to_snake_case()
 	session_state_changed.emit(StringName(state_name))
+
+
+func _send_discovery_request() -> void:
+	_discovery_socket.set_dest_address("255.255.255.255", DISCOVERY_PORT)
+	_discovery_socket.put_packet(("LAN_MINI_MILITIA_DISCOVER|%d" % PROTOCOL_VERSION).to_utf8_buffer())
+
+
+func _broadcast_advertisement() -> void:
+	var players: int = multiplayer.get_peers().size() + 1
+	var packet := "LAN_MINI_MILITIA_SERVER|%d|%s|%d|%d" % [
+		PROTOCOL_VERSION, get_local_ipv4(), PORT, players
+	]
+	_discovery_socket.set_dest_address("255.255.255.255", DISCOVERY_PORT)
+	_discovery_socket.put_packet(packet.to_utf8_buffer())
+
+
+func _poll_discovery() -> void:
+	while _discovery_socket.get_available_packet_count() > 0:
+		var sender_ip: String = _discovery_socket.get_packet_ip()
+		var packet: String = _discovery_socket.get_packet().get_string_from_utf8()
+		var parts: PackedStringArray = packet.split("|")
+		if parts.size() >= 2 and parts[0] == "LAN_MINI_MILITIA_DISCOVER":
+			if session_state == SessionState.HOSTING:
+				_broadcast_advertisement()
+			continue
+		if not _discovery_active or parts.size() < 5 or parts[0] != "LAN_MINI_MILITIA_SERVER":
+			continue
+		if int(parts[1]) != PROTOCOL_VERSION:
+			continue
+		var address: String = parts[2]
+		if address == "unavailable":
+			address = sender_ip
+		var server: Dictionary = {
+			"name": "LAN Host (%s)" % address,
+			"address": address,
+			"port": int(parts[3]),
+			"players": int(parts[4])
+		}
+		var key: String = "%s:%d" % [address, int(parts[3])]
+		if not _discovered_servers.has(key):
+			_discovered_servers[key] = server
+			server_discovered.emit(server)
+			discovery_changed.emit(get_discovered_servers())
 
 
 func _on_peer_connected(peer_id: int) -> void:

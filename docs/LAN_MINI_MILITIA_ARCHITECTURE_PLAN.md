@@ -519,6 +519,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Arena platform collision shapes are generated from `ArenaDefinition`, preventing visual and gameplay geometry drift.
 - Lobby address validation rejects malformed LAN IPv4 input before opening ENet transport.
 - Late-joining LAN peers receive a current authoritative match snapshot before presenting gameplay state.
+- Grenade damage, radius, and cooldown use the validated `WeaponDefinition` Resource instead of entity magic numbers.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.
 - Player nameplates are presentation-only and derive identity from multiplayer authority, keeping LAN matches readable without coupling UI to gameplay rules.
 - The lobby uses the versioned SaveService to restore the last host IP and persist it after a join attempt.

@@ -9,3 +9,6 @@ display_name = "Pistol"
 damage = 25
 cooldown = 0.35
 max_range = 420.0
+grenade_damage = 50
+grenade_radius = 180.0
+grenade_cooldown = 1.0

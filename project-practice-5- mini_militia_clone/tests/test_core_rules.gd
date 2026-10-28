@@ -124,6 +124,9 @@ func _test_error_service() -> void:
 func _test_resource_validation() -> void:
 	_assert(ResourceValidator.validate_player(PlayerDefinitionResource).is_empty(), "default player resource validates")
 	_assert(ResourceValidator.validate_weapon(WeaponDefinitionResource).is_empty(), "default weapon resource validates")
+	var invalid_weapon: Resource = WeaponDefinitionResource.duplicate(true)
+	invalid_weapon.set("grenade_radius", 0.0)
+	_assert(not ResourceValidator.validate_weapon(invalid_weapon).is_empty(), "weapon validator rejects invalid grenade tuning")
 	_assert(ResourceValidator.validate_arena(ArenaDefinitionResource).is_empty(), "default arena resource validates")
 	var invalid_arena: Resource = ArenaDefinitionResource.duplicate(true)
 	var invalid_platforms: Array[Rect2] = [Rect2(-10.0, 0.0, 40.0, 40.0)]

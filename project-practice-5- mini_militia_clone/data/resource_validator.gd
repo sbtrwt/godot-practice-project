@@ -30,6 +30,12 @@ static func validate_weapon(resource: Resource) -> Array[String]:
 		errors.append("weapon cooldown must be positive")
 	if float(resource.get("max_range")) <= 0.0:
 		errors.append("weapon max_range must be positive")
+	if int(resource.get("grenade_damage")) <= 0:
+		errors.append("weapon grenade_damage must be positive")
+	if float(resource.get("grenade_radius")) <= 0.0:
+		errors.append("weapon grenade_radius must be positive")
+	if float(resource.get("grenade_cooldown")) <= 0.0:
+		errors.append("weapon grenade_cooldown must be positive")
 	return errors
 
 

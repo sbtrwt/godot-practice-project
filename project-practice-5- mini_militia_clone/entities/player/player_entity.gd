@@ -179,7 +179,7 @@ func _submit_fire() -> void:
 func _submit_grenade() -> void:
 	if _grenade_cooldown > 0.0:
 		return
-	_grenade_cooldown = 1.0
+	_grenade_cooldown = float(_weapon.get("grenade_cooldown"))
 	request_grenade.rpc_id(1, global_position)
 
 
@@ -204,10 +204,10 @@ func _resolve_grenade(origin: Vector2, attacker_id: int) -> void:
 		var candidate: Node2D = candidate_node as Node2D
 		if candidate.get_multiplayer_authority() == attacker_id:
 			continue
-		if candidate.global_position.distance_to(origin) <= 180.0:
+		if candidate.global_position.distance_to(origin) <= float(_weapon.get("grenade_radius")):
 			var hurtbox: Node = candidate.get_node_or_null("HurtboxComponent")
 			if hurtbox != null and hurtbox.has_method(&"receive_hit"):
-				hurtbox.call("receive_hit", 50, attacker_id)
+				hurtbox.call("receive_hit", int(_weapon.get("grenade_damage")), attacker_id)
 
 
 @rpc("authority", "call_local", "unreliable")

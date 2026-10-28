@@ -3,6 +3,7 @@ extends SceneTree
 
 const HealthComponentScript = preload("res://entities/components/health_component.gd")
 const WeaponComponentScript = preload("res://entities/components/weapon_component.gd")
+const HurtboxComponentScript = preload("res://entities/components/hurtbox_component.gd")
 const SaveServiceScript = preload("res://autoload/save_service.gd")
 const ResourceValidator = preload("res://data/resource_validator.gd")
 const PlayerDefinitionResource = preload("res://data/default_player.tres")
@@ -15,6 +16,7 @@ var _failures: int = 0
 func _initialize() -> void:
 	_test_health_component()
 	_test_weapon_cooldown()
+	_test_hurtbox_signal()
 	_test_save_migration()
 	_test_network_simulation()
 	_test_error_service()
@@ -58,6 +60,20 @@ func _test_weapon_cooldown() -> void:
 	weapon.call("_process", 0.25)
 	_assert(bool(weapon.call("try_fire")), "weapon accepts shot after cooldown")
 	weapon.queue_free()
+
+
+func _test_hurtbox_signal() -> void:
+	var hurtbox: Node = HurtboxComponentScript.new()
+	root.add_child(hurtbox)
+	var received: Array[Variant] = []
+	hurtbox.hit_received.connect(func(amount: int, attacker_id: int) -> void:
+		received.append([amount, attacker_id])
+	)
+	hurtbox.call("receive_hit", 35, 7)
+	hurtbox.call("receive_hit", 0, 8)
+	_assert(received.size() == 1, "hurtbox ignores non-positive damage")
+	_assert(received[0] == [35, 7], "hurtbox forwards damage and attacker identity")
+	hurtbox.queue_free()
 
 
 func _test_save_migration() -> void:

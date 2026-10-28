@@ -23,11 +23,15 @@ func save_game(data: Dictionary) -> Error:
 			DirAccess.remove_absolute(backup_absolute)
 		var backup_error := DirAccess.rename_absolute(save_absolute, backup_absolute)
 		if backup_error != OK:
+			DirAccess.remove_absolute(temp_absolute)
 			return backup_error
 	var promote_error := DirAccess.rename_absolute(temp_absolute, save_absolute)
 	if promote_error != OK and FileAccess.file_exists(BACKUP_SAVE_PATH):
 		DirAccess.rename_absolute(backup_absolute, save_absolute)
+		DirAccess.remove_absolute(temp_absolute)
 		return promote_error
+	if promote_error != OK:
+		DirAccess.remove_absolute(temp_absolute)
 	if FileAccess.file_exists(BACKUP_SAVE_PATH):
 		DirAccess.remove_absolute(backup_absolute)
 	return promote_error

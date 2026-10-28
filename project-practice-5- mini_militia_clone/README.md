@@ -51,6 +51,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Authoritative grenades resolve after a short fuse before broadcasting the impact effect.
 - [x] Grenade fuse timing is visible through a replicated presentation marker.
 - [x] Client snapshot interpolation queues are bounded to prevent unbounded latency-memory growth.
+- [x] Save failure paths remove stale temporary files after backup promotion errors.
 - [x] Touch controls are hidden in lobby/results and shown only during match play.
 - [x] Authoritative grenade touch zone with cooldown and area damage prototype.
 - [x] Per-player health bars driven by the HealthComponent.

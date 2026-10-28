@@ -104,6 +104,10 @@ func _test_resource_validation() -> void:
 	_assert(ResourceValidator.validate_player(PlayerDefinitionResource).is_empty(), "default player resource validates")
 	_assert(ResourceValidator.validate_weapon(WeaponDefinitionResource).is_empty(), "default weapon resource validates")
 	_assert(ResourceValidator.validate_arena(ArenaDefinitionResource).is_empty(), "default arena resource validates")
+	var invalid_arena: Resource = ArenaDefinitionResource.duplicate(true)
+	var invalid_platforms: Array[Rect2] = [Rect2(-10.0, 0.0, 40.0, 40.0)]
+	invalid_arena.set("platform_rects", invalid_platforms)
+	_assert(not ResourceValidator.validate_arena(invalid_arena).is_empty(), "arena validator rejects out-of-bounds geometry")
 
 
 func _test_network_soak() -> void:

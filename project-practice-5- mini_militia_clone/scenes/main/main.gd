@@ -6,6 +6,9 @@ const PLAYER_SCENE: PackedScene = preload("res://scenes/player/player_entity.tsc
 @onready var _players: Node2D = $Players
 @onready var _status_label: Label = $UI/StatusLabel
 @onready var _ip_input: LineEdit = $UI/IPInput
+@onready var _lobby_players_label: Label = $UI/LobbyPlayers
+
+var _lobby_peer_ids: Array[int] = [1]
 
 
 func _ready() -> void:
@@ -13,6 +16,7 @@ func _ready() -> void:
 	NetworkService.peer_joined.connect(_on_peer_joined)
 	NetworkService.peer_left.connect(_on_peer_left)
 	NetworkService.local_session_ready.connect(_on_local_session_ready)
+	_refresh_lobby_players()
 	_spawn_player(1)
 	_status_label.text = "Offline — Host or join a LAN session"
 
@@ -61,15 +65,31 @@ func _on_session_state_changed(state: StringName) -> void:
 
 func _on_peer_joined(peer_id: int) -> void:
 	print("Peer joined: ", peer_id)
+	if not _lobby_peer_ids.has(peer_id):
+		_lobby_peer_ids.append(peer_id)
+	_refresh_lobby_players()
 	_spawn_player(peer_id)
 
 
 func _on_peer_left(peer_id: int) -> void:
 	print("Peer left: ", peer_id)
+	_lobby_peer_ids.erase(peer_id)
+	_refresh_lobby_players()
 	var player := _players.get_node_or_null("Player_%d" % peer_id)
 	if player != null:
 		player.queue_free()
 
 
 func _on_local_session_ready(peer_id: int) -> void:
+	if not _lobby_peer_ids.has(peer_id):
+		_lobby_peer_ids.append(peer_id)
+	_refresh_lobby_players()
 	_spawn_player(peer_id)
+
+
+func _refresh_lobby_players() -> void:
+	_lobby_peer_ids.sort()
+	var names: Array[String] = []
+	for peer_id: int in _lobby_peer_ids:
+		names.append("Player %d%s" % [peer_id, " (Host)" if peer_id == 1 else ""])
+	_lobby_players_label.text = "LAN PLAYERS  %d/6\n%s" % [names.size(), "\n".join(names)]

@@ -490,6 +490,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Player health bars are presentation nodes driven by component signals, keeping health rules out of the view.
 - The live scene has a deterministic vector fallback when a runtime cannot import external raster/vector art; source art remains versioned for editor/device builds.
 - The LAN flow now keeps peers in the lobby until the host explicitly starts the match.
+- The lobby exposes a live peer list through the application/presentation boundary.
 
 Remaining production-hardening work includes Android APK export and device testing, atomic save migrations, network simulation/soak tests, richer HUD/ViewModels, and replacing prototype shortcuts with dedicated gameplay systems.
 

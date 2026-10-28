@@ -10,7 +10,7 @@ $scripts = Get-ChildItem -LiteralPath $projectRoot -Filter "*.gd" -File -Recurse
 
 foreach ($script in $scripts) {
 	$relativePath = $script.FullName.Substring($projectRoot.Length + 1).Replace("\\", "/")
-	& $GodotExecutable --headless "--path=$projectRoot" --check-only "--script=res://$relativePath"
+	& $GodotExecutable --headless --quit-after=1 "--path=$projectRoot" --check-only "--script=res://$relativePath"
 	if ($LASTEXITCODE -ne 0) {
 		throw "GDScript validation failed: $relativePath"
 	}

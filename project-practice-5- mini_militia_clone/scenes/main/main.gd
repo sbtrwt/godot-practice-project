@@ -6,6 +6,7 @@ const RESOURCE_VALIDATOR = preload("res://data/resource_validator.gd")
 const PLAYER_DEFINITION = preload("res://data/default_player.tres")
 const WEAPON_DEFINITION = preload("res://data/default_pistol.tres")
 const ARENA_DEFINITION = preload("res://data/default_arena.tres")
+const MATCH_DEFINITION = preload("res://data/default_match.tres")
 
 @onready var _players: Node2D = $Players
 @onready var _status_label: Label = $UI/StatusLabel
@@ -53,6 +54,7 @@ func _validate_configured_resources() -> bool:
 		RESOURCE_VALIDATOR.validate_player(PLAYER_DEFINITION),
 		RESOURCE_VALIDATOR.validate_weapon(WEAPON_DEFINITION),
 		RESOURCE_VALIDATOR.validate_arena(ARENA_DEFINITION),
+		RESOURCE_VALIDATOR.validate_match(MATCH_DEFINITION),
 	]
 	for errors: Array in validations:
 		for message: String in errors:

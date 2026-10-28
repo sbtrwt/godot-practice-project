@@ -8,9 +8,7 @@ signal results_changed(summary: String)
 
 enum MatchState { LOBBY, WARMUP, PLAYING, RESULTS }
 
-const MATCH_DURATION: float = 120.0
-const WARMUP_DURATION: float = 3.0
-const SCORE_LIMIT: int = 10
+const MATCH_DEFINITION: Resource = preload("res://data/default_match.tres")
 
 var state: MatchState = MatchState.LOBBY
 var time_remaining: float = 0.0
@@ -26,7 +24,7 @@ func _process(delta: float) -> void:
 	if not _is_server():
 		return
 	if state == MatchState.WARMUP and time_remaining <= 0.0:
-		time_remaining = MATCH_DURATION
+		time_remaining = float(MATCH_DEFINITION.get("match_duration"))
 		_set_state(MatchState.PLAYING)
 		return
 	if time_remaining <= 0.0:
@@ -43,7 +41,7 @@ func start_match() -> void:
 	score_changed.emit(scores.duplicate())
 	results_summary = ""
 	results_changed.emit(results_summary)
-	time_remaining = WARMUP_DURATION
+	time_remaining = float(MATCH_DEFINITION.get("warmup_duration"))
 	_set_state(MatchState.WARMUP)
 
 
@@ -88,7 +86,7 @@ func report_kill(killer_id: int, victim_id: int) -> void:
 	EventBus.score_changed.emit(killer_id, scores[killer_id])
 	_publish_score.rpc(scores.duplicate())
 	_publish_kill.rpc(killer_id, victim_id, scores[killer_id])
-	if scores[killer_id] >= SCORE_LIMIT:
+	if scores[killer_id] >= int(MATCH_DEFINITION.get("score_limit")):
 		_end_match()
 
 

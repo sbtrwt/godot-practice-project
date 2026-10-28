@@ -69,3 +69,16 @@ static func validate_arena(resource: Resource) -> Array[String]:
 		if not Rect2(32.0, 32.0, 1216.0, 656.0).has_point(spawn_value):
 			errors.append("arena spawn point must stay inside the playable bounds")
 	return errors
+
+
+static func validate_match(resource: Resource) -> Array[String]:
+	var errors: Array[String] = []
+	if resource == null:
+		return ["match definition is missing"]
+	if float(resource.get("match_duration")) <= 0.0:
+		errors.append("match match_duration must be positive")
+	if float(resource.get("warmup_duration")) <= 0.0:
+		errors.append("match warmup_duration must be positive")
+	if int(resource.get("score_limit")) <= 0:
+		errors.append("match score_limit must be positive")
+	return errors

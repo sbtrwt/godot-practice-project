@@ -9,6 +9,7 @@ const ResourceValidator = preload("res://data/resource_validator.gd")
 const PlayerDefinitionResource = preload("res://data/default_player.tres")
 const WeaponDefinitionResource = preload("res://data/default_pistol.tres")
 const ArenaDefinitionResource = preload("res://data/default_arena.tres")
+const MatchDefinitionResource = preload("res://data/default_match.tres")
 
 var _failures: int = 0
 
@@ -131,6 +132,10 @@ func _test_resource_validation() -> void:
 	invalid_weapon.set("grenade_radius", 0.0)
 	_assert(not ResourceValidator.validate_weapon(invalid_weapon).is_empty(), "weapon validator rejects invalid grenade tuning")
 	_assert(ResourceValidator.validate_arena(ArenaDefinitionResource).is_empty(), "default arena resource validates")
+	_assert(ResourceValidator.validate_match(MatchDefinitionResource).is_empty(), "default match resource validates")
+	var invalid_match: Resource = MatchDefinitionResource.duplicate(true)
+	invalid_match.set("score_limit", 0)
+	_assert(not ResourceValidator.validate_match(invalid_match).is_empty(), "match validator rejects invalid score limit")
 	var invalid_arena: Resource = ArenaDefinitionResource.duplicate(true)
 	var invalid_platforms: Array[Rect2] = [Rect2(-10.0, 0.0, 40.0, 40.0)]
 	invalid_arena.set("platform_rects", invalid_platforms)

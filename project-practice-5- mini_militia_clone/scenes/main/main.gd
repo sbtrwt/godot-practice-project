@@ -12,6 +12,7 @@ const ARENA_DEFINITION = preload("res://data/default_arena.tres")
 @onready var _ip_input: LineEdit = $UI/IPInput
 @onready var _lobby_players_label: Label = $UI/LobbyPlayers
 @onready var _network_recovery_button: Button = $UI/NetworkRecoveryButton
+@onready var _start_match_button: Button = $UI/StartMatchButton
 
 var _lobby_peer_ids: Array[int] = [1]
 
@@ -23,6 +24,7 @@ func _ready() -> void:
 	NetworkService.peer_left.connect(_on_peer_left)
 	NetworkService.local_session_ready.connect(_on_local_session_ready)
 	EventBus.network_error.connect(_on_network_error)
+	MatchService.match_state_changed.connect(_on_match_state_changed)
 	_refresh_lobby_players()
 	_spawn_player(1)
 	var saved_data: Dictionary = SaveService.load_game()
@@ -31,6 +33,7 @@ func _ready() -> void:
 		_ip_input.text = String(saved_ip)
 	_status_label.text = "Offline — Host or join a LAN session"
 	_network_recovery_button.visible = false
+	_update_start_match_button()
 
 
 func _validate_configured_resources() -> void:
@@ -99,6 +102,17 @@ func _spawn_player(peer_id: int) -> void:
 
 func _on_session_state_changed(state: StringName) -> void:
 	_status_label.text = "Session: %s" % state
+	_update_start_match_button()
+
+
+func _on_match_state_changed(_state: StringName) -> void:
+	_update_start_match_button()
+
+
+func _update_start_match_button() -> void:
+	if _start_match_button == null:
+		return
+	_start_match_button.disabled = not multiplayer.is_server() or MatchService.state != MatchService.MatchState.LOBBY
 
 
 func _on_peer_joined(peer_id: int) -> void:

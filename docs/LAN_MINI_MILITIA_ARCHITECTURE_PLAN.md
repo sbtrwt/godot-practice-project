@@ -513,6 +513,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Established client sessions route host disconnects through the same ErrorService and lobby recovery path as connection failures.
 - New network attempts and explicit reset clear prior diagnostics so the debug surface reports current-session failures.
 - LAN address discovery filters to RFC1918 private IPv4 ranges so virtual and link-local adapters are not advertised.
+- Lobby controls now reflect session authority and match state, preventing clients from attempting host-only start commands.
 
 Remaining release-gate work includes successful Android APK export and physical device/hotspot testing, profiling/soak execution, richer HUD/ViewModels, resource validation, and replacing remaining prototype shortcuts with dedicated gameplay systems.
 

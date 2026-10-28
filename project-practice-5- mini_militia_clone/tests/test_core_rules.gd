@@ -204,6 +204,9 @@ func _test_kill_feed() -> void:
 	_assert(is_equal_approx(float(match_service.get("time_remaining")), 42.0), "state replication applies authoritative timer")
 	match_service.call("_publish_feed", ["P1 eliminated P2  (1)"])
 	_assert((match_service.get("kill_feed") as Array).size() == 1, "late-join feed snapshot applies")
+	match_service.call("_publish_score", {2: 4})
+	match_service.call("remove_peer", 2)
+	_assert(not (match_service.get("scores") as Dictionary).has(2), "disconnect removes stale peer score")
 	match_service.call("return_to_lobby")
 
 

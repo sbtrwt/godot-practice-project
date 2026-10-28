@@ -70,6 +70,15 @@ func sync_peer(peer_id: int) -> void:
 	_publish_feed.rpc_id(peer_id, kill_feed.duplicate())
 
 
+## Removes a disconnected peer from the authoritative scoreboard.
+func remove_peer(peer_id: int) -> void:
+	if not _is_server() or not scores.has(peer_id):
+		return
+	scores.erase(peer_id)
+	score_changed.emit(scores.duplicate())
+	_publish_score.rpc(scores.duplicate())
+
+
 ## Records a validated kill and ends the match at the score limit.
 func report_kill(killer_id: int, victim_id: int) -> void:
 	if not _is_server() or state != MatchState.PLAYING:

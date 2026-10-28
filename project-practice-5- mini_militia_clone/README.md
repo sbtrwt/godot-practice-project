@@ -54,6 +54,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Save failure paths remove stale temporary files after backup promotion errors.
 - [x] Debug network simulation resets its packet sequence on reconfiguration for repeatable soak runs.
 - [x] Startup fails closed and disables LAN controls when configured Resources are invalid.
+- [x] Disconnect handling removes stale peer scores from the authoritative scoreboard.
 - [x] Touch controls are hidden in lobby/results and shown only during match play.
 - [x] Authoritative grenade touch zone with cooldown and area damage prototype.
 - [x] Per-player health bars driven by the HealthComponent.

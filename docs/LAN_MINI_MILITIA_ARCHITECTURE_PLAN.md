@@ -528,6 +528,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Save promotion failures clean temporary artifacts while preserving the previous backup when available.
 - Network simulation reconfiguration resets its deterministic packet counter for repeatable diagnostics.
 - Startup fails closed when player, weapon, or arena Resource validation reports errors.
+- Peer disconnects remove the peer from the host-authoritative scoreboard before later results are shown.
 - Touch controls are state-aware and do not obscure lobby or results presentation.
 - A checked-in PowerShell validation harness parser-checks all project scripts before running core smoke tests.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.

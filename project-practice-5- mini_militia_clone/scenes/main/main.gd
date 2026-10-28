@@ -165,6 +165,7 @@ func _on_peer_joined(peer_id: int) -> void:
 
 func _on_peer_left(peer_id: int) -> void:
 	print("Peer left: ", peer_id)
+	MatchService.remove_peer(peer_id)
 	_lobby_peer_ids.erase(peer_id)
 	_refresh_lobby_players()
 	var player := _players.get_node_or_null("Player_%d" % peer_id)

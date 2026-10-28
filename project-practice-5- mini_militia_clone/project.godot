@@ -8,6 +8,7 @@ NetworkService="*res://autoload/network_service.gd"
 SaveService="*res://autoload/save_service.gd"
 MatchService="*res://autoload/match_service.gd"
 InputService="*res://autoload/input_service.gd"
+ErrorService="*res://autoload/error_service.gd"
 
 [display]
 window/size/viewport_width=1280

@@ -31,6 +31,7 @@ func host_game() -> Error:
 	var peer := ENetMultiplayerPeer.new()
 	var error := peer.create_server(PORT, MAX_PLAYERS)
 	if error != OK:
+		ErrorService.report(&"network_host_failed", error_string(error))
 		EventBus.network_error.emit(&"network_host_failed", error_string(error))
 		return error
 	multiplayer.multiplayer_peer = peer
@@ -45,6 +46,7 @@ func join_game(ip_address: String) -> Error:
 	var peer := ENetMultiplayerPeer.new()
 	var error := peer.create_client(ip_address, PORT)
 	if error != OK:
+		ErrorService.report(&"network_join_failed", error_string(error))
 		EventBus.network_error.emit(&"network_join_failed", error_string(error))
 		return error
 	multiplayer.multiplayer_peer = peer
@@ -100,5 +102,6 @@ func _on_connected_to_server() -> void:
 
 
 func _on_connection_failed() -> void:
+	ErrorService.report(&"network_connection_failed", "The host rejected the connection.")
 	EventBus.network_error.emit(&"network_connection_failed", "The host rejected the connection.")
 	disconnect_session()

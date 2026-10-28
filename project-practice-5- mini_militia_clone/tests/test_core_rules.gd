@@ -13,6 +13,7 @@ func _initialize() -> void:
 	_test_weapon_cooldown()
 	_test_save_migration()
 	_test_network_simulation()
+	_test_error_service()
 	if _failures == 0:
 		print("CORE_RULE_TESTS_PASS")
 		quit(0)
@@ -78,6 +79,18 @@ func _test_network_simulation() -> void:
 	_assert(bool(network.call("should_drop_packet")), "network simulation drops packets at 100 percent loss")
 	network.call("configure_simulation", false, 0, 0)
 	network.queue_free()
+
+
+func _test_error_service() -> void:
+	var errors: Node = root.get_node("ErrorService")
+	errors.call("clear")
+	for index: int in 25:
+		errors.call("report", StringName("test_%d" % index), "diagnostic")
+	var records: Array = errors.get("records")
+	_assert(records.size() == 20, "error service bounds diagnostic history")
+	var latest: Dictionary = errors.call("latest")
+	_assert(latest.get("code", &"") == &"test_24", "error service exposes latest diagnostic")
+	errors.call("clear")
 
 
 func _assert(condition: bool, description: String) -> void:

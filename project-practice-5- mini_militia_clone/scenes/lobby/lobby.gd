@@ -62,7 +62,6 @@ func _on_start_pressed() -> void:
 	if not multiplayer.is_server():
 		return
 	MatchService.start_match()
-	_change_to_game()
 
 
 func _on_server_discovered(_server: Dictionary) -> void:
@@ -108,5 +107,7 @@ func _on_match_state_changed(state: StringName) -> void:
 
 
 func _change_to_game() -> void:
+	if not is_inside_tree():
+		return
 	if get_tree().current_scene == self:
 		get_tree().change_scene_to_file(GAME_SCENE)

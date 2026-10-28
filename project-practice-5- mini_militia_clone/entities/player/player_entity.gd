@@ -12,6 +12,7 @@ const CHARACTER_CELL_SIZE: Vector2 = Vector2(416.0, 512.0)
 @onready var _health: Node = $HealthComponent
 @onready var _weapon: Node = $WeaponComponent
 @onready var _character_sprite: Sprite2D = $CharacterSprite
+@onready var _health_bar: ProgressBar = $HealthBar
 
 var _server_input: Vector2 = Vector2.ZERO
 var _target_position: Vector2
@@ -28,6 +29,8 @@ func _ready() -> void:
 		push_error("PlayerEntity requires a PlayerDefinition resource.")
 		return
 	_health.set("max_health", int(definition.get("max_health")))
+	_health_bar.max_value = int(definition.get("max_health"))
+	_health_bar.value = int(definition.get("max_health"))
 	Signal(_health, &"health_changed").connect(_on_health_changed)
 	Signal(_health, &"died").connect(_on_health_died)
 	_target_position = global_position
@@ -242,6 +245,7 @@ func _respawn_after_delay() -> void:
 
 
 func _on_health_changed(_current: int, _maximum: int) -> void:
+	_health_bar.value = _current
 	EventBus.score_changed.emit(get_multiplayer_authority(), 0)
 
 

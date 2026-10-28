@@ -14,6 +14,7 @@ const ARENA_DEFINITION = preload("res://data/default_arena.tres")
 @onready var _network_recovery_button: Button = $UI/NetworkRecoveryButton
 @onready var _start_match_button: Button = $UI/StartMatchButton
 @onready var _arena_walls: StaticBody2D = $ArenaWalls
+@onready var _touch_controls: Control = $UI/TouchControls
 
 var _lobby_peer_ids: Array[int] = [1]
 
@@ -35,6 +36,7 @@ func _ready() -> void:
 		_ip_input.text = String(saved_ip)
 	_status_label.text = "Offline — Host or join a LAN session"
 	_network_recovery_button.visible = false
+	_touch_controls.visible = false
 	_update_start_match_button()
 
 
@@ -132,6 +134,7 @@ func _on_session_state_changed(state: StringName) -> void:
 
 
 func _on_match_state_changed(_state: StringName) -> void:
+	_touch_controls.visible = _state == &"warmup" or _state == &"playing"
 	_update_start_match_button()
 
 

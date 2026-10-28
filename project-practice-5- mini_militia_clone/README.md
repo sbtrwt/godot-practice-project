@@ -47,6 +47,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Late-joining peers receive the current match snapshot and kill feed.
 - [x] Grenade damage, radius, and cooldown are Resource-driven weapon tuning.
 - [x] Authoritative grenades resolve after a short fuse before broadcasting the impact effect.
+- [x] Touch controls are hidden in lobby/results and shown only during match play.
 - [x] Authoritative grenade touch zone with cooldown and area damage prototype.
 - [x] Per-player health bars driven by the HealthComponent.
 - [x] Headless-safe scene fallback when external art import is unavailable.

@@ -123,6 +123,13 @@ offset_right = 540.0
 offset_bottom = 180.0
 text = "Join"
 
+[node name="StartMatchButton" type="Button" parent="UI"]
+offset_left = 560.0
+offset_top = 140.0
+offset_right = 720.0
+offset_bottom = 180.0
+text = "Start Match"
+
 [node name="TouchControls" type="Control" parent="UI"]
 layout_mode = 3
 anchors_preset = 15
@@ -135,3 +142,4 @@ script = ExtResource("2_touch")
 
 [connection signal="pressed" from="UI/HostButton" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="UI/JoinButton" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="UI/StartMatchButton" to="." method="_on_start_match_pressed"]

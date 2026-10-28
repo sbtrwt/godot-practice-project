@@ -14,8 +14,6 @@ func _ready() -> void:
 	NetworkService.peer_left.connect(_on_peer_left)
 	NetworkService.local_session_ready.connect(_on_local_session_ready)
 	_spawn_player(1)
-	if multiplayer.is_server():
-		MatchService.start_match()
 	_status_label.text = "Offline — Host or join a LAN session"
 
 
@@ -33,6 +31,14 @@ func _on_join_pressed() -> void:
 		_status_label.text = "Join failed: %s" % error_string(error)
 		return
 	_status_label.text = "Connecting to %s" % _ip_input.text
+
+
+func _on_start_match_pressed() -> void:
+	if not multiplayer.is_server():
+		_status_label.text = "Only the host can start the match"
+		return
+	MatchService.start_match()
+	_status_label.text = "Match started"
 
 
 func _spawn_player(peer_id: int) -> void:

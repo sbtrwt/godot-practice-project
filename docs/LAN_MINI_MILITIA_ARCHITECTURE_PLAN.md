@@ -516,6 +516,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Match lifecycle state, score snapshots, timers, and result summaries replicate from the host to every LAN client.
 - Host health changes replicate through the player boundary so remote health bars remain consistent.
 - Health snapshot presentation accepts only the server-side execution path and ignores client-originated calls.
+- Player snapshots, combat effects, and respawn visuals use guarded server-originated transport paths.
 - Arena spawn and respawn positions are supplied by `ArenaDefinition` and rejected when outside playable bounds.
 - Arena platform collision shapes are generated from `ArenaDefinition`, preventing visual and gameplay geometry drift.
 - Lobby address validation rejects malformed LAN IPv4 input before opening ENet transport.

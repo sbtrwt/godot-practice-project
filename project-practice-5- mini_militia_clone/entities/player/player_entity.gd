@@ -139,8 +139,10 @@ func _send_snapshot() -> void:
 	_receive_snapshot.rpc(global_position, velocity, _input_tick)
 
 
-@rpc("authority", "call_remote", "unreliable")
+@rpc("any_peer", "call_remote", "unreliable")
 func _receive_snapshot(snapshot_position: Vector2, new_velocity: Vector2, tick: int) -> void:
+	if multiplayer.is_server():
+		return
 	if tick < _input_tick:
 		return
 	var latency := NetworkService.simulated_latency_seconds()
@@ -214,8 +216,10 @@ func _resolve_grenade(origin: Vector2, attacker_id: int) -> void:
 				hurtbox.call("receive_hit", int(_weapon.get("grenade_damage")), attacker_id)
 
 
-@rpc("authority", "call_local", "unreliable")
+@rpc("any_peer", "call_local", "unreliable")
 func show_grenade(origin: Vector2) -> void:
+	if multiplayer.is_server() and multiplayer.get_remote_sender_id() != 0:
+		return
 	_grenade_effect_origin = to_local(origin)
 	_grenade_effect_remaining = 0.28
 	queue_redraw()
@@ -242,8 +246,10 @@ func request_fire(aim_direction: Vector2) -> void:
 	_resolve_hitscan(sender_id, aim_direction.normalized())
 
 
-@rpc("authority", "call_local", "unreliable")
+@rpc("any_peer", "call_local", "unreliable")
 func show_shot(aim_direction: Vector2) -> void:
+	if multiplayer.is_server() and multiplayer.get_remote_sender_id() != 0:
+		return
 	_visual_aim = aim_direction.normalized()
 	_flash_remaining = 0.08
 	queue_redraw()
@@ -295,8 +301,10 @@ func _resolve_hitscan(shooter_id: int, aim_direction: Vector2) -> void:
 			hurtbox.call("receive_hit", int(_weapon.get("damage")), shooter_id)
 
 
-@rpc("authority", "call_local", "unreliable")
+@rpc("any_peer", "call_local", "unreliable")
 func show_hit(world_position: Vector2) -> void:
+	if multiplayer.is_server() and multiplayer.get_remote_sender_id() != 0:
+		return
 	_hit_effect_position = to_local(world_position)
 	_hit_effect_remaining = 0.16
 	queue_redraw()
@@ -326,8 +334,10 @@ func _respawn_after_delay() -> void:
 	_set_respawning_visual.rpc(false)
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func _set_respawning_visual(is_respawning: bool) -> void:
+	if multiplayer.is_server() and multiplayer.get_remote_sender_id() != 0:
+		return
 	visible = not is_respawning
 	_collision_shape.disabled = is_respawning
 

@@ -39,9 +39,17 @@ func _on_match_state_changed(state: StringName) -> void:
 
 
 func _on_score_changed(scores: Dictionary) -> void:
-	var entries: Array[String] = []
+	var ranked: Array[Dictionary] = []
 	for peer_id: Variant in scores.keys():
-		entries.append("P%s: %s" % [peer_id, scores[peer_id]])
+		ranked.append({"peer_id": int(peer_id), "score": int(scores[peer_id])})
+	ranked.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		if left["score"] == right["score"]:
+			return left["peer_id"] < right["peer_id"]
+		return left["score"] > right["score"]
+	)
+	var entries: Array[String] = []
+	for entry: Dictionary in ranked:
+		entries.append("P%s: %s" % [entry["peer_id"], entry["score"]])
 	score_changed.emit("  ".join(entries) if not entries.is_empty() else "No score")
 
 

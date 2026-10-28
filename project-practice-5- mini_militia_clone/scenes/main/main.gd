@@ -28,6 +28,7 @@ func _ready() -> void:
 		_host_button.disabled = true
 		_join_button.disabled = true
 		_start_match_button.disabled = true
+		_touch_controls.visible = false
 		return
 	_build_arena_collision()
 	NetworkService.session_state_changed.connect(_on_session_state_changed)

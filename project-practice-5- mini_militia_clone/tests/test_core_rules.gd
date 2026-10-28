@@ -20,6 +20,7 @@ func _initialize() -> void:
 	_test_error_service()
 	_test_resource_validation()
 	_test_network_soak()
+	_test_network_timeout()
 	_test_match_warmup()
 	_test_kill_feed()
 	if _failures == 0:
@@ -121,6 +122,17 @@ func _test_network_soak() -> void:
 	_assert(dropped >= 240 and dropped <= 260, "network soak stays within configured packet-loss envelope")
 	_assert(is_equal_approx(float(network.call("simulated_latency_seconds")), 0.18), "network soak preserves configured latency")
 	network.call("configure_simulation", false, 0, 0)
+
+
+func _test_network_timeout() -> void:
+	var network: Node = root.get_node("NetworkService")
+	var errors: Node = root.get_node("ErrorService")
+	errors.call("clear")
+	network.set("session_state", 2)
+	network.call("_process", 8.1)
+	_assert(int(network.get("session_state")) == 0, "network timeout returns to offline state")
+	var latest: Dictionary = errors.call("latest")
+	_assert(latest.get("code", &"") == &"network_connection_timeout", "network timeout records diagnostic")
 
 
 func _test_match_warmup() -> void:

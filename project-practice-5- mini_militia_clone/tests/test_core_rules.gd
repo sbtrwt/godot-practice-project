@@ -156,6 +156,11 @@ func _test_network_timeout() -> void:
 	_assert(int(network.get("session_state")) == 0, "network timeout returns to offline state")
 	var latest: Dictionary = errors.call("latest")
 	_assert(latest.get("code", &"") == &"network_connection_timeout", "network timeout records diagnostic")
+	errors.call("clear")
+	var invalid_result: int = int(network.call("join_game", "not-an-ip"))
+	_assert(invalid_result == ERR_INVALID_PARAMETER, "invalid LAN address is rejected locally")
+	latest = errors.call("latest")
+	_assert(latest.get("code", &"") == &"network_invalid_address", "invalid LAN address records diagnostic")
 
 
 func _test_match_warmup() -> void:

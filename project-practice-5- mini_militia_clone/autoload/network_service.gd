@@ -57,7 +57,10 @@ func host_game() -> Error:
 
 ## Connects to a host on the same Wi-Fi network.
 func join_game(ip_address: String) -> Error:
-	if ip_address.is_empty():
+	if ip_address.is_empty() or not _is_valid_ipv4(ip_address):
+		var message := "Enter a valid LAN IPv4 address."
+		ErrorService.report(&"network_invalid_address", message)
+		EventBus.network_error.emit(&"network_invalid_address", message)
 		return ERR_INVALID_PARAMETER
 	var peer := ENetMultiplayerPeer.new()
 	var error := peer.create_client(ip_address, PORT)
@@ -83,14 +86,24 @@ func get_local_ipv4() -> String:
 
 
 func _is_private_ipv4(address: String) -> bool:
-	var octets := address.split(".")
-	if octets.size() != 4:
+	var octets: Array[String] = address.split(".")
+	if not _is_valid_ipv4(address):
 		return false
 	var first := int(octets[0])
 	var second := int(octets[1])
 	if first == 10 or first == 192 and second == 168:
 		return true
 	return first == 172 and second >= 16 and second <= 31
+
+
+func _is_valid_ipv4(address: String) -> bool:
+	var octets: Array[String] = address.split(".")
+	if octets.size() != 4:
+		return false
+	for octet: String in octets:
+		if not octet.is_valid_int() or int(octet) < 0 or int(octet) > 255:
+			return false
+	return true
 
 
 ## Closes the current LAN session.

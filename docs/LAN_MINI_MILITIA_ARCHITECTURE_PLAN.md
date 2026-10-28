@@ -503,7 +503,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Host setup now displays the selected LAN IPv4 address and UDP port for clients on the same hotspot.
 - Arena decoration and platform layout are now data-driven through an `ArenaDefinition` Resource, enabling map variants without renderer edits.
 
-Remaining production-hardening work includes Android APK export and device testing, atomic save migrations, network simulation/soak tests, richer HUD/ViewModels, and replacing prototype shortcuts with dedicated gameplay systems.
+Remaining release-gate work includes successful Android APK export and physical device/hotspot testing, profiling/soak execution, richer HUD/ViewModels, resource validation, and replacing remaining prototype shortcuts with dedicated gameplay systems.
 
 ### Milestone 1 — Offline vertical slice
 
@@ -523,7 +523,7 @@ Match state machine, timer, score limit, results screen, map resources, and reco
 
 ### Milestone 5 — Production hardening
 
-Resource validation, save schema/migrations, profiling, soak tests, network simulation, Android export testing, and crash/error reporting.
+Resource validation, profiling, soak execution, Android export/device testing, and final gameplay-system replacement.
 
 ## 18. Definition of done for the first playable LAN release
 

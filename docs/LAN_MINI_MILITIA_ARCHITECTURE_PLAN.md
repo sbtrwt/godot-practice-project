@@ -531,6 +531,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Peer disconnects remove the peer from the host-authoritative scoreboard before later results are shown.
 - MatchViewModel formats scores with deterministic ranking for consistent LAN presentation.
 - Match duration, warmup, and score limit are configured through a validated `MatchDefinition` Resource.
+- Host and join retry paths explicitly reset stale ENet transports before reconnecting.
 - Touch controls are state-aware and do not obscure lobby or results presentation.
 - A checked-in PowerShell validation harness parser-checks all project scripts before running core smoke tests.
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.

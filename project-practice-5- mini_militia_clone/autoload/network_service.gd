@@ -44,6 +44,8 @@ func _process(delta: float) -> void:
 
 ## Starts a LAN server on the configured UDP port.
 func host_game() -> Error:
+	if session_state != SessionState.OFFLINE:
+		disconnect_session()
 	var peer := ENetMultiplayerPeer.new()
 	var error := peer.create_server(PORT, MAX_PLAYERS)
 	if error != OK:
@@ -57,11 +59,14 @@ func host_game() -> Error:
 
 ## Connects to a host on the same Wi-Fi network.
 func join_game(ip_address: String) -> Error:
+	ip_address = ip_address.strip_edges()
 	if ip_address.is_empty() or not _is_valid_ipv4(ip_address):
 		var message := "Enter a valid LAN IPv4 address."
 		ErrorService.report(&"network_invalid_address", message)
 		EventBus.network_error.emit(&"network_invalid_address", message)
 		return ERR_INVALID_PARAMETER
+	if session_state != SessionState.OFFLINE:
+		disconnect_session()
 	var peer := ENetMultiplayerPeer.new()
 	var error := peer.create_client(ip_address, PORT)
 	if error != OK:

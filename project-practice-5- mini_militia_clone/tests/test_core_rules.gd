@@ -172,6 +172,9 @@ func _test_network_timeout() -> void:
 	_assert(invalid_result == ERR_INVALID_PARAMETER, "invalid LAN address is rejected locally")
 	latest = errors.call("latest")
 	_assert(latest.get("code", &"") == &"network_invalid_address", "invalid LAN address records diagnostic")
+	network.set("session_state", 2)
+	network.call("disconnect_session")
+	_assert(int(network.get("session_state")) == 0, "network reset returns to offline before retry")
 
 
 func _test_match_warmup() -> void:

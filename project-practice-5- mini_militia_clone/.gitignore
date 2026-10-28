@@ -1,3 +1,5 @@
 .godot/
 .mcp_input_receiver.gd
 *.tmp
+*.uid
+*.import

@@ -56,4 +56,10 @@ The command exits with status `0` only when health and weapon cooldown invariant
 
 ## Android testing
 
-Install Godot's Android export templates and configure an Android export preset. Export a debug APK, install it on two phones, connect both phones to the same mobile hotspot, and use the host phone's local IP address. Keep UDP port `7777` available and test with the device firewall/network permissions enabled.
+An `Android Debug` export preset is checked in. Install Godot's Android export templates and SDK/JDK, then export a debug APK with:
+
+```text
+Godot_v4.7-stable_win64_console.exe --headless --path . --export-debug "Android Debug" build/lan-mini-militia-debug.apk
+```
+
+The command is a packaging preflight; successful export does not replace physical device testing. Install the APK on two phones, connect both phones to the same mobile hotspot, use the host phone's local IP address, and keep UDP port `7777` available.

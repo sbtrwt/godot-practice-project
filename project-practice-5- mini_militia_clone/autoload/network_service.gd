@@ -8,6 +8,7 @@ signal local_session_ready(peer_id: int)
 
 const PORT: int = 7777
 const MAX_PLAYERS: int = 6
+const PROTOCOL_VERSION: int = 1
 
 enum SessionState { OFFLINE, HOSTING, CONNECTING, CONNECTED }
 
@@ -110,6 +111,7 @@ func _update_state(new_state: SessionState) -> void:
 
 
 func _on_peer_connected(peer_id: int) -> void:
+	_send_protocol_version.rpc_id(peer_id, PROTOCOL_VERSION)
 	peer_joined.emit(peer_id)
 	EventBus.player_spawned.emit(peer_id)
 
@@ -121,7 +123,23 @@ func _on_peer_disconnected(peer_id: int) -> void:
 
 func _on_connected_to_server() -> void:
 	_update_state(SessionState.CONNECTED)
+	_send_protocol_version.rpc_id(1, PROTOCOL_VERSION)
 	local_session_ready.emit(multiplayer.get_unique_id())
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _send_protocol_version(version: int) -> void:
+	if version == PROTOCOL_VERSION:
+		return
+	var message := "Incompatible LAN build (host protocol %d, local protocol %d)." % [version, PROTOCOL_VERSION]
+	ErrorService.report(&"network_protocol_mismatch", message)
+	EventBus.network_error.emit(&"network_protocol_mismatch", message)
+	if multiplayer.is_server():
+		var sender_id := multiplayer.get_remote_sender_id()
+		if sender_id > 0 and multiplayer.multiplayer_peer != null:
+			multiplayer.multiplayer_peer.disconnect_peer(sender_id)
+	else:
+		disconnect_session()
 
 
 func _on_connection_failed() -> void:

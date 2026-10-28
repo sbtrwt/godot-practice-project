@@ -1,35 +1,32 @@
 extends Control
-## Presentation-only match HUD. It reads service state and never owns gameplay rules.
+## Presentation-only match HUD. It consumes the MatchViewModel and owns no rules.
 
 @onready var _state_label: Label = $State
 @onready var _timer_label: Label = $Timer
 @onready var _score_label: Label = $Score
 @onready var _return_button: Button = $ReturnButton
+@onready var _view_model: Node = $ViewModel
 
 
 func _ready() -> void:
-	MatchService.match_state_changed.connect(_on_match_state_changed)
-	MatchService.score_changed.connect(_on_score_changed)
-	_on_match_state_changed(&"lobby")
+	Signal(_view_model, &"state_changed").connect(_on_state_changed)
+	Signal(_view_model, &"timer_changed").connect(_on_timer_changed)
+	Signal(_view_model, &"score_changed").connect(_on_score_changed)
 	_return_button.pressed.connect(_on_return_button_pressed)
 
 
-func _process(_delta: float) -> void:
-	var seconds: int = maxi(ceili(MatchService.time_remaining), 0)
-	_timer_label.text = "%02d:%02d" % [floori(float(seconds) / 60.0), seconds % 60]
-
-
-func _on_match_state_changed(state: StringName) -> void:
+func _on_state_changed(state: StringName, can_return_to_lobby: bool) -> void:
 	_state_label.text = str(state).to_upper()
-	_return_button.visible = state == &"results" and multiplayer.is_server()
+	_return_button.visible = can_return_to_lobby
 
 
-func _on_score_changed(scores: Dictionary) -> void:
-	var entries: Array[String] = []
-	for peer_id: Variant in scores.keys():
-		entries.append("P%s: %s" % [peer_id, scores[peer_id]])
-	_score_label.text = "  ".join(entries) if not entries.is_empty() else "No score"
+func _on_timer_changed(text: String) -> void:
+	_timer_label.text = text
+
+
+func _on_score_changed(text: String) -> void:
+	_score_label.text = text
 
 
 func _on_return_button_pressed() -> void:
-	MatchService.return_to_lobby()
+	_view_model.call("return_to_lobby")

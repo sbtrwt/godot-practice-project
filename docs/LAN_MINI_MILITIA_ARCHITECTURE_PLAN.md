@@ -506,6 +506,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - The headless suite includes a 1,000-packet deterministic network-soak assertion for configured loss and latency envelopes.
 - Player nameplates are presentation-only and derive identity from multiplayer authority, keeping LAN matches readable without coupling UI to gameplay rules.
 - The lobby uses the versioned SaveService to restore the last host IP and persist it after a join attempt.
+- Match HUD formatting and commands now pass through a dedicated MatchViewModel boundary rather than binding directly to MatchService.
 
 Remaining release-gate work includes successful Android APK export and physical device/hotspot testing, profiling/soak execution, richer HUD/ViewModels, resource validation, and replacing remaining prototype shortcuts with dedicated gameplay systems.
 

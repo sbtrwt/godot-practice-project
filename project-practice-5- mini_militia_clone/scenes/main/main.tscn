@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://ui/match_hud.gd" id="4_hud"]
 [ext_resource type="Script" path="res://scenes/main/arena_visual.gd" id="5_arena"]
 [ext_resource type="Resource" path="res://data/default_arena.tres" id="6_arena_data"]
+[ext_resource type="Script" path="res://ui/match_view_model.gd" id="7_match_vm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(1280, 32)
@@ -142,6 +143,9 @@ offset_bottom = 60.0
 theme_override_font_sizes/font_size = 18
 text = "No score"
 horizontal_alignment = 2
+
+[node name="ViewModel" type="Node" parent="UI/MatchHud"]
+script = ExtResource("7_match_vm")
 
 [node name="ReturnButton" type="Button" parent="UI/MatchHud"]
 offset_left = 550.0

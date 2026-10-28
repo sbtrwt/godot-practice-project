@@ -51,6 +51,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Deterministic 1,000-packet network soak assertion for loss and latency configuration.
 - [x] Peer nameplates keep remote players identifiable during LAN matches.
 - [x] Lobby persists and restores the last successful host IP through `SaveService`.
+- [x] Match HUD consumes a dedicated `MatchViewModel` presentation adapter.
 - [ ] Milestone 5 completion: successful Android export/device testing, profiling/soak execution, resource validation, and final gameplay-system replacement.
 
 The current player scene remains a prototype vertical slice. Remaining work is release validation and replacing prototype shortcuts with dedicated gameplay systems.

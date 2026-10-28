@@ -494,7 +494,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Match results can return to the lobby through a host-authorized service command without restarting the session.
 - Core health and weapon cooldown invariants have a dependency-free headless smoke-test entry point.
 - Save payloads are versioned at schema 2, with a tested v1-to-v2 migration for profile and control defaults.
-- A checked-in Android Debug export preset makes APK packaging reproducible; physical device and hotspot validation remains an explicit release gate.
+- A checked-in Android Debug export preset makes APK packaging reproducible, and a Godot 4.7 export produced a debug APK; physical device and hotspot validation remains an explicit release gate.
 - Connection failures now reset the transport and expose a visible lobby recovery action instead of leaving the user in a stale connecting state.
 - Debug builds include deterministic packet-loss and snapshot-latency hooks for repeatable network soak tests; production defaults remain disabled.
 - The prototype map now has a deterministic code-native terrain presentation layer, so gameplay remains visually usable when external art import is unavailable.
@@ -551,7 +551,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - LAN address discovery filters to RFC1918 private IPv4 ranges so virtual and link-local adapters are not advertised.
 - Lobby controls now reflect session authority and match state, preventing clients from attempting host-only start commands.
 
-Remaining release-gate work includes successful Android APK export and physical device/hotspot testing, profiling/soak execution, and replacing remaining prototype shortcuts with dedicated gameplay systems.
+Remaining release-gate work includes physical device/hotspot testing, profiling/soak execution, and replacing remaining prototype shortcuts with dedicated gameplay systems. The development-machine Android APK export has been verified; generated Android build workspaces and APKs remain ignored artifacts.
 
 ### Milestone 1 — Offline vertical slice
 

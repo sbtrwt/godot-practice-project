@@ -93,6 +93,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Save promotion uses a backup-and-restore sequence to preserve the previous file on failure.
 - [x] Host address selection prefers private hotspot IPv4 ranges over virtual/link-local adapters.
 - [x] Lobby Start Match control is disabled for clients and non-lobby states.
+- [x] Android Debug APK export verified with Godot 4.7 and the checked-in preset.
 - [ ] Milestone 5 completion: successful Android export/device testing, profiling/soak execution, and final gameplay-system replacement.
 
 The current player scene remains a prototype vertical slice. Remaining work is release validation and replacing prototype shortcuts with dedicated gameplay systems.
@@ -127,4 +128,4 @@ Godot_v4.7-stable_win64_console.exe --headless --path . --export-debug "Android 
 
 The command is a packaging preflight; successful export does not replace physical device testing. Install the APK on two phones, connect both phones to the same mobile hotspot, use the host phone's local IP address, and keep UDP port `7777` available.
 
-On the development machine, the current preflight is blocked only until Godot's Android build template is installed from the Project menu.
+The development-machine export preflight is verified. Physical two-device hotspot testing remains a release gate.

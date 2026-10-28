@@ -18,6 +18,8 @@ var _target_position: Vector2
 var _snapshot_elapsed: float = 0.0
 var _input_tick: int = 0
 var _jetpack_active: bool = false
+var _visual_aim: Vector2 = Vector2.RIGHT
+var _flash_remaining: float = 0.0
 
 
 func _ready() -> void:
@@ -47,6 +49,13 @@ func _physics_process(delta: float) -> void:
 			_submit_fire()
 	else:
 		global_position = global_position.lerp(_target_position, 0.25)
+
+
+func _process(delta: float) -> void:
+	_flash_remaining = maxf(_flash_remaining - delta, 0.0)
+	if is_multiplayer_authority():
+		_visual_aim = InputService.aim_direction if InputService.aim_active else global_position.direction_to(get_global_mouse_position())
+	queue_redraw()
 
 
 func _simulate_authority(delta: float) -> void:
@@ -120,6 +129,7 @@ func _submit_fire() -> void:
 	if not bool(_weapon.call("try_fire")):
 		return
 	var aim_direction := InputService.aim_direction if InputService.aim_active else global_position.direction_to(get_global_mouse_position())
+	_visual_aim = aim_direction.normalized()
 	request_fire.rpc_id(1, aim_direction)
 
 
@@ -140,7 +150,24 @@ func request_fire(aim_direction: Vector2) -> void:
 		return
 	if not bool(_weapon.call("try_fire")):
 		return
+	show_shot.rpc(aim_direction.normalized())
 	_resolve_hitscan(sender_id, aim_direction.normalized())
+
+
+@rpc("authority", "call_local", "unreliable")
+func show_shot(aim_direction: Vector2) -> void:
+	_visual_aim = aim_direction.normalized()
+	_flash_remaining = 0.08
+	queue_redraw()
+
+
+func _draw() -> void:
+	var aim: Vector2 = _visual_aim.normalized()
+	draw_line(Vector2.ZERO, aim * 52.0, Color(1.0, 0.88, 0.5, 0.55), 3.0)
+	if _flash_remaining > 0.0:
+		var flash_position: Vector2 = aim * 47.0
+		draw_circle(flash_position, 13.0, Color(1.0, 0.75, 0.25, 0.9))
+		draw_circle(flash_position, 6.0, Color(1.0, 1.0, 0.85, 1.0))
 
 
 func _resolve_hitscan(shooter_id: int, aim_direction: Vector2) -> void:

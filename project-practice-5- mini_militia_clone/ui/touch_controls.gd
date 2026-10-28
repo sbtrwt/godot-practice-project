@@ -91,6 +91,10 @@ func _draw() -> void:
 		return
 	_draw_stick(LEFT_CENTER, _left_vector, Color(0.35, 0.45, 0.65, 0.48))
 	_draw_stick(RIGHT_CENTER, _right_vector, Color(0.75, 0.38, 0.34, 0.5))
+	draw_string(ThemeDB.fallback_font, LEFT_CENTER + Vector2(-78.0, -116.0), "MOVE / UP = JETPACK", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 14, Color(1.0, 1.0, 1.0, 0.78))
+	draw_string(ThemeDB.fallback_font, RIGHT_CENTER + Vector2(-55.0, -116.0), "AIM", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 14, Color(1.0, 1.0, 1.0, 0.78))
+	draw_string(ThemeDB.fallback_font, Vector2(1110.0, 700.0), "TAP FIRE", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 14, Color(1.0, 0.9, 0.85, 0.82))
+	draw_string(ThemeDB.fallback_font, Vector2(405.0, 680.0), "GRENADE", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 14, Color(1.0, 1.0, 1.0, 0.78))
 
 
 func _draw_stick(center: Vector2, value: Vector2, color: Color) -> void:
@@ -98,5 +102,6 @@ func _draw_stick(center: Vector2, value: Vector2, color: Color) -> void:
 	draw_arc(center, STICK_RADIUS, 0.0, TAU, 48, Color(1.0, 1.0, 1.0, 0.8), 5.0)
 	draw_circle(center + value * 55.0, 48.0, color)
 	draw_arc(center + value * 55.0, 48.0, 0.0, TAU, 32, Color(1.0, 1.0, 1.0, 0.75), 4.0)
-	draw_circle(Vector2(460.0, 610.0), 44.0, Color(0.25, 0.25, 0.25, 0.48))
-	draw_arc(Vector2(460.0, 610.0), 44.0, 0.0, TAU, 32, Color(1.0, 1.0, 1.0, 0.8), 4.0)
+	if center == LEFT_CENTER:
+		draw_circle(Vector2(460.0, 610.0), 44.0, Color(0.25, 0.25, 0.25, 0.48))
+		draw_arc(Vector2(460.0, 610.0), 44.0, 0.0, TAU, 32, Color(1.0, 1.0, 1.0, 0.8), 4.0)

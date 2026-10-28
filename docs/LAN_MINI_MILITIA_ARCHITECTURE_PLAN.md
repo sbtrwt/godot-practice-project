@@ -507,6 +507,7 @@ The current Godot project has completed the foundations of Milestones 1–5:
 - Player nameplates are presentation-only and derive identity from multiplayer authority, keeping LAN matches readable without coupling UI to gameplay rules.
 - The lobby uses the versioned SaveService to restore the last host IP and persist it after a join attempt.
 - Match HUD formatting and commands now pass through a dedicated MatchViewModel boundary rather than binding directly to MatchService.
+- Touch controls include visible gesture guidance for movement, left-stick jetpack, right-stick aim, tap fire, and grenade.
 
 Remaining release-gate work includes successful Android APK export and physical device/hotspot testing, profiling/soak execution, richer HUD/ViewModels, resource validation, and replacing remaining prototype shortcuts with dedicated gameplay systems.
 

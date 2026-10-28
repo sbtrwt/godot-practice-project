@@ -13,6 +13,7 @@ const CHARACTER_CELL_SIZE: Vector2 = Vector2(416.0, 512.0)
 @onready var _weapon: Node = $WeaponComponent
 @onready var _character_sprite: Sprite2D = $CharacterSprite
 @onready var _health_bar: ProgressBar = $HealthBar
+@onready var _collision_shape: CollisionShape2D = $CollisionShape2D
 
 var _server_input: Vector2 = Vector2.ZERO
 var _target_position: Vector2
@@ -25,6 +26,7 @@ var _grenade_cooldown: float = 0.0
 var _grenade_effect_remaining: float = 0.0
 var _grenade_effect_origin: Vector2 = Vector2.ZERO
 var _snapshot_queue: Array[Dictionary] = []
+var _respawning: bool = false
 
 
 func _ready() -> void:
@@ -42,6 +44,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if definition == null:
+		return
+	if _respawning:
 		return
 
 	if multiplayer.is_server():
@@ -283,8 +287,23 @@ func apply_authoritative_damage(amount: int, attacker_id: int) -> void:
 
 
 func _respawn_after_delay() -> void:
+	if _respawning:
+		return
+	_respawning = true
+	_set_respawning_visual.rpc(true)
+	await get_tree().create_timer(1.0).timeout
+	if not is_inside_tree():
+		return
 	global_position = Vector2(320 + (get_multiplayer_authority() - 1) * 100, 360)
 	_health.call("heal", int(_health.get("max_health")))
+	_respawning = false
+	_set_respawning_visual.rpc(false)
+
+
+@rpc("authority", "call_local", "reliable")
+func _set_respawning_visual(is_respawning: bool) -> void:
+	visible = not is_respawning
+	_collision_shape.disabled = is_respawning
 
 
 func _on_health_changed(_current: int, _maximum: int) -> void:

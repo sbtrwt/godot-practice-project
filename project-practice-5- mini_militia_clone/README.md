@@ -62,7 +62,7 @@ Godot 4 foundation for a component-based, server-authoritative 2D LAN shooter.
 - [x] Save promotion uses a backup-and-restore sequence to preserve the previous file on failure.
 - [x] Host address selection prefers private hotspot IPv4 ranges over virtual/link-local adapters.
 - [x] Lobby Start Match control is disabled for clients and non-lobby states.
-- [ ] Milestone 5 completion: successful Android export/device testing, profiling/soak execution, resource validation, and final gameplay-system replacement.
+- [ ] Milestone 5 completion: successful Android export/device testing, profiling/soak execution, and final gameplay-system replacement.
 
 The current player scene remains a prototype vertical slice. Remaining work is release validation and replacing prototype shortcuts with dedicated gameplay systems.
 

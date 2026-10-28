@@ -21,6 +21,7 @@ func _initialize() -> void:
 	_test_resource_validation()
 	_test_network_soak()
 	_test_match_warmup()
+	_test_kill_feed()
 	if _failures == 0:
 		print("CORE_RULE_TESTS_PASS")
 		quit(0)
@@ -125,6 +126,20 @@ func _test_network_soak() -> void:
 func _test_match_warmup() -> void:
 	var match_service: Node = root.get_node("MatchService")
 	match_service.call("return_to_lobby")
+
+
+func _test_kill_feed() -> void:
+	var match_service: Node = root.get_node("MatchService")
+	match_service.call("return_to_lobby")
+	match_service.call("start_match")
+	match_service.call("_process", 3.1)
+	for index: int in 5:
+		match_service.call("report_kill", 1, index + 2)
+	var feed: Array = match_service.get("kill_feed")
+	_assert(feed.size() == 4, "kill feed is bounded to four entries")
+	_assert(str(feed[0]).contains("P6"), "kill feed keeps newest elimination first")
+	match_service.call("return_to_lobby")
+	_assert((match_service.get("kill_feed") as Array).is_empty(), "returning to lobby clears kill feed")
 	match_service.call("start_match")
 	_assert(int(match_service.get("state")) == 1, "match start enters warmup state")
 	_assert(is_equal_approx(float(match_service.get("time_remaining")), 3.0), "warmup starts with configured duration")
